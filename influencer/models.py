@@ -11,3 +11,7 @@ class Influencer(models.Model):
     gender = models.CharField(max_length=10)
     city = models.CharField(max_length=50)
     country = models.CharField(max_length=50)
+
+class ClientMapping(models.Model):
+    influencerId = models.BigIntegerField()
+    clientId = models.BigIntegerField()

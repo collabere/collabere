@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Client(models.Model):
-    uid = models.IntegerField()
+    uid = models.BigIntegerField()
     name = models.CharField(max_length=100)
     email = models.EmailField()
     city = models.CharField(max_length=50)
