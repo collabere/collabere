@@ -5,6 +5,6 @@ from django.db import models
 class Messages(models.Model):
     uid = models.BigIntegerField()
     responderId = models.IntegerField()
-    recieverId = models.IntegerField()
+    reciverId = models.IntegerField()
     message = models.TextField()
     timestamp = models.DateTimeField()

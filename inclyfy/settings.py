@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'client',
     'influencer',
     'conversations',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
