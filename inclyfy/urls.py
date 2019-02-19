@@ -19,5 +19,6 @@ from django.urls import include
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^messages/', include('conversations.urls'))
+    url(r'^messages/', include('conversations.urls')),
+    url(r'^influencer/',include ('influencer.urls'))
 ]
