@@ -1,5 +1,8 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render
+from django.views import generic
+from django.views.generic import CreateView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -32,5 +35,13 @@ def getInfluencerDetails(request, influencerId):
                 return False
         except Influencer.DoesNotExist:
             return False
+
+
+class CreateInfluencerView(CreateView):
+
+     model = Influencer
+     fields = ('name', 'email', 'handle', 'dob','gender','city','country')
+     template_name = 'influencer/influencer_form.html'
+
 
 
