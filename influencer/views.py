@@ -5,9 +5,10 @@ from django.views import generic
 from django.views.generic import CreateView
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+from influencer.models import Influencer, ClientMapping
 from .serializers import ClientMappingSerializer, InfluencerSerializer
-from .service import getAllClientOfAnInfluencer, getInfluencerFromInfluencerId
-from .models import Influencer
+from .service import getAllClientOfAnInfluencer, getInfluencerFromInfluencerId, deleteInfluencerUsingInfluencerId
 
 # Create your views here.
 
@@ -24,9 +25,32 @@ def getClientsBasedOnInfluencers(request, influencerId):
 def getInfluencerDetails(request, influencerId):
     influencer = getInfluencerFromInfluencerId(influencerId)
     return Response(InfluencerSerializer(influencer, many=True).data)
+        
+
+@api_view(['DELETE'])
+def deleteInfluencer(request, influencerId):
+    try:
+        delCount = deleteInfluencerUsingInfluencerId(influencerId)
+        if delCount[0] > 0:
+            return Response(True)
+        else:
+            return Response(False)
+    except Influencer.DoesNotExist:
+        return Response(False)
+
+@api_view(['PUT'])
+def putInfluencer(request):
+    serializer = InfluencerSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        serializer_dict = serializer.data
+        serializer_dict["message"] = "Settings updated successfully."
+        return Response(serializer_dict, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
 
 class CreateInfluencerView(CreateView):
-
      model = Influencer
      fields = ('name', 'email', 'handle', 'dob','gender','city','country')
      template_name = 'influencer/influencer_form.html'
