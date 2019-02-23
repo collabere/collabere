@@ -21,24 +21,36 @@ def getClientsBasedOnInfluencers(request, influencerId):
     clients = getAllClientOfAnInfluencer(influencerId)
     return Response(ClientMappingSerializer(clients, many=True).data)
 
-@api_view(['GET', 'DELETE'])
+@api_view(['GET'])
 def getInfluencerDetails(request, influencerId):
-    if request.method == 'GET':
-        influencer = getInfluencerFromInfluencerId(influencerId)
-        return Response(InfluencerSerializer(influencer, many=True).data)
-    elif request.method == 'DELETE':
-        try:
-            delCount = deleteInfluencerUsingInfluencerId(influencerId)
-            if delCount > 0:
-                return True
-            else:
-                return False
-        except Influencer.DoesNotExist:
-            return False
+    influencer = getInfluencerFromInfluencerId(influencerId)
+    return Response(InfluencerSerializer(influencer, many=True).data)
+        
+
+@api_view(['DELETE'])
+def deleteInfluencer(request, influencerId):
+    try:
+        delCount = deleteInfluencerUsingInfluencerId(influencerId)
+        if delCount[0] > 0:
+            return Response(True)
+        else:
+            return Response(False)
+    except Influencer.DoesNotExist:
+        return Response(False)
+
+@api_view(['PUT'])
+def putInfluencer(request):
+    serializer = InfluencerSerializer(request.data)
+    if serializer.is_valid():
+        serializer.save()
+        serializer_dict = serializer.data
+        serializer_dict["message"] = "Settings updated successfully."
+        return Response(serializer_dict, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
 class CreateInfluencerView(CreateView):
-
      model = Influencer
      fields = ('name', 'email', 'handle', 'dob','gender','city','country')
      template_name = 'influencer/influencer_form.html'
