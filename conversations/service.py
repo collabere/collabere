@@ -6,3 +6,6 @@ def getMessagesByResponderAndReciverId(reciverId,responderId):
 
 def getAllMessages():
     return Messages.objects.all()
+
+def deleteAllMessagesBasedOnResponderAndReciverId(reciverId, responderId):
+    return Messages.objects.filter(responderId=responderId,reciverId=reciverId).delete()

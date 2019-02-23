@@ -24,11 +24,11 @@ def deleteClientInfo(request, clientId):
 
 @api_view(['PUT'])
 def insertClient(request):
-    serializer = ClientSerializer(request.data)
+    serializer = ClientSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         serializer_dict = serializer.data
         serializer_dict["message"] = "Settings updated successfully."
-        return Response(serializer_dict, status=status.HTTP_200_OK)
+        return Response(serializer_dict, status=200)
     else:
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors,status=400)

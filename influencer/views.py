@@ -40,7 +40,7 @@ def deleteInfluencer(request, influencerId):
 
 @api_view(['PUT'])
 def putInfluencer(request):
-    serializer = InfluencerSerializer(request.data)
+    serializer = InfluencerSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save()
         serializer_dict = serializer.data
