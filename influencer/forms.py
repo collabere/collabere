@@ -6,11 +6,10 @@ from crispy_forms.layout import Submit
 from .models import Influencer
 
 
-
 class InfluencerForm(forms.ModelForm):
     class Meta:
         model = Influencer
-        fields = ('nae', 'email', 'handle', 'dob','gender','city','country')
+        fields = ('name', 'email', 'handle', 'dob','gender','city','country')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
