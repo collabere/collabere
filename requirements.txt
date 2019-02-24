@@ -1,1 +1,1 @@
-djangorestframework==3.4.7Sanskar95
+djangorestframework==3.4.7
