@@ -5,6 +5,7 @@ from django.contrib.auth import views
 from .views import home, getClientsBasedOnInfluencers, getInfluencerDetails, CreateInfluencerView, deleteInfluencer, putInfluencer
 
 urlpatterns = [
+    url(r'', CreateInfluencerView.as_view(), name='default_home_page'),
     url(r'login/', views.LoginView.as_view(), name='influencer_login'),
     url(r'home/',home,name='influencer_home'),
     url(r'logout/',views.LogoutView.as_view(),name='influencer_logut'),
