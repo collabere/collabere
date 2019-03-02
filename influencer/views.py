@@ -20,6 +20,7 @@ from influencer.models import Influencer, ClientMapping
 from django.urls import reverse_lazy, reverse
 from .serializers import ClientMappingSerializer, InfluencerSerializer
 from .service import getAllClientOfAnInfluencer, getInfluencerFromInfluencerId, deleteInfluencerUsingInfluencerId
+from client import serializers
 
 # Create your views here.
 _logger = logging.getLogger(__name__)
@@ -30,7 +31,7 @@ def home(request):
 @api_view(['GET'])
 def getClientsBasedOnInfluencers(request, influencerId):
     clients = getAllClientOfAnInfluencer(influencerId)
-    return Response(ClientMappingSerializer(clients, many=True).data)
+    return Response(serializers.ClientSerializer(clients, many=True).data)
 
 @api_view(['GET'])
 def getInfluencerDetails(request, influencerId):
