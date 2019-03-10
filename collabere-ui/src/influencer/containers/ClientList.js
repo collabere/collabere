@@ -11,6 +11,7 @@ class ClientList extends React.Component {
 
   fetchArticles = () => {
     axios.get("http://127.0.0.1:8000/influencer/v1/clients/1").then(res => {
+      console.log(res);
       this.setState({
         clients: res.data
       });

@@ -62,19 +62,6 @@ def putInfluencer(request):
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 
-<<<<<<< HEAD
-class CreateInfluencerView(CreateView):
-     model = Influencer
-     fields = ('name', 'email', 'handle', 'dob','gender','city','country')
-     template_name = 'influencer/influencer_form.html'
-
-
-
-class SignUp(generic.CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('influencer_login')
-    template_name = 'influencer/influencer_signup_form.html'
-=======
 class SignUp(View):
     __template = 'influencer/influencer_signup_form.html'
     # __agency_url = settings.FRONTEND_CONFIG["AGENCY"]["LOGIN_SUCCESS_REDIRECT_URL"]
@@ -102,5 +89,4 @@ def signup_success(request):
     print("fffffqaz")
     return render(request, 'influencer/signup_success.html')
 
->>>>>>> reset_model
 
