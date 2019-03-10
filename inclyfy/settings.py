@@ -41,12 +41,14 @@ INSTALLED_APPS = [
     'influencer',
     'conversations',
     'rest_framework',
-    'crispy_forms'
+    'crispy_forms',
+    'corsheaders'
 ]
 
 CRISPY_TEMPLATE_PACK =  'bootstrap4'
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -126,3 +128,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL =  '/influencer/home/'
+CORS_ORIGIN_ALLOW_ALL = True
+
