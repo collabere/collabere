@@ -3,6 +3,15 @@ import './HomePage.css';
 
 
 const HomePage = props => {
+
+    let handleLoginClick = (e) => {
+        window.location.href = "http://127.0.0.1:8000/influencer/login";
+    }
+
+    let handleRegisterClick = (e) => {
+        window.location.href = "http://127.0.0.1:8000/influencer/register";
+    }
+
     return (
         <div className="site-wrapper">
             <div className="site-wrapper-inner">
@@ -24,6 +33,10 @@ const HomePage = props => {
                         <p className="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
                         <p className="lead">
                             <a href="#" className="btn btn-lg btn-default">Learn more</a>
+                        </p>
+                        <p>
+                            <a href="#" className="btn btn-lg btn-default" onClick={handleLoginClick}>Login</a>
+                            <a href="#" className="btn btn-lg btn-default" onClick={handleRegisterClick}>Register</a>
                         </p>
                     </div>
                 </div>
