@@ -17,9 +17,9 @@ class Migration(migrations.Migration):
             model_name='influencer',
             name='uid',
         ),
-        migrations.AddField(
-            model_name='influencer',
-            name='user',
-            field=models.OneToOneField(db_column='user_id', null=True, on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL),
-        ),
+        # migrations.AddField(
+        #     model_name='influencer',
+        #     name='user',
+        #     field=models.OneToOneField(db_column='user_id', null=True, on_delete=django.db.models.deletion.PROTECT, to=settings.AUTH_USER_MODEL),
+        # ),
     ]

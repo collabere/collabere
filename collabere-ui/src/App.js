@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import ClientList from './influencer/containers/ClientList';
+import HomePageList from './homepage/containers/HomepageList';
+import HeaderComp from './Header/HeaderComp';
+import FooterComp from './Footer/FooterComp';
 
 class App extends Component {
   render() {
@@ -21,7 +24,11 @@ class App extends Component {
             Learn React
           </a>
         </header> */}
-            <ClientList></ClientList>
+
+            {/* <ClientList></ClientList> */}
+            {/* <HeaderComp/> */}
+            <HomePageList></HomePageList>
+            {/* <FooterComp/> */}
           </div>
     );
   }
