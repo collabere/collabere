@@ -18,7 +18,6 @@ from django.contrib import admin
 from django.urls import include
 
 urlpatterns = [
-    url(r'', include ('influencer.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^messages/', include('conversations.urls')),
     url(r'^influencer/',include ('influencer.urls')),
