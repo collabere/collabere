@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'influencer',
     'conversations',
     'rest_framework',
-    'crispy_forms'
+    'crispy_forms',
+    'frontend'
 ]
 
 CRISPY_TEMPLATE_PACK =  'bootstrap4'

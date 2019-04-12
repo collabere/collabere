@@ -1,48 +1,47 @@
-import React from "react";
-import './HomePage.css';
-
-
-const HomePage = props => {
-
-    let handleLoginClick = (e) => {
-        window.location.href = "http://127.0.0.1:8000/influencer/login";
-    }
-
-    let handleRegisterClick = (e) => {
-        window.location.href = "http://127.0.0.1:8000/influencer/register";
-    }
-
+import React, { Component } from "react";
+// import logo from "./logo.svg";
+import "./HomePage.css";
+import Navbar from "./Navbar";
+import Section from "./Section";
+import dummyText from "./DummyText";
+class HomePage extends Component {
+  render() {
     return (
-        <div className="site-wrapper">
-            <div className="site-wrapper-inner">
-                <div className="container">
-                    <div className="masthead clearfix">
-                        <div className="container inner">
-                            <h3 className="masthead-brand">Collabere</h3>
-                            <nav>
-                                <ul className="nav masthead-nav">
-                                    <li className="active"><a href="#">Home</a></li>
-                                    <li><a href="#">Features</a></li>
-                                    <li><a href="#">Contact</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                    <div className="inner cover">
-                        <h1 className="cover-heading">Collabere</h1>
-                        <p className="lead">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
-                        <p className="lead">
-                            <a href="#" className="btn btn-lg btn-default">Learn more</a>
-                        </p>
-                        <p>
-                            <a href="#" className="btn btn-lg btn-default" onClick={handleLoginClick}>Login</a>
-                            <a href="#" className="btn btn-lg btn-default" onClick={handleRegisterClick}>Register</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div className="App">
+        <Navbar />
+        <Section
+          title="PROCESS FLOW"
+          subtitle={dummyText}
+          dark={true}
+          id="section1"
+        />
+        <Section
+          title="ADVANTAGE"
+          subtitle={dummyText}
+          dark={false}
+          id="section2"
+        />
+        <Section
+          title="MEMBERSHIP"
+          subtitle={dummyText}
+          dark={true}
+          id="section3"
+        />
+        <Section
+          title="ABOUT US"
+          subtitle={dummyText}
+          dark={false}
+          id="section4"
+        />
+        <Section
+          title="CONTACT US"
+          subtitle={dummyText}
+          dark={true}
+          id="section5"
+        />
+      </div>
     );
-};
+  }
+}
 
 export default HomePage;

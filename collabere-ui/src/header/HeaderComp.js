@@ -5,7 +5,7 @@ export default class HeaderComp extends React.Component {
     render() {
         return (
             <>
-                <Navbar className="navbar navbar-default navbar-fixed-top" bg="dark" variant="dark" fixedTop>
+                <Navbar className="navbar navbar-default navbar-fixed-top" bg="light" variant="dark" fixedTop>
                     <Navbar.Brand href="#home">Collabere</Navbar.Brand>
                     <Nav className="mr-auto">
                         <Nav.Link href="#home">Home</Nav.Link>
