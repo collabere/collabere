@@ -42,7 +42,7 @@ class ConversationScreen extends React.Component {
 
 render(){
   return (
-    <div className="container">
+    <div className="container" style={{maxWidth: '800px',marginLeft: '500px'}}>
       <h3>Conversations</h3>
       <Messages messages={this.state.messages} />
       <ChatBox onSend={this.sendHandler} />

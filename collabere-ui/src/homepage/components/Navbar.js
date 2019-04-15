@@ -93,8 +93,8 @@ export default class Navbar extends Component {
             </li>
           </ul>
           <div style={{marginLeft:'150px'}}>
-          <Button type="primary" onClick={this.handleLoginClick}>Login</Button>
-          <Button style={{marginLeft: '20px'}} type="primary" onClick={this.handleRegisterClick}>Register</Button>
+          <Button type="primary" onClick={this.handleLoginClick} style={{backgroundColor: '#ffffff', color: '#000000'}}>Login</Button>
+          <Button style={{marginLeft: '20px', backgroundColor: '#3b5998'}} type="primary" onClick={this.handleRegisterClick}>Register</Button>
           </div>
         </div>
       </nav>

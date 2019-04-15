@@ -4,10 +4,12 @@ import "./HomePage.css";
 import Navbar from "./Navbar";
 import Section from "./Section";
 import dummyText from "./DummyText";
+import FooterComp from "../../footer/FooterComp";
+import AdvantageSection from './Advatnage-section';
 class HomePage extends Component {
   render() {
     return (
-      <div className="App">
+      <div>
         <Navbar />
         <Section
           title="PROCESS FLOW"
@@ -15,7 +17,7 @@ class HomePage extends Component {
           dark={true}
           id="section1"
         />
-        <Section
+        <AdvantageSection
           title="ADVANTAGE"
           subtitle={dummyText}
           dark={false}
@@ -39,6 +41,7 @@ class HomePage extends Component {
           dark={true}
           id="section5"
         />
+        <FooterComp/>
       </div>
     );
   }

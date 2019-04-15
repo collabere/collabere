@@ -1,5 +1,5 @@
 :root {
-  --off-white: #fafafa;
+  --off-white: #00ffff;
 }
 .nav {
   background-color: var(--off-white);
@@ -49,6 +49,12 @@
 }
 
 .section-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.advatnage-section-content {
   max-width: 800px;
   margin: 0 auto;
   padding: 40px;

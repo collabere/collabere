@@ -1,5 +1,7 @@
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 import React from "react";
+import * as MaterialUiLibrary from "@material-ui/core";
+import * as Antd from 'antd';
 import Form from 'react-bootstrap/Form'
 
 
@@ -30,9 +32,9 @@ class UpdateModal extends React.Component {
   render() {
     return (
       <div>
-        <Button type="primary" onClick={this.showModal}>
+        <MaterialUiLibrary.Button type="primary" onClick={this.showModal}>
           Update Profile
-        </Button>
+        </MaterialUiLibrary.Button>
         <Modal
           title="Update Profile"
           visible={this.state.visible}

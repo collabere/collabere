@@ -1,5 +1,7 @@
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 import React from "react";
+import * as MaterialUiLibrary from "@material-ui/core";
+import * as Antd from 'antd';
 
 class ClientInfoModal extends React.Component {
   state = {
@@ -31,9 +33,9 @@ class ClientInfoModal extends React.Component {
     const { visible, confirmLoading, ModalText } = this.state;
     return (
       <div>
-        <Button type="primary" style={{height:'17px'}} onClick={this.showModal}>
+        <Antd.Button type="secondary" style={{height:'17px'}} onClick={this.showModal}>
           Additional Info
-        </Button>
+        </Antd.Button>
         <Modal
           title="About"
           visible={visible}
