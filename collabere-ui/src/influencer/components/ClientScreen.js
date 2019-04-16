@@ -4,7 +4,6 @@ import { Navbar, FormControl, Nav, Form } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
 import * as MaterialUiLibrary from "@material-ui/core";
 import * as Antd from "antd";
-import "./ClientScreen.css";
 
 import { List, Avatar, Card } from "antd";
 import { Link } from "react-router-dom";
@@ -20,8 +19,6 @@ import { IconButton, Icon } from "@material-ui/core";
 const Search = Input.Search;
 
 class ClientScreen extends React.Component {
-
-
   constructor(props) {
     super(props);
     this.state = {
@@ -29,10 +26,10 @@ class ClientScreen extends React.Component {
       loading: false,
       hasMore: true,
       updatModalOpen: false
-    }
+    };
     this.handleChange = this.handleChange.bind(this);
-}
-
+    this.handleSortAplphabetically = this.handleSortAplphabetically.bind(this);
+  }
 
   fetchArticles = () => {
     axios.get("http://127.0.0.1:8000/influencer/v1/clients/1").then(res => {
@@ -93,6 +90,19 @@ class ClientScreen extends React.Component {
     });
   }
 
+  handleSortAplphabetically ()  {
+    console.log("ddddddd");
+    let sortedList = this.state.clients;
+    sortedList.sort(function(a, b) {
+      var textA = a.name.toUpperCase();
+      var textB = b.name.toUpperCase();
+      return textA < textB ? -1 : textA > textB ? 1 : 0;
+    });
+    this.setState({
+      clients: sortedList
+    });
+  }
+
   render() {
     const menu = (
       <Menu>
@@ -120,6 +130,30 @@ class ClientScreen extends React.Component {
             </Dropdown>
           </form>
         </nav>
+        <div style={{ maxWidth: "800px", marginLeft: "680px" }}>
+          <Antd.Button
+            onClick={
+              this.handleSortAplphabetically
+            }
+          >
+            Sort Alphabetically
+          </Antd.Button>
+          <Antd.Button
+            onClick={
+              this.handleSortAplphabetically
+            }
+          >
+            Sort By Recent Message
+          </Antd.Button>
+          <Antd.Button
+            onClick={
+              this.handleSortAplphabetically
+            }
+          >
+            Sort By Choot
+          </Antd.Button>
+        </div>
+
         <hr />
         <div className="demo-infinite-container">
           <InfiniteScroll
