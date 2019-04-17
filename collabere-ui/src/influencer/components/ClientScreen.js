@@ -16,6 +16,11 @@ import { Menu, Dropdown, Input } from "antd";
 import UpdateModal from "./Profile-update-modal-dialogue";
 import ClientInfoModal from "./Client-info-modal";
 import { IconButton, Icon } from "@material-ui/core";
+import SideNavMenu from "./Side-nav-menu";
+
+
+
+
 const Search = Input.Search;
 
 class ClientScreen extends React.Component {
@@ -118,7 +123,8 @@ class ClientScreen extends React.Component {
     return (
       <div>
         <nav class="navbar navbar-light" style={{ backgroundColor: "#00ffff" }}>
-          <a class="navbar-brand">Collabere</a>
+        <SideNavMenu/>
+          {/* <a class="navbar-brand">Collabere</a> */}
           <Search
             placeholder="Search Client"
             onChange={this.handleChange}

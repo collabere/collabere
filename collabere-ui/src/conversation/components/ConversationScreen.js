@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import Messages from './Messages.js'
 import ChatBox from './ChatBox.js';
+import SideNavMenu from "../../influencer/components/Side-nav-menu.js";
 require('../styles/ConversationScreen.css');
 
 
@@ -41,11 +42,18 @@ class ConversationScreen extends React.Component {
   }
 
 render(){
+  
+
   return (
+    <div>
+    <nav class="navbar navbar-light" style={{ backgroundColor: "#00ffff" }}>
+        <SideNavMenu/>
+        <p style ={{marginRight: '950px'}}>Conversations</p>
+        </nav>
     <div className="container" style={{maxWidth: '800px',marginLeft: '500px'}}>
-      <h3>Conversations</h3>
       <Messages messages={this.state.messages} />
       <ChatBox onSend={this.sendHandler} />
+    </div>
     </div>
   );
 }
