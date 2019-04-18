@@ -30,10 +30,16 @@ class ClientScreen extends React.Component {
       clients: [],
       loading: false,
       hasMore: true,
-      updatModalOpen: false
+      updatModalOpen: false,
+      colour: '#FFFFFF',
+      currentListItem: ''
+
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSortAplphabetically = this.handleSortAplphabetically.bind(this);
+  
+
+
   }
 
   fetchArticles = () => {
@@ -108,6 +114,16 @@ class ClientScreen extends React.Component {
     });
   }
 
+  onHover = (name) => {
+    console.log(name);
+    this.setState({ currentListItem: name });
+}
+
+onHoverOut = () => {
+  this.setState({ currentListItem: '#ffffff' });
+}
+
+
   render() {
     const menu = (
       <Menu>
@@ -136,7 +152,7 @@ class ClientScreen extends React.Component {
             </Dropdown>
           </form>
         </nav>
-        <div style={{ maxWidth: "800px", marginLeft: "680px" }}>
+      <div style={{ maxWidth: "800px", marginLeft: "680px" }}>
           <Antd.Button
             onClick={
               this.handleSortAplphabetically
@@ -156,7 +172,7 @@ class ClientScreen extends React.Component {
               this.handleSortAplphabetically
             }
           >
-            Sort By Choot
+            Sort By Stuff
           </Antd.Button>
         </div>
 
@@ -172,10 +188,10 @@ class ClientScreen extends React.Component {
             <List
               dataSource={this.state.clients}
               renderItem={item => (
-                <div style={{ maxWidth: "800px", marginLeft: "500px" }}>
+                <div  style={{ maxWidth: "800px", marginLeft: "500px", backgroundColor: this.state.currentListItem === item.name? '#ebebeb': '#FFFFFF'}} onMouseOver={()=>this.onHover(item.name)} onMouseOut={()=>this.onHover()}>
                   <Link to="/messages">
                     <a>
-                      <List.Item key={item.id}>
+                      <List.Item key={item.id} >
                         <List.Item.Meta
                           avatar={
                             <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
