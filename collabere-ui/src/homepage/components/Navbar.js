@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
 import { Button } from "antd";
+import * as MaterialUiLibrary from "@material-ui/core";
+import * as Antd from "antd";
 
 export default class Navbar extends Component {
   scrollToTop = () => {
@@ -18,11 +20,14 @@ export default class Navbar extends Component {
   render() {
     return (
       <nav className="nav" id="navbar">
+       <div>
+          <img src={require('../../collabere.png')} style ={{height: '60px'}} />
+          </div>
         <div className="nav-content">
-          <img src={require('../../collabereLogo.jpeg')} />
+         
           <ul className="nav-items">
             <li className="nav-item">
-              <Button>
+              <MaterialUiLibrary.Button style ={{marginTop: '19px', fontSize: '1rem', fontWeight: '600'}}>
                 <Link
                   activeClass="active"
                   to="section1"
@@ -33,10 +38,10 @@ export default class Navbar extends Component {
                 >
                   PROCESS FLOW
                 </Link>
-              </Button>
+              </MaterialUiLibrary.Button>
             </li>
             <li className="nav-item">
-              <Button>
+              <MaterialUiLibrary.Button style ={{marginTop: '19px', fontSize: '1rem', fontWeight: '600'}}>
                 <Link
                   activeClass="active"
                   to="section2"
@@ -47,10 +52,10 @@ export default class Navbar extends Component {
                 >
                   ADVANATGE
                 </Link>
-              </Button>
+              </MaterialUiLibrary.Button>
             </li>
             <li className="nav-item">
-              <Button>
+              <MaterialUiLibrary.Button style ={{marginTop: '19px', fontSize: '1rem', fontWeight: '600'}}>
                 <Link
                   activeClass="active"
                   to="section3"
@@ -61,10 +66,10 @@ export default class Navbar extends Component {
                 >
                   MEMBERSHIP
                 </Link>
-              </Button>
+              </MaterialUiLibrary.Button>
             </li>
             <li className="nav-item">
-              <Button>
+              <MaterialUiLibrary.Button style ={{marginTop: '19px', fontSize: '1rem', fontWeight: '600'}}>
                 <Link
                   activeClass="active"
                   to="section4"
@@ -75,10 +80,10 @@ export default class Navbar extends Component {
                 >
                   ABOUT US
                 </Link>
-              </Button>
+              </MaterialUiLibrary.Button>
             </li>
             <li className="nav-item">
-              <Button>
+              <MaterialUiLibrary.Button style ={{marginTop: '19px', fontSize: '1rem', fontWeight: '600'}}>
                 <Link
                   activeClass="active"
                   to="section5"
@@ -89,7 +94,7 @@ export default class Navbar extends Component {
                 >
                   CONTACT US
                 </Link>
-              </Button>
+              </MaterialUiLibrary.Button>
             </li>
           </ul>
           <div style={{marginLeft:'150px'}}>
