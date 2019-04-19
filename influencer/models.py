@@ -38,6 +38,10 @@ class Influencer(Model):
     gender = models.CharField(max_length=10)
     city = models.CharField(max_length=50)
     country = models.CharField(max_length=50)
+    followerCount = models.IntegerField(default=0)
+    followingCount = models.IntegerField(default=0)
+    dpUrl = models.URLField(default=None, blank=True, null=True)
+    industry = models.CharField(max_length=50, default=None, blank=True, null=True)
     user=OneToOneField(settings.AUTH_USER_MODEL, db_column='user_id', on_delete=PROTECT,null=True)
 
 

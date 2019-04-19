@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
+from influencer.views import home;
 
 urlpatterns = [
     path('', include('frontend.urls')),
@@ -24,4 +25,5 @@ urlpatterns = [
     url(r'^messages/', include('conversations.urls')),
     url(r'^influencer/',include ('influencer.urls')),
     url(r'^client/',include ('client.urls')),
+    re_path(r'.*', home)
 ]

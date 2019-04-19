@@ -10,7 +10,8 @@ def getAllClientOfAnInfluencer(influencerId):
         clients.extend(service.getClientFromClientId(client_mapping.clientId))
     return clients
 
-
+def getInfluencerFromInfluencerUsername(username):
+    return Influencer.objects.filter(handle=username)
     
 def getInfluencerFromInfluencerId(influencerId):
     return Influencer.objects.filter(uid=influencerId)

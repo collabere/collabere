@@ -1,37 +1,38 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 import './App.css';
-import ClientList from './influencer/containers/ClientList';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import HomePageList from './homepage/containers/HomepageList';
-import HeaderComp from './Header/HeaderComp';
-import FooterComp from './Footer/FooterComp';
+import LoginModal from "../components/loginModal/loginModal";
+import RegisterModal from "../components/registerModal/registerModal";
+
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        {/* <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header> */}
-
-            {/* <ClientList></ClientList> */}
-            {/* <HeaderComp/> */}
-            <HomePageList></HomePageList>
-            {/* <FooterComp/> */}
-          </div>
+      // <div className="App">
+      //   <HomePageList></HomePageList>
+      // </div>
+      <Router>
+          <Route exact path="/" component={HomePageListComponent}></Route>
+          <Route path="/home" component={HomePageListComponent}></Route>
+          <Route path="/login" component={LoginComponent}></Route>
+          <Route path="/register" component={RegisterComponent}></Route>
+      </Router>
     );
   }
+}
+
+function HomePageListComponent() {
+  return <HomePageList></HomePageList>
+}
+
+function LoginComponent() {
+  return <LoginModal></LoginModal>
+}
+
+function RegisterComponent() {
+  return <RegisterModal></RegisterModal>
 }
 
 export default App;

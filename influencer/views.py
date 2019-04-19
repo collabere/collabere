@@ -19,7 +19,7 @@ from influencer.models import Influencer, ClientMapping
 
 from django.urls import reverse_lazy, reverse
 from .serializers import ClientMappingSerializer, InfluencerSerializer
-from .service import getAllClientOfAnInfluencer, getInfluencerFromInfluencerId, deleteInfluencerUsingInfluencerId
+from .service import getAllClientOfAnInfluencer, getInfluencerFromInfluencerUsername, getInfluencerFromInfluencerId, deleteInfluencerUsingInfluencerId
 from client import serializers
 
 # Create your views here.
@@ -37,6 +37,11 @@ def getClientsBasedOnInfluencers(request, influencerId):
 def getInfluencerDetails(request, influencerId):
     influencer = getInfluencerFromInfluencerId(influencerId)
     return Response(InfluencerSerializer(influencer, many=True).data)
+
+# @api_view(['GET'])
+def getInfluencerDetailsByUsername(username):
+    influencer = getInfluencerFromInfluencerUsername(username)
+    return InfluencerSerializer(influencer, many=True).data
         
 
 @api_view(['DELETE'])
@@ -61,6 +66,12 @@ def putInfluencer(request):
     else:
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['POST'])
+def handleLogin(request):
+    request.session['username'] = request.POST.get('username')
+    influencerDetails = getInfluencerFromInfluencerUsername(request.session['username'])
+    
+    return Response('This is spartaa again!!!!')
 
 class SignUp(View):
     __template = 'influencer/influencer_signup_form.html'
