@@ -25,5 +25,5 @@ urlpatterns = [
     url(r'^messages/', include('conversations.urls')),
     url(r'^influencer/',include ('influencer.urls')),
     url(r'^client/',include ('client.urls')),
-    re_path(r'.*', home)
+    re_path(r'.*', include('frontend.urls'))
 ]
