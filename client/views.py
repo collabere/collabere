@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from client.models import Client
-from .serializers import ClientSerializer
-from .service import getClientFromClientId, deleteClientUsingClientId
+from .serializers import ClientSerializer, HomePageIntroEmailSerializer
+from .service import getClientFromClientId, deleteClientUsingClientId, getAllHomePageIntroEmail
 # Create your views here.
 
 @api_view(['GET'])
@@ -32,3 +32,20 @@ def insertClient(request):
         return Response(serializer_dict, status=200)
     else:
         return Response(serializer.errors,status=400)
+
+@api_view(['POST'])
+def insertHomePageIntoEmail(request):
+    serializer = HomePageIntroEmailSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        serializer_dict = serializer.data
+        serializer_dict["message"] = "Email Inserted Successfully."
+        return Response(serializer_dict, status=200)
+    else:
+        return Response(serializer.errors,status=400)
+
+
+@api_view(['GET'])
+def getAllHomePageIntroEmails(request):
+    homePageIntroEmails = getAllHomePageIntroEmail()
+    return Response(HomePageIntroEmailSerializer(homePageIntroEmails, many=True).data)
