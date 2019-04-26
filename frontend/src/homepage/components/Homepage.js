@@ -6,7 +6,7 @@ import Section from "./Section";
 import dummyText from "./DummyText";
 import FooterComp from "../../footer/FooterComp";
 import InfluencerSection from "./InfluencerSection.js";
-import BrandSection from "./BrandSection.js";
+import BrandSection from "./BrandSection";
 import HowItWorksSection from "./HowItWorksSection.js";
 import AboutUsSection from "./AboutUsSection.js";
 class HomePage extends Component {
@@ -19,7 +19,6 @@ class HomePage extends Component {
           id="section1"
         />
         <BrandSection
-          dark={false}
           id="section2"
         />
          <HowItWorksSection
