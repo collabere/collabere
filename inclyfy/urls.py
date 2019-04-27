@@ -19,9 +19,9 @@ from django.urls import include, path, re_path
 from influencer.views import home;
 
 urlpatterns = [
+    url(r'^admin/', admin.site.urls),
     path('', include('frontend.urls')),
     # url(r'', include ('influencer.urls')),
-    url(r'^admin/', admin.site.urls),
     url(r'^messages/', include('conversations.urls')),
     url(r'^influencer/',include ('influencer.urls')),
     url(r'^client/',include ('client.urls')),

@@ -68,10 +68,14 @@ def putInfluencer(request):
 
 @api_view(['POST'])
 def handleLogin(request):
+    print("Called handle login ***************")
     request.session['username'] = request.POST.get('username')
     influencerDetails = getInfluencerFromInfluencerUsername(request.session['username'])
-    
-    return Response('This is spartaa again!!!!')
+    print(influencerDetails)
+    if influencerDetails:
+        return Response(influencerDetails)
+    else:
+        return Response("User Not Found")
 
 class SignUp(View):
     __template = 'influencer/influencer_signup_form.html'

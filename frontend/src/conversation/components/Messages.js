@@ -4,7 +4,6 @@ import Message from './Message.js';
 
 export class Messages extends React.Component {
 
-
     // componentDidUpdate() {
     //     // There is a new message in the state, scroll to bottom of list
     //     const objDiv = document.getElementById('messageList');
