@@ -18,3 +18,8 @@ class Client(models.Model):
     industry = models.CharField(max_length=50, default=None, blank=True, null=True)
     maxBudget = models.IntegerField(default=None, blank=True, null=True)
     introText = models.CharField(max_length=200, default=None, blank=True, null=True)
+
+class HomePageIntroEmail(models.Model):
+    email=models.CharField(max_length=100)
+
+

@@ -83,7 +83,7 @@ export default class Navbar extends Component {
                   offset={-70}
                   duration={500}
                 >
-                  PROCESS FLOW
+                  Influencers
                 </Link>
               </MaterialUiLibrary.Button>
             </li>
@@ -97,7 +97,7 @@ export default class Navbar extends Component {
                   offset={-70}
                   duration={500}
                 >
-                  ADVANATGE
+                  Brands
                 </Link>
               </MaterialUiLibrary.Button>
             </li>
@@ -111,7 +111,7 @@ export default class Navbar extends Component {
                   offset={-70}
                   duration={500}
                 >
-                  MEMBERSHIP
+                 How it Works
                 </Link>
               </MaterialUiLibrary.Button>
             </li>
@@ -125,21 +125,7 @@ export default class Navbar extends Component {
                   offset={-70}
                   duration={500}
                 >
-                  ABOUT US
-                </Link>
-              </MaterialUiLibrary.Button>
-            </li>
-            <li className="nav-item">
-              <MaterialUiLibrary.Button style={{ marginTop: '19px', fontSize: '1rem', fontWeight: '600' }}>
-                <Link
-                  activeClass="active"
-                  to="section5"
-                  spy={true}
-                  smooth={true}
-                  offset={-70}
-                  duration={500}
-                >
-                  CONTACT US
+                 About Us
                 </Link>
               </MaterialUiLibrary.Button>
             </li>
@@ -163,8 +149,8 @@ export default class Navbar extends Component {
                 <Button color="secondary" onClick={this.toggle}>Cancel</Button>
               </ModalFooter>
             </Modal>
-            <button type="button" className="btn btn-lg btn-default" onClick={this.loginToggle}>Login</button>
-            <_Link to="/register"><button type="button" className="btn btn-lg btn-default" onClick={this.registerToggle}>Register</button></_Link>
+            <MaterialUiLibrary.Button variant="contained" color="primary" onClick={this.loginToggle}>Login</MaterialUiLibrary.Button>
+            <_Link to="/register"><MaterialUiLibrary.Button  variant="contained" color="primary" onClick={this.registerToggle}>Register</MaterialUiLibrary.Button></_Link>
           </div>
         </div>
       </nav>

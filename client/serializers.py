@@ -1,6 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from  .models import  Client
+from .models import Client, HomePageIntroEmail
+
 
 class ClientSerializer(serializers.Serializer):
     uid = serializers.IntegerField()
@@ -31,3 +32,14 @@ class ClientSerializer(serializers.Serializer):
             'country',
         )
         # read_only_fields = fields
+
+class HomePageIntroEmailSerializer(serializers.Serializer):
+    email = serializers.CharField(max_length=100)
+
+    def create(self, validated_data):
+        return HomePageIntroEmail.objects.create(**validated_data)
+    class Meta:
+        model = HomePageIntroEmail
+        fields = (
+            'email'
+        )
