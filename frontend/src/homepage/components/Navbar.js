@@ -3,7 +3,7 @@ import { Link, animateScroll as scroll } from "react-scroll";
 import { Button } from "antd";
 import * as MaterialUiLibrary from "@material-ui/core";
 import RegisterModal from "../../register/registerModal";
-import LoginModal from '../../login/loginModal';
+import LoginModal from '../../login/loginModal.js';
 import { Link as _Link } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import * as Antd from "antd";
@@ -138,10 +138,6 @@ export default class Navbar extends Component {
                 {this.state.loginModal ? <LoginModal /> : null}
                 {this.state.registerModal ? <RegisterModal /> : null}
               </ModalBody>
-              <ModalFooter>
-                <Button color="primary" onClick={this.toggle}>Submit</Button>{' '}
-                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-              </ModalFooter>
             </Modal>
             <MaterialUiLibrary.Button variant="contained" color="primary" onClick={this.loginToggle}>Login</MaterialUiLibrary.Button>
             <_Link to="/register"><MaterialUiLibrary.Button  variant="contained" color="primary" onClick={this.registerToggle}>Register</MaterialUiLibrary.Button></_Link>
