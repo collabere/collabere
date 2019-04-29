@@ -24,7 +24,6 @@ class ClientMappingSerializer(serializers.Serializer):
         # read_only_fields = fields
 
 class InfluencerSerializer(serializers.Serializer):
-    uid = serializers.IntegerField()
     name = serializers.CharField(max_length=100)
     email = serializers.EmailField()
     handle = serializers.CharField(max_length=50)
@@ -32,12 +31,12 @@ class InfluencerSerializer(serializers.Serializer):
     gender = serializers.CharField(max_length=10)
     city = serializers.CharField(max_length=50)
     country = serializers.CharField(max_length=50)
-
-    def create(self, validated_data):
-        return Messages.objects.create(**validated_data)
+    followerCount = serializers.IntegerField(default=0)
+    followingCount = serializers.IntegerField(default=0)
+    dpUrl = serializers.URLField(default=None)
+    industry = serializers.CharField(max_length=50)
 
     def update(self, instance, validated_data):
-        instance.uid = validated_data.get('uid', instance.uid)
         instance.name = validated_data.get('name', instance.name)
         instance.email = validated_data.get('email', instance.email)
         instance.handle = validated_data.get('handle', instance.handle)
@@ -45,18 +44,25 @@ class InfluencerSerializer(serializers.Serializer):
         instance.gender = validated_data.get('gender', instance.gender)
         instance.city = validated_data.get('city', instance.city)
         instance.country = validated_data.get('country', instance.country)
+        instance.followerCount = validated_data.IntegerField(default=0)
+        instance.followingCount = validated_data.IntegerField(default=0)
+        instance.dpUrl = validated_data.URLField(default=None, blank=True, null=True)
+        instance.industry = validated_data.CharField(max_length=50, default=None, blank=True, null=True)
         instance.save()
         return instance
     class Meta:
         model = Influencer
         fields = (
-            'uid',
             'name',
             'email',
             'handle',
             'dob',
             'gender',
             'city',
-            'country'
+            'country',
+            'followerCount',
+            'followingCount',
+            'dpUrl',
+            'industry'
         )
         # read_only_fields = fields
