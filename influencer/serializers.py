@@ -7,7 +7,7 @@ class ClientMappingSerializer(serializers.Serializer):
     clientId = serializers.IntegerField()
 
     def create(self, validated_data):
-        return Messages.objects.create(**validated_data)
+        return ClientMapping.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.influencerId = validated_data.get('influencerId', instance.influencerId)
@@ -24,7 +24,7 @@ class ClientMappingSerializer(serializers.Serializer):
         # read_only_fields = fields
 
 class InfluencerSerializer(serializers.Serializer):
-    uid = serializers.IntegerField()
+    id = serializers.IntegerField()
     name = serializers.CharField(max_length=100)
     email = serializers.EmailField()
     handle = serializers.CharField(max_length=50)
@@ -32,12 +32,17 @@ class InfluencerSerializer(serializers.Serializer):
     gender = serializers.CharField(max_length=10)
     city = serializers.CharField(max_length=50)
     country = serializers.CharField(max_length=50)
+    followerCount = serializers.IntegerField()
+    followingCount = serializers.IntegerField()
+    dpUrl = serializers.URLField()
+    industry = serializers.CharField(max_length=50)
+    
 
     def create(self, validated_data):
-        return Messages.objects.create(**validated_data)
+        return Influencer.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.uid = validated_data.get('uid', instance.uid)
+        instance.id = validated_data.get('id', instance.id)
         instance.name = validated_data.get('name', instance.name)
         instance.email = validated_data.get('email', instance.email)
         instance.handle = validated_data.get('handle', instance.handle)
@@ -45,18 +50,26 @@ class InfluencerSerializer(serializers.Serializer):
         instance.gender = validated_data.get('gender', instance.gender)
         instance.city = validated_data.get('city', instance.city)
         instance.country = validated_data.get('country', instance.country)
+        instance.followerCount = validated_data.get('followerCount', instance.followerCount)
+        instance.followingCount = validated_data.get('followingCount', instance.followingCount)
+        instance.dpUrl = validated_data.get('dpUrl', instance.dpUrl)
+        instance.industry = validated_data.get('industry', instance.industry)   
         instance.save()
         return instance
     class Meta:
         model = Influencer
         fields = (
-            'uid',
+            'id',
             'name',
             'email',
             'handle',
             'dob',
             'gender',
             'city',
-            'country'
+            'country',
+            'followerCount',
+            'followingCount',
+            'dpUrl',
+            'industry'
         )
         # read_only_fields = fields

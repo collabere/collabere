@@ -13,7 +13,7 @@ class LoginService extends Component {
             password: password
         }
         return new Promise((resolve, reject) => {
-            axios.post('http://127.0.0.1:8000/influencer/loginTest', body).then((response) => {
+            axios.post('http://127.0.0.1:8000/influencer/login', JSON.stringify(body)).then((response) => {
                 resolve(response.data);
             }).catch((error) => {
                 reject(error.data);

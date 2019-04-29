@@ -44,9 +44,8 @@ export default class Navbar extends Component {
 
   loginCall() {
     console.log('login has been called........');
-    let username = document.getElementById('exampleEmail');
-    let password = document.getElementById('examplePassword');
-    console.log(username, ' ', password);
+    let username = document.getElementById('exampleEmail').value;
+    let password = document.getElementById('examplePassword').value;
     let loginService = new LoginService();
     loginService.loginInfluencer(username, password).then((response) => {
       console.log(response);

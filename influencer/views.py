@@ -13,6 +13,7 @@ from django.views import View
 from influencer import  forms
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import json
 
 from influencer.forms import InfluencerSignupForm
 from influencer.models import Influencer, ClientMapping
@@ -69,11 +70,17 @@ def putInfluencer(request):
 @api_view(['POST'])
 def handleLogin(request):
     print("Called handle login ***************")
-    request.session['username'] = request.POST.get('username')
-    influencerDetails = getInfluencerFromInfluencerUsername(request.session['username'])
+    jsonResponse = json.loads(request.body)
+    print(jsonResponse['username'])
+    print(jsonResponse['password'])
+    request.session['username'] = jsonResponse['username']
+    request.session['password'] = jsonResponse['password']
+    print(request.session['username'])
+    print(request.session['password'])
+    influencerDetails = getInfluencerFromInfluencerUsername(request.session['username'], request.session['password'])
     print(influencerDetails)
     if influencerDetails:
-        return Response(influencerDetails)
+        return Response(InfluencerSerializer(influencerDetails).data)
     else:
         return Response("User Not Found")
 
