@@ -46,7 +46,7 @@ render(){
 
   return (
     <div>
-    <nav class="navbar navbar-light" style={{ backgroundColor: "#00ffff" }}>
+    <nav className="navbar navbar-light" style={{ backgroundColor: "#00ffff" }}>
         <SideNavMenu/>
         <p style ={{marginRight: '950px'}}>Conversations</p>
         </nav>

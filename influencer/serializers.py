@@ -1,13 +1,14 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from  .models import  ClientMapping, Influencer
+from .models import ClientMapping, Influencer
+
 
 class ClientMappingSerializer(serializers.Serializer):
     influencerId = serializers.IntegerField()
     clientId = serializers.IntegerField()
 
     def create(self, validated_data):
-        return Messages.objects.create(**validated_data)
+        return ClientMapping.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         instance.influencerId = validated_data.get('influencerId', instance.influencerId)
@@ -23,7 +24,9 @@ class ClientMappingSerializer(serializers.Serializer):
         )
         # read_only_fields = fields
 
+
 class InfluencerSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     name = serializers.CharField(max_length=100)
     email = serializers.EmailField()
     handle = serializers.CharField(max_length=50)
@@ -31,12 +34,16 @@ class InfluencerSerializer(serializers.Serializer):
     gender = serializers.CharField(max_length=10)
     city = serializers.CharField(max_length=50)
     country = serializers.CharField(max_length=50)
-    followerCount = serializers.IntegerField(default=0)
-    followingCount = serializers.IntegerField(default=0)
-    dpUrl = serializers.URLField(default=None)
+    followerCount = serializers.IntegerField()
+    followingCount = serializers.IntegerField()
+    dpUrl = serializers.URLField()
     industry = serializers.CharField(max_length=50)
 
+    def create(self, validated_data):
+        return Influencer.objects.create(**validated_data)
+
     def update(self, instance, validated_data):
+        instance.id = validated_data.get('id', instance.id)
         instance.name = validated_data.get('name', instance.name)
         instance.email = validated_data.get('email', instance.email)
         instance.handle = validated_data.get('handle', instance.handle)
@@ -44,15 +51,17 @@ class InfluencerSerializer(serializers.Serializer):
         instance.gender = validated_data.get('gender', instance.gender)
         instance.city = validated_data.get('city', instance.city)
         instance.country = validated_data.get('country', instance.country)
-        instance.followerCount = validated_data.IntegerField(default=0)
-        instance.followingCount = validated_data.IntegerField(default=0)
-        instance.dpUrl = validated_data.URLField(default=None, blank=True, null=True)
-        instance.industry = validated_data.CharField(max_length=50, default=None, blank=True, null=True)
+        instance.followerCount = validated_data.get('followerCount', instance.followerCount)
+        instance.followingCount = validated_data.get('followingCount', instance.followingCount)
+        instance.dpUrl = validated_data.get('dpUrl', instance.dpUrl)
+        instance.industry = validated_data.get('industry', instance.industry)
         instance.save()
         return instance
+
     class Meta:
         model = Influencer
         fields = (
+            'id',
             'name',
             'email',
             'handle',

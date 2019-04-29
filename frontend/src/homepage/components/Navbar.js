@@ -7,6 +7,7 @@ import LoginModal from '../../login/loginModal.js';
 import { Link as _Link } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import * as Antd from "antd";
+import LoginService from '../../service/loginService';
 
 export default class Navbar extends Component {
   scrollToTop = () => {
@@ -24,6 +25,7 @@ export default class Navbar extends Component {
     this.toggle = this.toggle.bind(this);
     this.loginToggle = this.loginToggle.bind(this);
     this.registerToggle = this.registerToggle.bind(this);
+    this.loginCall = this.loginCall.bind(this);
   }
 
   toggle() {
@@ -40,6 +42,18 @@ export default class Navbar extends Component {
     }));
   }
 
+  loginCall() {
+    console.log('login has been called........');
+    let username = document.getElementById('exampleEmail').value;
+    let password = document.getElementById('examplePassword').value;
+    let loginService = new LoginService();
+    loginService.loginInfluencer(username, password).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
   registerToggle() {
     this.setState(prevState => ({
       modal: true,
@@ -47,15 +61,6 @@ export default class Navbar extends Component {
       loginModal: false,
     }));
   }
-
-  //  handleLoginClick = () => {
-  //     window.location.href = "http://127.0.0.1:8000/influencer/login";
-  // }
-
-  //  handleRegisterClick = () => {
-  //     window.location.href = "http://127.0.0.1:8000/influencer/register";
-  // }
-
 
 
   render() {
@@ -138,6 +143,10 @@ export default class Navbar extends Component {
                 {this.state.loginModal ? <LoginModal /> : null}
                 {this.state.registerModal ? <RegisterModal /> : null}
               </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={this.loginCall}>Submit</Button>{' '}
+                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+              </ModalFooter>
             </Modal>
             <MaterialUiLibrary.Button variant="contained" color="primary" onClick={this.loginToggle}>Login</MaterialUiLibrary.Button>
             <_Link to="/register"><MaterialUiLibrary.Button  variant="contained" color="primary" onClick={this.registerToggle}>Register</MaterialUiLibrary.Button></_Link>

@@ -18,6 +18,7 @@ class InfluencerQuerySet(QuerySet):
         influencer.user = user
         influencer.name = name
         influencer.handle = username
+        imfluencer.password = password
         influencer.dob = dob
         influencer.gender = gender
         influencer.city = city
@@ -30,10 +31,10 @@ class InfluencerQuerySet(QuerySet):
 class Influencer(Model):
     objects = InfluencerQuerySet.as_manager()
 
-
     name = models.CharField(max_length=100)
     email = models.EmailField()
     handle = models.CharField(max_length=50)
+    password = models.CharField(max_length=100, blank=False, null=False, default='')
     dob = models.DateField()
     gender = models.CharField(max_length=10)
     city = models.CharField(max_length=50)

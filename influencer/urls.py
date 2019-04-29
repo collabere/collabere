@@ -16,5 +16,4 @@ urlpatterns = [
     url(r'delete/(\d+)$', deleteInfluencer, name='influencer_delete'),
     url(r'put$', putInfluencer, name='insert_influencer'),
     url(r'register/', handleRegisterInfluencer, name='influencer_register'),
-    url(r'loginTest', handleLogin, name='Handling_Login')
 ]
