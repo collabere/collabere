@@ -3,7 +3,7 @@ import { Link, animateScroll as scroll } from "react-scroll";
 import { Button } from "antd";
 import * as MaterialUiLibrary from "@material-ui/core";
 import RegisterModal from "../../register/registerModal";
-import LoginModal from '../../login/loginModal';
+import LoginModal from '../../login/loginModal.js';
 import { Link as _Link } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import * as Antd from "antd";

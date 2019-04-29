@@ -1,4 +1,6 @@
 import React from "react";
+import { Link as _Link } from 'react-router-dom';
+
 import {
   ModalBody,
   Col,
@@ -151,7 +153,7 @@ class RegisterModal extends React.Component {
             <Button color="primary" onClick={this.handleSubmit}>
               Submit
             </Button>
-            <Button color="secondary">Cancel</Button>
+            <_Link to ="/"> <Button color="secondary">Cancel</Button></_Link>
           </Col>
         </Form>
       </div>
