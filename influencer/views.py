@@ -77,7 +77,7 @@ def handleLogin(request):
     print(request.session['username'])
     print(request.session['password'])
     influencerDetails = getInfluencerFromInfluencerUsername(request.session['username'], request.session['password'])
-    print(influencerDetails)
+    print(influencerDetails.id)
     if influencerDetails:
         return Response(InfluencerSerializer(influencerDetails).data)
     else:

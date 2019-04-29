@@ -11,7 +11,7 @@ def getAllClientOfAnInfluencer(influencerId):
     return clients
 
 def getInfluencerFromInfluencerUsername(username, password):
-    return Influencer.objects.get(handle=username, password=password)
+    return Influencer.objects.all().filter(name=username, password=password)
     
 def getInfluencerFromInfluencerId(influencerId):
     return Influencer.objects.filter(uid=influencerId)
