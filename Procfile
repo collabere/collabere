@@ -1,1 +1,1 @@
-web: gunicorn inclyfy.wsgi --workers 2
+web: npm run build; gunicorn inclyfy.wsgi --workers 2
