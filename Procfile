@@ -1,1 +1,1 @@
-web: python3 manage.py runserver
+web: gunicorn inclyfy.wsgi --workers 2
