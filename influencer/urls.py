@@ -3,7 +3,7 @@
 from django.conf.urls import url
 from django.contrib.auth import views
 
-from .views import home, handleLogin, getInfluencerFromInfluencerUsername, getClientsBasedOnInfluencers, getInfluencerDetails, SignUp, deleteInfluencer, putInfluencer,signup_success
+from .views import home, handleLogin, getInfluencerFromInfluencerUsername, getClientsBasedOnInfluencers, getInfluencerDetails, deleteInfluencer, putInfluencer,handleRegisterInfluencer
 from django.urls import reverse_lazy
 
 urlpatterns = [
@@ -15,7 +15,5 @@ urlpatterns = [
     # url(r'username/(\w+)', getInfluencerFromInfluencerUsername, name='influencer_details_username'),
     url(r'delete/(\d+)$', deleteInfluencer, name='influencer_delete'),
     url(r'put$', putInfluencer, name='insert_influencer'),
-    url(r'register/', SignUp.as_view(), name='influencer_register'),
-    url(r'signup_success',signup_success,name='signup_success'),
-    # url(r'loginTest', handleLogin, name='Handling_Login')
+    url(r'register/', handleRegisterInfluencer, name='influencer_register'),
 ]
