@@ -4,3 +4,4 @@ django-cors-headers
 django-crispy_forms
 psycopg2-binary
 dj_database_url
+gunicorn
