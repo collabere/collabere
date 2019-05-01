@@ -133,7 +133,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/frontend/static/'
+STATIC_URL = ''
 LOGIN_REDIRECT_URL =  '/influencer/home/'
 CORS_ORIGIN_ALLOW_ALL = True
 
