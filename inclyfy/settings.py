@@ -96,6 +96,11 @@ DATABASES = {
     'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
 
+STATICFILES_DIRS = [
+   ('bundles', os.path.join(BASE_DIR, 'fronend/static/frontend'))
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'fronend/static')
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -128,6 +133,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
 
 
 # Static files (CSS, JavaScript, Images)
