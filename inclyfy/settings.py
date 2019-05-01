@@ -97,10 +97,10 @@ DATABASES = {
 }
 
 STATICFILES_DIRS = [
-   ('bundles', os.path.join(BASE_DIR, 'fronend/static/frontend'))
+   ('bundles', os.path.join(BASE_DIR, 'frontend/static/frontend'))
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'fronend/static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'frontend/static')
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
