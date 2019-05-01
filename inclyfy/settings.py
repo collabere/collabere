@@ -26,7 +26,7 @@ SECRET_KEY = 'bmjli76vwfe!6=1cr#w67n6v%r170!n726wf^rnls4+wwtv-^6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'dry-hollows-97567.herokuapp.com', 'collabere.com']
 
 
 # Application definition
