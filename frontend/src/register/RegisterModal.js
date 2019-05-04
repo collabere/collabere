@@ -16,6 +16,13 @@ import axios from "axios";
 import LoginScreen from "../login/LoginScreen";
 import LoginModal from "../login/loginModal";
 
+function checkPasswordComplexity(pwd) {
+  var regularExpression = /^(?=.*[a-zA-Z])(?=.*[0-9]).+$/;
+  var valid = regularExpression.test(pwd);
+  console.log(pwd,valid)
+  return valid;
+}
+
 class RegisterModal extends React.Component {
   constructor(props) {
     super(props);
@@ -42,6 +49,8 @@ class RegisterModal extends React.Component {
 
 
   }
+  //make height less
+  //border lagana hai
 
   handleCredentialSubmit() {
     axios({
@@ -97,11 +106,11 @@ class RegisterModal extends React.Component {
   closeLoginModal() {
     this.setState({loginScreenOpen: false})
   }
-
+note
   render() {
     return (
-      <div style={{ maxWidth: "700px" , maxHeight: "500px"}}>
-        <Form className="form">
+      <div style={{ maxWidth: "700px", marginLeft: "600px", border: '1px solid green', padding: '2px', marginTop: '40px'}}>
+        <Form className="form" style ={{marginTop: '20px', marginBottom: '20px'}}>
           <Col>
             <FormGroup>
               <Label>Name</Label>
@@ -172,8 +181,11 @@ class RegisterModal extends React.Component {
                 name="passwordFirst"
                 id="examplePassword1"
                 placeholder="********"
+                valid = {checkPasswordComplexity(this.state.passwordFirst)}
+                invalid = {!checkPasswordComplexity(this.state.passwordFirst) && this.state.passwordFirst !== ''}
                 onChange={this.handleChangeOfInputFields}
               />
+              <FormFeedback invalid>Password should contain atleast each of character, number and symbol</FormFeedback>
             </FormGroup>
           </Col>
           <Col>
