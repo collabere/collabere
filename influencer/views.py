@@ -18,7 +18,7 @@ import json
 from influencer.models import Influencer, ClientMapping
 
 from .serializers import ClientMappingSerializer, InfluencerSerializer
-from .service import getAllClientOfAnInfluencer, getInfluencerFromInfluencerUsername, getInfluencerFromInfluencerId, deleteInfluencerUsingInfluencerId, influencer_signup
+from .service import getAllClientOfAnInfluencer, validateUsername, getInfluencerFromInfluencerUsername, getInfluencerFromInfluencerId, deleteInfluencerUsingInfluencerId, influencer_signup
 from client import serializers
 
 # Create your views here.
@@ -68,20 +68,17 @@ def putInfluencer(request):
 
 @api_view(['POST'])
 def handleLogin(request):
-    print("Called handle login ***************")
     jsonResponse = json.loads(request.body)
     print(jsonResponse['username'])
     print(jsonResponse['password'])
     request.session['username'] = jsonResponse['username']
     request.session['password'] = jsonResponse['password']
-    print(request.session['username'])
-    print(request.session['password'])
     influencerDetails = getInfluencerFromInfluencerUsername(request.session['username'], request.session['password'])
     print(influencerDetails.id)
     if influencerDetails:
         return Response(InfluencerSerializer(influencerDetails).data)
     else:
-        return Response("User Not Found")
+        return Response(InfluencerSerializer(influencerDetails).error)
 
 
 @api_view(['POST'])
@@ -110,5 +107,9 @@ def handleRegisterInfluencer(request):
         return Response(responseSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['GET'])
+def usernameFetch(request):
+    username = request.GET.get('username')
+    return Response(validateUsername(username))
 
 

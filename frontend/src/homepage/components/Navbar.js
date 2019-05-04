@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
-import { Button } from "antd";
+import Button from "antd/lib/button";
 import * as MaterialUiLibrary from "@material-ui/core";
 import RegisterModal from "../../register/registerModal";
 import LoginModal from '../../login/loginModal.js';
-import { Link as _Link } from 'react-router-dom';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import * as Antd from "antd";
+import { Link as _Link } from 'react-router-dom/Link';
+import Modal from 'reactstrap/lib/Modal';
+import ModalHeader from 'reactstrap/lib/ModalHeader';
+import ModalBody from 'reactstrap/lib/ModalBody';
+import ModalFooter from 'reactstrap/lib/ModalFooter';
+
 import LoginService from '../../service/loginService';
 
 export default class Navbar extends Component {

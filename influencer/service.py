@@ -12,6 +12,12 @@ def getAllClientOfAnInfluencer(influencerId):
 
 def getInfluencerFromInfluencerUsername(username, password):
     return Influencer.objects.all().filter(name=username, password=password)
+
+def validateUsername(username):
+    if Influencer.objects.all().filter(handle=username):
+        return True
+    else:
+        return False
     
 def getInfluencerFromInfluencerId(influencerId):
     return Influencer.objects.filter(uid=influencerId)

@@ -1,14 +1,10 @@
 import React from "react";
-import {
-  ModalBody,
-  Col,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Button
-} from "reactstrap";
-import { Modal } from "antd";
+import Col from 'reactstrap/lib/Col';
+import Form from 'reactstrap/lib/Form';
+import FormGroup from 'reactstrap/lib/FormGroup';
+import Label from 'reactstrap/lib/Label';
+import Input from 'reactstrap/lib/Input';
+import Button from 'reactstrap/lib/Button';
 import axios from "axios";
 
 class RegisterModal extends React.Component {

@@ -1,7 +1,6 @@
-import { Modal } from 'antd';
+import Modal from 'antd/lib/modal/Modal';
 import React from "react";
 import * as MaterialUiLibrary from "@material-ui/core";
-import * as Antd from 'antd';
 import Form from 'react-bootstrap/Form'
 
 

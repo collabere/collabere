@@ -1,5 +1,6 @@
 import React from "react";
-import { Input, Button, Modal } from "antd";
+import Input from 'antd/lib/input';
+import Modal from 'antd/lib/modal';
 import axios from "axios";
 import * as MaterialUiLibrary from "@material-ui/core";
 

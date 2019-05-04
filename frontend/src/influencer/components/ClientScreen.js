@@ -1,21 +1,21 @@
 import React from "react";
 import axios from "axios";
-import { Navbar, FormControl, Nav, Form } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
-import * as MaterialUiLibrary from "@material-ui/core";
 import * as Antd from "antd";
 
-import { List, Avatar, Card } from "antd";
-import { Link } from "react-router-dom";
-
-import { message, Spin } from "antd";
+import List from "antd/lib/list";
+import Avatar from "antd/lib/avatar";
+import Link from "react-router-dom/Link";
+import message from "antd/lib/message";
+import Spin from "antd/lib/spin";
 
 import InfiniteScroll from "react-infinite-scroller";
-import { Menu, Dropdown, Input } from "antd";
+import Menu from "antd/lib/menu";
+import Dropdown from "antd/lib/dropdown";
+import Input from "antd/lib/input";
 
 import UpdateModal from "./Profile-update-modal-dialogue";
 import ClientInfoModal from "./Client-info-modal";
-import { IconButton, Icon } from "@material-ui/core";
 import SideNavMenu from "./Side-nav-menu";
 
 

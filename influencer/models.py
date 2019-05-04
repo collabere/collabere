@@ -18,7 +18,7 @@ class InfluencerQuerySet(QuerySet):
         influencer.user = user
         influencer.name = name
         influencer.handle = username
-        imfluencer.password = password
+        influencer.password = password
         influencer.dob = dob
         influencer.gender = gender
         influencer.city = city
