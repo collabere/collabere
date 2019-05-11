@@ -27,7 +27,7 @@ def deleteInfluencerUsingInfluencerId(influencerId):
 
 
 @atomic
-def influencer_signup(name,email,handle,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,password):
-    influencer = Influencer.objects.create_influencer(name,email,handle,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,password)
+def influencer_signup(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,password):
+    influencer = Influencer.objects.create_influencer(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,password)
     return influencer
 

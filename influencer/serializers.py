@@ -29,7 +29,7 @@ class InfluencerSerializer(serializers.Serializer):
     id = serializers.IntegerField()
     name = serializers.CharField(max_length=100)
     email = serializers.EmailField()
-    handle = serializers.CharField(max_length=50)
+    username = serializers.CharField(max_length=50)
     dob = serializers.DateField()
     gender = serializers.CharField(max_length=10)
     city = serializers.CharField(max_length=50)
@@ -46,7 +46,7 @@ class InfluencerSerializer(serializers.Serializer):
         instance.id = validated_data.get('id', instance.id)
         instance.name = validated_data.get('name', instance.name)
         instance.email = validated_data.get('email', instance.email)
-        instance.handle = validated_data.get('handle', instance.handle)
+        instance.username = validated_data.get('handle', instance.handle)
         instance.dob = validated_data.get('dob', instance.dob)
         instance.gender = validated_data.get('gender', instance.gender)
         instance.city = validated_data.get('city', instance.city)
@@ -64,7 +64,7 @@ class InfluencerSerializer(serializers.Serializer):
             'id',
             'name',
             'email',
-            'handle',
+            'username',
             'dob',
             'gender',
             'city',

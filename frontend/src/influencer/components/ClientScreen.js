@@ -5,7 +5,7 @@ import * as Antd from "antd";
 
 import List from "antd/lib/list";
 import Avatar from "antd/lib/avatar";
-import Link from "react-router-dom/Link";
+import { Link } from "react-router-dom";
 import message from "antd/lib/message";
 import Spin from "antd/lib/spin";
 

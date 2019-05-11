@@ -14,7 +14,7 @@ class RegisterModal extends React.Component {
       firstName: "",
       lastName: "",
       email: "",
-      handle: "",
+      username: "",
       dob: "",
       gender: "",
       city: "",
@@ -22,16 +22,37 @@ class RegisterModal extends React.Component {
       industry: "",
       password: ""
     };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCredentialSubmit = this.handleCredentialSubmit.bind(this);
+  }
+
+  handleSubmit() {
+    console.log("handlesubmit called......");
+    this.setState({
+      firstName: document.getElementById('firstName').value,
+      lastName: document.getElementById('lastName').value,
+      gender: document.getElementById('genderSelect').value,
+      industry: document.getElementById('industrySelect').value,
+      email: document.getElementById('email').value,
+      dob: document.getElementById('dob').value,
+      city: document.getElementById('city').value,
+      country: document.getElementById('country').value,
+      password: document.getElementById('password1').value,
+    });
+    console.log(this.state);
+    this.handleCredentialSubmit();
   }
 
   handleCredentialSubmit() {
+    console.log()
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/influencer/login/",
+      url: "http://127.0.0.1:8000/influencer/register/",
       data: {
         name: this.state.firstName.concat(this.state.lastName),
         email: this.state.email,
-        handle: this.state.handle,
+        username: this.state.username,
         dob: this.state.dob,
         gender: this.state.gender,
         city: this.state.city,
@@ -70,7 +91,7 @@ class RegisterModal extends React.Component {
           <Col>
             <FormGroup>
               <Label>Gender</Label>
-              <Input type="select" name="select" id="exampleSelect">
+              <Input type="select" name="select" id="genderSelect">
                 <option>Male</option>
                 <option>Female</option>
                 <option>Would Not Like To Reveal</option>
@@ -80,7 +101,7 @@ class RegisterModal extends React.Component {
           <Col>
             <FormGroup>
               <Label>Industry</Label>
-              <Input type="select" name="select" id="exampleSelect">
+              <Input type="select" name="select" id="industrySelect">
                 <option>Fashion</option>
                 <option>Photography</option>
                 <option>Food</option>
@@ -95,16 +116,16 @@ class RegisterModal extends React.Component {
           <Col>
             <FormGroup>
               <Label>Email</Label>
-              <Input type="email" name="email" id="email" />
+              <Input type="email" name="email" id="email" />handleSubmit
             </FormGroup>
           </Col>
           <Col>
             <FormGroup>
-              <Label for="exampleDate">Date</Label>
+              <Label for="exampleDate">Date of birth</Label>
               <Input
                 type="date"
                 name="date"
-                id="exampleDate"
+                id="dob"
                 placeholder="date placeholder"
               />
             </FormGroup>
@@ -112,13 +133,13 @@ class RegisterModal extends React.Component {
           <Col>
             <FormGroup>
               <Label>City</Label>
-              <Input type="text" name="firstName" id="firstName" />
+              <Input type="text" name="city" id="city"/>
             </FormGroup>
           </Col>
           <Col>
             <FormGroup>
               <Label>Country</Label>
-              <Input type="text" name="firstName" id="firstName" />
+              <Input type="text" name="country" id="country"/>
             </FormGroup>
           </Col>
           <Col>
@@ -127,7 +148,7 @@ class RegisterModal extends React.Component {
               <Input
                 type="password"
                 name="password"
-                id="examplePassword1"
+                id="password1"
                 placeholder="********"
               />
             </FormGroup>
@@ -138,7 +159,7 @@ class RegisterModal extends React.Component {
               <Input
                 type="password"
                 name="password"
-                id="examplePassword2"
+                id="password2"
                 placeholder="********"
               />
             </FormGroup>

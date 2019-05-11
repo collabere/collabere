@@ -13,7 +13,7 @@ class HomePage extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <Navbar/>
         <InfluencerSection
           dark={true}
           id="section1"

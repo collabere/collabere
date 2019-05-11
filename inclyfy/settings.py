@@ -144,4 +144,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL =  '/influencer/home/'
 CORS_ORIGIN_ALLOW_ALL = True
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
 

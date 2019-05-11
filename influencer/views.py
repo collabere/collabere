@@ -69,8 +69,6 @@ def putInfluencer(request):
 @api_view(['POST'])
 def handleLogin(request):
     jsonResponse = json.loads(request.body)
-    print(jsonResponse['username'])
-    print(jsonResponse['password'])
     request.session['username'] = jsonResponse['username']
     request.session['password'] = jsonResponse['password']
     influencerDetails = getInfluencerFromInfluencerUsername(request.session['username'], request.session['password'])
@@ -85,11 +83,11 @@ def handleLogin(request):
 def handleRegisterInfluencer(request):
     jsonResponse= json.loads(request.body.decode('utf-8'))
     responseSerializer = InfluencerSerializer(data=jsonResponse)
-
+    print(jsonResponse['name'])
     name = jsonResponse['name']
     password = jsonResponse['password']
     email = handleEmptyAbsentKey('email', jsonResponse)
-    handle = handleEmptyAbsentKey('handle', jsonResponse)
+    username = handleEmptyAbsentKey('username', jsonResponse)
     dob = handleEmptyAbsentKey('dob', jsonResponse)
     gender = handleEmptyAbsentKey('gender', jsonResponse)
     city = handleEmptyAbsentKey('city', jsonResponse)
@@ -98,7 +96,7 @@ def handleRegisterInfluencer(request):
     followerCount= handleEmptyAbsentKey('followerCount', jsonResponse)
     followingCount= handleEmptyAbsentKey('followingCount', jsonResponse)
     dpUrl=  handleEmptyAbsentKey('dpUrl', jsonResponse)
-    influencer_signup(name,email,handle,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,password)
+    influencer_signup(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,password)
 
     if responseSerializer.is_valid():
         return Response(responseSerializer.data, status=status.HTTP_201_CREATED)
@@ -111,5 +109,4 @@ def handleRegisterInfluencer(request):
 def usernameFetch(request):
     username = request.GET.get('username')
     return Response(validateUsername(username))
-
 

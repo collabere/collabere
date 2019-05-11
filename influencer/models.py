@@ -10,19 +10,24 @@ from django.db.transaction import atomic
 class InfluencerQuerySet(QuerySet):
 
     @atomic
-    def create_influencer(self, name,email,username,dob,gender,city,country,password):
-        user = User.objects.create_user(username, email=email, password=password)
-        user.save()
+    def create_influencer(self, name, email, username, dob, gender, city, country, followerCount, followingCount, dpUrl, industry, password):
+        # user = User.objects.create_user(username=username, email=email, password=password)
+        # user.save()
 
         influencer = Influencer()
-        influencer.user = user
+
+        # influencer.user = user
         influencer.name = name
-        influencer.handle = username
+        influencer.username = username
         influencer.password = password
         influencer.dob = dob
         influencer.gender = gender
         influencer.city = city
         influencer.country = country
+        influencer.followerCount = followerCount
+        influencer.followingCount = followingCount
+        influencer.dpUrl = dpUrl,
+        influencer.industry = industry
         influencer.save()
 
         return influencer
@@ -31,16 +36,17 @@ class InfluencerQuerySet(QuerySet):
 class Influencer(Model):
     objects = InfluencerQuerySet.as_manager()
 
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     email = models.EmailField()
-    handle = models.CharField(max_length=50)
+    username = models.CharField(max_length=50)
     password = models.CharField(max_length=100, blank=False, null=False, default='')
     dob = models.DateField()
     gender = models.CharField(max_length=10)
     city = models.CharField(max_length=50)
     country = models.CharField(max_length=50)
-    followerCount = models.IntegerField(default=0)
-    followingCount = models.IntegerField(default=0)
+    followerCount = models.IntegerField(default=0, blank=True, null=True)
+    followingCount = models.IntegerField(default=0, blank=True, null=True)
     dpUrl = models.URLField(default=None, blank=True, null=True)
     industry = models.CharField(max_length=50, default=None, blank=True, null=True)
     user=OneToOneField(settings.AUTH_USER_MODEL, db_column='user_id', on_delete=PROTECT,null=True)

@@ -2,6 +2,7 @@
 
 from django.conf.urls import url
 from django.contrib.auth import views
+from django.views.decorators.csrf import csrf_exempt
 
 from .views import home, handleLogin, getInfluencerFromInfluencerUsername, getClientsBasedOnInfluencers, getInfluencerDetails, deleteInfluencer, putInfluencer,handleRegisterInfluencer, usernameFetch
 from django.urls import reverse_lazy

@@ -4,7 +4,7 @@ import Button from "antd/lib/button";
 import * as MaterialUiLibrary from "@material-ui/core";
 import RegisterModal from "../../register/registerModal";
 import LoginModal from '../../login/loginModal.js';
-import { Link as _Link } from 'react-router-dom/Link';
+import { Link as _Link } from 'react-router-dom';
 import Modal from 'reactstrap/lib/Modal';
 import ModalHeader from 'reactstrap/lib/ModalHeader';
 import ModalBody from 'reactstrap/lib/ModalBody';

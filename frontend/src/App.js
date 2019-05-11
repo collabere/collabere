@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import { BrowserRouter as Router } from 'react-router-dom/Router';
-import Route from 'react-router-dom/Route';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import ClientScreen from './influencer/components/ClientScreen.js'
 import ConversationScreen from './conversation/components/ConversationScreen.js'
 import HomePage from './homepage/components/Homepage.js';
 import LoginModal from './login/loginModal';
 import RegisterModal from './register/registerModal';
-
 
 class App extends Component {
     render() {
