@@ -11,12 +11,14 @@ class InfluencerQuerySet(QuerySet):
 
     @atomic
     def create_influencer(self, name, email, username, dob, gender, city, country, followerCount, followingCount, dpUrl, industry, password):
-        # user = User.objects.create_user(username=username, email=email, password=password)
-        # user.save()
+        user = User.objects.create_user(username=username, email=email, password=password)
+        user.save()
+        id=len(Influencer.objects.all())-1
 
         influencer = Influencer()
 
-        # influencer.user = user
+        influencer.user = user
+        influencer.id = id
         influencer.name = name
         influencer.username = username
         influencer.password = password
@@ -54,7 +56,7 @@ class Influencer(Model):
 
 
 class ClientMapping(models.Model):
-    influencerId = models.BigIntegerField()
+    influencerUsername = models.CharField(max_length=100, default=None)
     clientId = models.BigIntegerField()
 
 

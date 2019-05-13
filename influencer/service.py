@@ -3,24 +3,25 @@ from django.db.transaction import atomic
 from influencer.models import Influencer, ClientMapping
 from client import  service
 
-def getAllClientOfAnInfluencer(influencerId):
+def getAllClientOfAnInfluencer(influencerUsername):
     clients=[]
-    client_mappings=ClientMapping.objects.filter(influencerId=influencerId)
+    client_mappings=ClientMapping.objects.filter(influencerUsername=influencerUsername)
     for client_mapping in client_mappings:
         clients.extend(service.getClientFromClientId(client_mapping.clientId))
     return clients
 
-def getInfluencerFromInfluencerUsername(username, password):
-    return Influencer.objects.all().filter(name=username, password=password)
+def getInfluencerFromInfluencerUsername(username):
+    return Influencer.objects.all().filter(username=username)
 
 def validateUsername(username):
-    if Influencer.objects.all().filter(handle=username):
+    print(username)
+    if Influencer.objects.all().filter(name=username):
         return True
     else:
         return False
     
-def getInfluencerFromInfluencerId(influencerId):
-    return Influencer.objects.filter(uid=influencerId)
+def getInfluencerFromInfluencerId(influencerUsername):
+    return Influencer.objects.filter(username=influencerUsername)
 
 def deleteInfluencerUsingInfluencerId(influencerId):
     return Influencer.objects.filter(uid=influencerId).delete()
