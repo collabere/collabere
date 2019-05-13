@@ -20,7 +20,7 @@ class ClientMappingSerializer(serializers.Serializer):
     class Meta:
         model = ClientMapping
         fields = (
-            'influencerId',
+            'influencerUsername',
             'clientId',
         )
         # read_only_fields = fields
