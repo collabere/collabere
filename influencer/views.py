@@ -9,12 +9,17 @@ from django.views import generic
 from django.views.generic import CreateView
 import logging
 from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
+from braces.views import CsrfExemptMixin
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .utils import  handleEmptyAbsentKey
 import json
-
+from django.views.decorators.csrf import csrf_exempt
 from influencer.models import Influencer, ClientMapping
 
 from .serializers import ClientMappingSerializer, InfluencerSerializer
@@ -23,25 +28,23 @@ from client import serializers
 
 # Create your views here.
 _logger = logging.getLogger(__name__)
-@login_required
-def home(request):
-    return render(request,'influencer/home.html')
 
 @api_view(['GET'])
-def getClientsBasedOnInfluencers(request, influencerId):
-    clients = getAllClientOfAnInfluencer(influencerId)
+def getClientsBasedOnInfluencers(request):
+    influencerUsername = request.GET.get('username')
+    clients = getAllClientOfAnInfluencer(influencerUsername)
     return Response(serializers.ClientSerializer(clients, many=True).data)
 
 @api_view(['GET'])
-def getInfluencerDetails(request, influencerId):
-    influencer = getInfluencerFromInfluencerId(influencerId)
+def getInfluencerDetails(request):
+    influencerUsername = request.GET.get('username')
+    influencer = getInfluencerFromInfluencerUsername(influencerUsername)
     return Response(InfluencerSerializer(influencer, many=True).data)
 
-# @api_view(['GET'])
-def getInfluencerDetailsByUsername(username):
-    influencer = getInfluencerFromInfluencerUsername(username)
-    return InfluencerSerializer(influencer, many=True).data
-        
+@api_view(['GET'])
+def usernameFetch(request):
+    username = request.GET.get('username')
+    return Response(validateUsername(username))
 
 @api_view(['DELETE'])
 def deleteInfluencer(request, influencerId):
@@ -71,23 +74,22 @@ def handleLogin(request):
     jsonResponse = json.loads(request.body)
     request.session['username'] = jsonResponse['username']
     request.session['password'] = jsonResponse['password']
-    influencerDetails = getInfluencerFromInfluencerUsername(request.session['username'], request.session['password'])
-    print(influencerDetails.id)
-    if influencerDetails:
-        return Response(InfluencerSerializer(influencerDetails).data)
+    user = authenticate(username=jsonResponse['username'], password=jsonResponse['password'])
+
+    if user is not None:
+        return Response(request.session['username'])
     else:
-        return Response(InfluencerSerializer(influencerDetails).error)
+        return  Response(False)
 
 
 @api_view(['POST'])
 def handleRegisterInfluencer(request):
     jsonResponse= json.loads(request.body.decode('utf-8'))
     responseSerializer = InfluencerSerializer(data=jsonResponse)
-    print(jsonResponse['name'])
-    name = jsonResponse['name']
+    username = jsonResponse['username']
     password = jsonResponse['password']
     email = handleEmptyAbsentKey('email', jsonResponse)
-    username = handleEmptyAbsentKey('username', jsonResponse)
+    name = handleEmptyAbsentKey('name', jsonResponse)
     dob = handleEmptyAbsentKey('dob', jsonResponse)
     gender = handleEmptyAbsentKey('gender', jsonResponse)
     city = handleEmptyAbsentKey('city', jsonResponse)
@@ -96,6 +98,7 @@ def handleRegisterInfluencer(request):
     followerCount= handleEmptyAbsentKey('followerCount', jsonResponse)
     followingCount= handleEmptyAbsentKey('followingCount', jsonResponse)
     dpUrl=  handleEmptyAbsentKey('dpUrl', jsonResponse)
+
     influencer_signup(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,password)
 
     if responseSerializer.is_valid():
@@ -105,8 +108,7 @@ def handleRegisterInfluencer(request):
         return Response(responseSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
-def usernameFetch(request):
-    username = request.GET.get('username')
-    return Response(validateUsername(username))
+
+
+
 
