@@ -1,26 +1,64 @@
 import React from "react";
-import Col from 'reactstrap/lib/Col';
-import Form from 'reactstrap/lib/Form';
-import FormGroup from 'reactstrap/lib/FormGroup';
-import Label from 'reactstrap/lib/Label';
-import Input from 'reactstrap/lib/Input';
+import { ModalBody, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Link , Redirect } from 'react-router-dom';
+import axios from "axios";
+
+
 
 class LoginModal extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      username: "",
+      password: "",
+      authenticatedUsername: null
+    };
+    this.handleChangeOfInputFields = this.handleChangeOfInputFields.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
+  handleLogin() {
+    axios({
+      method: "post",
+      url: "http://127.0.0.1:8000/influencer/login/",
+      data: {
+        username: this.state.username,
+        password: this.state.password,
+      },
+      headers: {
+        "content-type": "application/json"
+      }
+    })
+      .then(response=> {
+        this.setState({authenticatedUsername: response});
+
+      })
+  }
+
+  handleChangeOfInputFields(event) {
+    event.preventDefault();
+    this.setState({ [event.target.name]: event.target.value });
+  }
+
+
   render() {
+    const {authenticatedUsername} = this.state
+     if (authenticatedUsername) {
+      return (
+        <Redirect to={`/clients/${this.state.username}`}/>
+      )
+  }
     return (
       <Form className="form">
         <Col>
           <FormGroup>
-            <Label>User Name or Email</Label>
+            <Label>User Name</Label>
             <Input
-              type="email"
-              name="email"
+              type="text"
+              name="username"
               id="exampleEmail"
               placeholder="myemail@email.com"
+              onChange={this.handleChangeOfInputFields}
             />
           </FormGroup>
         </Col>
@@ -32,9 +70,11 @@ class LoginModal extends React.Component {
               name="password"
               id="examplePassword"
               placeholder="********"
+              onChange={this.handleChangeOfInputFields}
             />
           </FormGroup>
         </Col>
+      <Button onClick={this.handleLogin}>Login</Button>
       </Form>
     );
   }

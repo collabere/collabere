@@ -125,11 +125,10 @@ class RegisterModal extends React.Component {
     return (
       <div
         style={{
-          maxWidth: "700px",
-          marginLeft: "350px",
+          maxWidth: "70%",
           border: "1px solid green",
           padding: "2px",
-          marginTop: "40px"
+          margin: "5% auto 5% auto",
         }}
       >
         <Form

@@ -1,21 +1,21 @@
 import React from "react";
 import axios from "axios";
+import { Navbar, FormControl, Nav, Form } from "react-bootstrap";
 import Button from "@material-ui/core/Button";
+import * as MaterialUiLibrary from "@material-ui/core";
 import * as Antd from "antd";
 
-import List from "antd/lib/list";
-import Avatar from "antd/lib/avatar";
+import { List, Avatar, Card } from "antd";
 import { Link } from "react-router-dom";
-import message from "antd/lib/message";
-import Spin from "antd/lib/spin";
+
+import { message, Spin } from "antd";
 
 import InfiniteScroll from "react-infinite-scroller";
-import Menu from "antd/lib/menu";
-import Dropdown from "antd/lib/dropdown";
-import Input from "antd/lib/input";
+import { Menu, Dropdown, Input } from "antd";
 
 import UpdateModal from "./Profile-update-modal-dialogue";
 import ClientInfoModal from "./Client-info-modal";
+import { IconButton, Icon } from "@material-ui/core";
 import SideNavMenu from "./Side-nav-menu";
 
 
@@ -37,13 +37,18 @@ class ClientScreen extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSortAplphabetically = this.handleSortAplphabetically.bind(this);
-  
+
 
 
   }
 
   fetchArticles = () => {
-    axios.get("http://127.0.0.1:8000/influencer/v1/clients/1").then(res => {
+    const { match: { params } } = this.props;
+
+    axios
+      .get("http://127.0.0.1:8000/influencer/v1/clients", {
+        params: { username: params.influencerUsername }
+      }).then(res => {
       console.log(res);
       this.setState({
         clients: res.data
@@ -102,7 +107,6 @@ class ClientScreen extends React.Component {
   }
 
   handleSortAplphabetically ()  {
-    console.log("ddddddd");
     let sortedList = this.state.clients;
     sortedList.sort(function(a, b) {
       var textA = a.name.toUpperCase();
