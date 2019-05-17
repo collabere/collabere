@@ -29,7 +29,7 @@ class RegisterModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
+      username: "",
       email: "",
       handle: "",
       dob: "",
@@ -50,6 +50,7 @@ class RegisterModal extends React.Component {
     this.openLoginModal = this.openLoginModal.bind(this);
     this.closeLoginModal = this.closeLoginModal.bind(this);
     this.validateUsername = this.validateUsername.bind(this);
+    this.handleCredentialSubmit = this.handleCredentialSubmit.bind(this);
   }
 
   handleCredentialSubmit() {
@@ -57,6 +58,7 @@ class RegisterModal extends React.Component {
       method: "post",
       url: "http://127.0.0.1:8000/influencer/register/",
       data: {
+        username: this.state.username,
         name: this.state.name,
         email: this.state.email,
         handle: this.state.handle,
@@ -65,13 +67,14 @@ class RegisterModal extends React.Component {
         city: this.state.city,
         country: this.state.country,
         industry: this.state.industry,
-        password: this.state.password
+        password: this.state.passwordFirst
       },
       headers: {
         "content-type": "application/json"
       }
     })
-      .then(function(response) {
+      .then(response => {
+        this.setState({ successModal: true });
         console.log(response);
       })
       .catch(function(error) {
@@ -79,10 +82,10 @@ class RegisterModal extends React.Component {
       });
   }
 
-  validateUsername(name) {
+  validateUsername(username) {
     axios
       .get("http://127.0.0.1:8000/influencer/username", {
-        params: { username: name }
+        params: { username: username }
       })
       .then(res => {
         console.log(res.data);
@@ -108,6 +111,7 @@ class RegisterModal extends React.Component {
   }
 
   handleSubmit() {
+
     this.setState({
       successModal: true
     });
@@ -137,21 +141,32 @@ class RegisterModal extends React.Component {
         >
           <Col>
             <FormGroup>
+              <Label>Username</Label>
+              <Input
+                type="text"
+                name="username"
+                id="username"
+                onChange={this.handleChangeOfInputName}
+                valid={!this.state.usernameValidFlag && this.state.username !== ''}
+                invalid={this.state.usernameValidFlag}
+              />
+              <FormFeedback invalid>
+               The user name {this.state.username} is already registered ,please use another one.
+              </FormFeedback>
+              <FormFeedback valid>
+               Yayyy! the username {this.state.username} is available.
+              </FormFeedback>
+            </FormGroup>
+          </Col>
+          <Col>
+            <FormGroup>
               <Label>Name</Label>
               <Input
                 type="text"
                 name="name"
-                id="name"
-                onChange={this.handleChangeOfInputName}
-                valid={!this.state.usernameValidFlag && this.state.name !== ''}
-                invalid={this.state.usernameValidFlag}
+                id="firstName"
+                onChange={this.handleChangeOfInputFields}
               />
-              <FormFeedback invalid>
-               The user name {this.state.name} is already registered ,please use another one.
-              </FormFeedback>
-              <FormFeedback valid>
-               Yayyy! the username {this.state.name} is available.
-              </FormFeedback>
             </FormGroup>
           </Col>
           <Col>
@@ -274,7 +289,7 @@ class RegisterModal extends React.Component {
             </FormGroup>
           </Col>
           <Col>
-            <Button color="primary" onClick={this.handleSubmit}>
+            <Button color="primary" onClick={this.handleCredentialSubmit}>
               Submit
             </Button>
             <_Link to="/">
