@@ -99,13 +99,12 @@ def handleRegisterInfluencer(request):
     followingCount= handleEmptyAbsentKey('followingCount', jsonResponse)
     dpUrl=  handleEmptyAbsentKey('dpUrl', jsonResponse)
 
-    influencer_signup(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,password)
+    influencer = influencer_signup(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,password)
 
-    if responseSerializer.is_valid():
-        return Response(responseSerializer.data, status=status.HTTP_201_CREATED)
-
+    if influencer is not None:
+        return Response(True, status=status.HTTP_200_OK)
     else:
-        return Response(responseSerializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(False, status=status.HTTP_400_BAD_REQUEST)
 
 
 
