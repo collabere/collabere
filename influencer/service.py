@@ -15,7 +15,7 @@ def getInfluencerFromInfluencerUsername(username):
 
 def validateUsername(username):
     print(username)
-    if Influencer.objects.all().filter(name=username):
+    if Influencer.objects.all().filter(username=username):
         return True
     else:
         return False
