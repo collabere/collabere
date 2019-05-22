@@ -4,7 +4,7 @@ from django.db import models
 
 class Messages(models.Model):
     uid = models.BigIntegerField()
-    responderId = models.IntegerField()
-    reciverId = models.IntegerField()
+    influencerUsername = models.CharField(max_length=50, default='')
+    clientId = models.IntegerField()
     message = models.TextField()
     timestamp = models.DateTimeField()

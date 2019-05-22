@@ -5,16 +5,17 @@ from rest_framework.serializers import ModelSerializer
 
 from conversations.models import Messages
 from conversations.serializers import MessageSerializer
-from .service import  getMessagesByResponderAndReciverId,getAllMessages, deleteAllMessagesBasedOnResponderAndReciverId
-# Create your views here.
+from .service import  getMessagesByInfluencerusernameAndClientId,getAllMessages, deleteAllMessagesBasedOnResponderAndReciverId
 
 
 
 @api_view(['GET' ])
-def getMessagesByResponderIdAndReciverId(request, reciver_id, responder_id):
-    messages = getMessagesByResponderAndReciverId(reciver_id,responder_id)
-    print(responder_id)
-    print("sjbfhhjebf")
+def getAllMessagesByInfluencerUsernameAndClientId(request):
+    influencer_username=request.GET.get('influencer_username')
+    client_id = request.GET.get('client_id')
+    print(influencer_username)
+    print(client_id)
+    messages = getMessagesByInfluencerusernameAndClientId(influencer_username,client_id)
     return Response(MessageSerializer(messages, many=True).data)
 
 @api_view(['GET' ])
