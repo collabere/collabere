@@ -33,16 +33,23 @@ class ConversationScreen extends React.Component {
   }
 
   fetchMessages = () => {
-    axios.get("http://127.0.0.1:8000/messages/v1").then(res => {
-      console.log(res);
-      this.setState({
-        messages: res.data
+    const { match: { params } } = this.props;
+    axios
+      .get("http://127.0.0.1:8000/messages/chat_messages", {
+        params: { influencer_username: params.influencerUsername,
+          client_id: params.clientId
+        }
+      })
+      .then(res => {
+        console.log(res.data);
+        this.setState({
+          messages: res.data
+        });
       });
-    });
   }
 
 render(){
-  
+
 
   return (
     <div>
@@ -58,7 +65,7 @@ render(){
   );
 }
 }
-  
+
 export default ConversationScreen;
-  
+
 

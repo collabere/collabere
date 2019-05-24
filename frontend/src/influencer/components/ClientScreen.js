@@ -143,7 +143,7 @@ onHoverOut = () => {
     return (
       <div>
         <nav class="navbar navbar-light" style={{ backgroundColor: "#00ffff" }}>
-        <SideNavMenu/>
+        <SideNavMenu influencerUsername ={this.props.match.params.influencerUsername}/>
           {/* <a class="navbar-brand">Collabere</a> */}
           <Search
             placeholder="Search Client"
@@ -193,7 +193,7 @@ onHoverOut = () => {
               dataSource={this.state.clients}
               renderItem={item => (
                 <div  style={{ maxWidth: "800px", marginLeft: "500px", backgroundColor: this.state.currentListItem === item.name? '#ebebeb': '#FFFFFF'}} onMouseOver={()=>this.onHover(item.name)} onMouseOut={()=>this.onHover()}>
-                  <Link to="/messages">
+                  <Link to={`/messages/${this.props.match.params.influencerUsername}/${item.uid}`}>
                     <a>
                       <List.Item key={item.id} >
                         <List.Item.Meta
