@@ -85,7 +85,6 @@ def handleLogin(request):
 @api_view(['POST'])
 def handleRegisterInfluencer(request):
     jsonResponse= json.loads(request.body.decode('utf-8'))
-    responseSerializer = InfluencerSerializer(data=jsonResponse)
     username = jsonResponse['username']
     password = jsonResponse['password']
     email = handleEmptyAbsentKey('email', jsonResponse)
