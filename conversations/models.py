@@ -8,13 +8,14 @@ from django.db.models import PROTECT, OneToOneField, QuerySet, Model
 class MessagesQuerySet(QuerySet):
 
     @atomic
-    def create_message_object(self, influencerUsername, clientId, timestamp):
+    def create_message_object(self, influencerUsername, clientId, timestamp, message):
 
         messages = Messages()
 
         messages.influencerUsername = influencerUsername
         messages.clientId = clientId
         messages.timestamp = timestamp
+        messages.message = message
         messages.save()
 
         return messages

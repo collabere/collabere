@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from django.shortcuts import render
 from rest_framework.decorators import api_view
@@ -44,8 +45,9 @@ def insertMessages(request):
     jsonResponse= json.loads(request.body.decode('utf-8'))
     influencerUsername = jsonResponse['influencerUsername']
     clientId = jsonResponse['clientId']
-    timestamp= jsonResponse['timestamp']
-    messages = saveMessages(influencerUsername, clientId,timestamp)
+    timestamp= datetime.now()
+    message = jsonResponse['message']
+    messages = saveMessages(influencerUsername, clientId,timestamp, message)
 
     if messages is not None:
         return Response(True, status=status.HTTP_200_OK)
