@@ -24,7 +24,6 @@ class MessageSerializer(ModelSerializer):
     class Meta:
         model = Messages
         fields = (
-            'uid',
             'influencerUsername',
             'clientId',
             'message',

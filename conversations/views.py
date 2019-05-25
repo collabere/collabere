@@ -1,11 +1,15 @@
+import json
+
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
+from rest_framework import status
+
 
 from conversations.models import Messages
 from conversations.serializers import MessageSerializer
-from .service import  getMessagesByInfluencerusernameAndClientId,getAllMessages, deleteAllMessagesBasedOnResponderAndReciverId
+from .service import  getMessagesByInfluencerusernameAndClientId,getAllMessages, deleteAllMessagesBasedOnResponderAndReciverId, saveMessages
 
 
 
@@ -35,13 +39,27 @@ def deleteMessages(request, reciverId, responderId):
     except Messages.DoesNotExist:
         return Response(False)
 
-@api_view(['PUT'])
+@api_view(['POST'])
 def insertMessages(request):
-    serializer = MessageSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        serializer_dict = serializer.data
-        serializer_dict["message"] = "Settings updated successfully."
-        return Response(serializer_dict, status=200)
+    jsonResponse= json.loads(request.body.decode('utf-8'))
+    influencerUsername = jsonResponse['influencerUsername']
+    clientId = jsonResponse['clientId']
+    timestamp= jsonResponse['timestamp']
+    messages = saveMessages(influencerUsername, clientId,timestamp)
+
+    if messages is not None:
+        return Response(True, status=status.HTTP_200_OK)
     else:
-        return Response(serializer.errors,status=400)
+        return Response(False, status=status.HTTP_400_BAD_REQUEST)
+
+#not used for now
+# @api_view(['PUT'])
+# def insertMessages(request):
+#     serializer = MessageSerializer(data=request.data)
+#     if serializer.is_valid():
+#         serializer.save()
+#         serializer_dict = serializer.data
+#         serializer_dict["message"] = "Settings updated successfully."
+#         return Response(serializer_dict, status=200)
+#     else:
+#         return Response(serializer.errors,status=400)
