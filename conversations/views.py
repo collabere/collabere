@@ -6,13 +6,24 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from rest_framework import status
+from django.core.mail import send_mail
+from client.service import *
+
 
 
 from conversations.models import Messages
 from conversations.serializers import MessageSerializer
+from inclyfy import settings
 from .service import  getMessagesByInfluencerusernameAndClientId,getAllMessages, deleteAllMessagesBasedOnResponderAndReciverId, saveMessages
 
 
+
+def sendeEmailAsMessage(subject, message,clientEmail):
+    subject = subject
+    message = message
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [clientEmail]
+    send_mail(subject, message, email_from, recipient_list )
 
 @api_view(['GET' ])
 def getAllMessagesByInfluencerUsernameAndClientId(request):
@@ -50,6 +61,9 @@ def insertMessages(request):
     messages = saveMessages(influencerUsername, clientId,timestamp, message)
 
     if messages is not None:
+        clientEmail = getattr(list(getClientFromClientId(clientId))[0], 'email')
+        subject = 'Message from ' + influencerUsername
+        sendeEmailAsMessage(subject, message, clientEmail)
         return Response(True, status=status.HTTP_200_OK)
     else:
         return Response(False, status=status.HTTP_400_BAD_REQUEST)
