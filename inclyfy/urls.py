@@ -16,14 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import include, path, re_path
-from influencer.views import home;
+from django.views.generic import TemplateView
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    path('', include('frontend.urls')),
-    # url(r'', include ('influencer.urls')),
     url(r'^messages/', include('conversations.urls')),
     url(r'^influencer/',include ('influencer.urls')),
     url(r'^client/',include ('client.urls')),
-    re_path(r'.*', include('frontend.urls'))
+    url(r'^', TemplateView.as_view(template_name="index.html")),
 ]

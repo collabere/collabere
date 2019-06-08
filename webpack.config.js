@@ -1,10 +1,24 @@
-
+var path = require("path");
 var webpack = require('webpack');
-var CompressionPlugin = require('compression-webpack-plugin');
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+var BundleTracker = require('webpack-bundle-tracker');
 
+const publicPath = 'http://localhost:3000/';
+const publicUrl = 'http://localhost:3000/';
 module.exports = {
-  watch: true,
+  context: __dirname,
+
+  entry: './frontend/src/index.js',
+
+output: {
+      filename: 'main.js',
+      path: path.resolve(__dirname, 'frontend/static/frontend'),
+        publicPath: './frontend/static/frontend'
+
+    },
+
+  plugins: [
+    new BundleTracker({filename: './home/sanskar95/development/collabere/webpack-stats.json'}),
+  ],
   module: {
     rules: [
       {
@@ -23,43 +37,19 @@ module.exports = {
         loader: 'svg-inline-loader'
       },
       {
-        test: /\.(gif|png|jpe?g|svg)$/i,
-        use: [
-          'file-loader',
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              bypassOnDebug: true, // webpack@1.x
-              disable: true, // webpack@2.x and newer
-            },
-          },
-        ],
+        test: /\.(png|jp(e*)g|svg)$/,
+            use: [{
+                loader: 'url-loader',
+                options: {
+                    limit: 8000, // Convert images < 8kb to base64 strings
+                    name: 'images/[hash]-[name].[ext]'
+                }
+            }]
       }
     ]
   },
-  // plugins: [
-  //   new webpack.DefinePlugin({ //<--key to reduce React's size
-  //     'process.env': {
-  //       'NODE_ENV': JSON.stringify('production')
-  //     }
-  //   }),
-  //   // new webpack.optimize.DedupePlugin(),
-  //   new UglifyJsPlugin({
-  //     uglifyOptions: {
-  //     warnings: false,
-  //     ie8: false,
-  //     output: {
-  //     comments: false
-  //     }
-  //     }
-  //     }),
-  //   new webpack.optimize.AggressiveMergingPlugin(),
-  //   new CompressionPlugin({
-  //     filename: "[path].gz[query]",
-  //     algorithm: "gzip",
-  //     test: /\.js$|\.css$|\.html$/,
-  //     threshold: 10240,
-  //     minRatio: 0.8
-  //   })
-  // ],
+  resolve: {
+    extensions: ['*', '.js', '.jsx']
+  }
+
 };

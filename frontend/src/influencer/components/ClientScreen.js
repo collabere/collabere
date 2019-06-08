@@ -37,7 +37,7 @@ class ClientScreen extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSortAplphabetically = this.handleSortAplphabetically.bind(this);
-
+  
 
 
   }

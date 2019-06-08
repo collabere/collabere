@@ -2,7 +2,7 @@ import React from "react";
 
 export default function InfluencerSection({ dark, id }) {
   return (
-    <div className={"section" + (dark ? " section-dark" : "")}>
+    <div className={"section"}>
       <div className="section-content" id={id}>
         <h1>Collaborations made easy</h1>
         <p>
@@ -11,12 +11,18 @@ export default function InfluencerSection({ dark, id }) {
         </p>
         <hr />
         <h1>Product for influencers</h1>
-        <p>Collaboration requests at one place No emails, No DMs</p>
-        <p>
+        <div>
+        <p style ={{float: 'left'}}>Collaboration requests at one place No emails, No DMs</p>
+        <img src={require('/home/sanskar95/development/collabere-ui/src/homepage/components/download.png')} />
+        </div>
+        <div>
+        <p  style ={{float: 'right'}}>
           Manage your projects with stages 4 collaboration projects worth $2000
           2 projects worth $800 in negotiation 3 projects worth $1250 ready to
           start
         </p>
+        <img src={require('/home/sanskar95/development/collabere-ui/src/homepage/components/download.png')}  style ={{float: 'left'}}/>
+        </div>
         <p>
           Track and visualize your metrics Earnings per month and deal Earnings
           vs engagement
