@@ -16,7 +16,6 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import include, path, re_path
-from influencer.views import home;
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
