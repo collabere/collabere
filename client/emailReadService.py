@@ -4,12 +4,6 @@ import imaplib
 import email
 
 
-# -------------------------------------------------
-#
-# Utility to read email from Gmail Using Python
-#
-# ------------------------------------------------
-
 def read_email_from_gmail():
     try:
         mail = imaplib.IMAP4_SSL('imap.gmail.com')
@@ -28,9 +22,15 @@ def read_email_from_gmail():
 
             for response_part in data:
                 if isinstance(response_part, tuple):
-                    msg = email.message_from_string(response_part[1])
+                    msg = email.message_from_string(response_part[1].decode("utf-8"))
                     email_subject = msg['subject']
                     email_from = msg['from']
+                    if msg.is_multipart():
+                        for payload in msg.get_payload():
+                            # if payload.is_multipart(): ...
+                            print(payload.get_payload())
+                    else:
+                        print(msg.get_payload())
                     print('From : ' + email_from + '\n')
                     print('Subject : ' + email_subject + '\n')
 
