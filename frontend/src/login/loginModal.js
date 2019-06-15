@@ -45,7 +45,6 @@ class LoginModal extends React.Component {
 
   render() {
     const {authenticatedUsername} = this.state
-    console.log(authenticatedUsername)
      if (authenticatedUsername && authenticatedUsername.data !==false) {
          console.log(authenticatedUsername)
       return (
