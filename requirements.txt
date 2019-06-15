@@ -2,6 +2,7 @@ djangorestframework==3.9.0
 django==2.2
 django-cors-headers
 django-crispy_forms
+django-webpack-loader
 psycopg2-binary
 dj_database_url
 gunicorn

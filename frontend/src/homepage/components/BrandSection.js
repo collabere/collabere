@@ -2,6 +2,7 @@ import React from "react";
 import { Input, Button, Modal } from "antd";
 import axios from "axios";
 import * as MaterialUiLibrary from "@material-ui/core";
+import { local, dev } from '../../config/envConfig';
 
 
 
@@ -10,7 +11,8 @@ class BrandSection extends React.Component {
     super(props);
     this.state = {
       email: '',
-      openSuccessfullModal: false
+      openSuccessfullModal: false,
+      url: (process.env.NODE_ENV === undefined) ? local.url : dev.url,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleEmailSubmit = this.handleEmailSubmit.bind(this);
@@ -32,7 +34,7 @@ handleCancel = () => {
 
 handleEmailSubmit () {
   console.log("impur change ready")
-  axios.post('http://127.0.0.1:8000/client/intro_email', {
+  axios.post(`${this.state.url}/client/intro_email`, {
     email: this.state.email
   })
   this.setState({openSuccessfullModal: true})

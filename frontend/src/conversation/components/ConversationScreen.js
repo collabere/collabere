@@ -3,11 +3,16 @@ import axios from "axios";
 import Messages from "./Messages.js";
 import ChatBox from "./ChatBox.js";
 import SideNavMenu from "../../influencer/components/Side-nav-menu.js";
+import {local , dev} from "../../config/envConfig";
 require("../styles/ConversationScreen.css");
 
 class ConversationScreen extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   state = {
-    message: []
+    message: [],
+    url: (process.env.NODE_ENV === undefined) ? local.url : dev.url,
   };
 
   componentDidMount() {
@@ -19,7 +24,7 @@ class ConversationScreen extends React.Component {
     } = this.props;
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/messages/insert_message/",
+      url: `${this.state.url}/messages/insert_message/`,
       data: {
         influencerUsername: params.influencerUsername,
         clientId: params.clientId,
@@ -51,7 +56,7 @@ class ConversationScreen extends React.Component {
       match: { params }
     } = this.props;
     axios
-      .get("http://127.0.0.1:8000/messages/chat_messages", {
+      .get(`${this.state.url}/messages/chat_messages`, {
         params: {
           influencer_username: params.influencerUsername,
           client_id: params.clientId
