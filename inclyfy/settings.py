@@ -27,7 +27,7 @@ SECRET_KEY = 'bmjli76vwfe!6=1cr#w67n6v%r170!n726wf^rnls4+wwtv-^6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.collabere.com', 'collabere.com', 'ec2-13-232-88-209.ap-south-1.compute.amazonaws.com', '13.232.88.209']
 
 
 # Application definition
