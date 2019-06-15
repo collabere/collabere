@@ -42,7 +42,6 @@ class RegisterModal extends React.Component {
       successModal: false,
       loginScreenOpen: false,
       usernameValidFlag: "",
-      url: (process.env.NODE_ENV === undefined) ? local.url : dev.url,
     };
     this.handleChangeOfInputFields = this.handleChangeOfInputFields.bind(this);
     this.handleChangeOfInputName = this.handleChangeOfInputName.bind(this);
@@ -52,12 +51,13 @@ class RegisterModal extends React.Component {
     this.closeLoginModal = this.closeLoginModal.bind(this);
     this.validateUsername = this.validateUsername.bind(this);
     this.handleCredentialSubmit = this.handleCredentialSubmit.bind(this);
+    this.url = (process.env.NODE_ENV === undefined) ? local.url : dev.url;
   }
 
   handleCredentialSubmit() {
     axios({
       method: "post",
-      url: `${this.state.url}/influencer/register/`,
+      url: `/influencer/register/`,
       data: {
         username: this.state.username,
         name: this.state.name,
@@ -85,7 +85,7 @@ class RegisterModal extends React.Component {
 
   validateUsername(username) {
     axios
-      .get(`${this.state.url}/influencer/username`, {
+      .get(`/influencer/username`, {
         params: { username: username }
       })
       .then(res => {

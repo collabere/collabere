@@ -31,17 +31,17 @@ class ClientScreen extends React.Component {
       updatModalOpen: false,
       colour: '#FFFFFF',
       currentListItem: '',
-      url: (process.env.NODE_ENV === undefined) ? local.url : dev.url,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSortAplphabetically = this.handleSortAplphabetically.bind(this);
+    this.url = (process.env.NODE_ENV === undefined) ? local.url : dev.url;
   }
 
   fetchArticles = () => {
     const { match: { params } } = this.props;
 
     axios
-      .get(`${this.state.url}/influencer/v1/clients`, {
+      .get(`/influencer/v1/clients`, {
         params: { username: params.influencerUsername }
       }).then(res => {
       console.log(res);

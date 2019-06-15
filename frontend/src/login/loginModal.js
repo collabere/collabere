@@ -12,16 +12,17 @@ class LoginModal extends React.Component {
       username: "",
       password: "",
       authenticatedUsername: null,
-      url: (process.env.NODE_ENV === undefined) ? local.url : dev.url,
     };
+    this.url = (process.env.NODE_ENV === undefined) ? local.url : dev.url;
     this.handleChangeOfInputFields = this.handleChangeOfInputFields.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleLogin() {
+    console.log(process.env.NODE_ENV);
     axios({
       method: "post",
-      url: `${this.state.url}/influencer/login/`,
+      url: `/influencer/login/`,
       data: {
         username: this.state.username,
         password: this.state.password,

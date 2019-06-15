@@ -12,11 +12,10 @@ class BrandSection extends React.Component {
     this.state = {
       email: '',
       openSuccessfullModal: false,
-      url: (process.env.NODE_ENV === undefined) ? local.url : dev.url,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleEmailSubmit = this.handleEmailSubmit.bind(this);
-
+    this.url = (process.env.NODE_ENV === undefined) ? local.url : dev.url;
   }
   
 
@@ -34,7 +33,7 @@ handleCancel = () => {
 
 handleEmailSubmit () {
   console.log("impur change ready")
-  axios.post(`${this.state.url}/client/intro_email`, {
+  axios.post(`/client/intro_email`, {
     email: this.state.email
   })
   this.setState({openSuccessfullModal: true})

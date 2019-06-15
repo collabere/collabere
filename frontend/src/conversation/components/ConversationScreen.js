@@ -9,11 +9,14 @@ require("../styles/ConversationScreen.css");
 class ConversationScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.url = (process.env.NODE_ENV === undefined) ? local.url : dev.url;
   }
   state = {
     message: [],
-    url: (process.env.NODE_ENV === undefined) ? local.url : dev.url,
+    
   };
+
+  
 
   componentDidMount() {
     this.fetchMessages();
@@ -24,7 +27,7 @@ class ConversationScreen extends React.Component {
     } = this.props;
     axios({
       method: "post",
-      url: `${this.state.url}/messages/insert_message/`,
+      url: `/messages/insert_message/`,
       data: {
         influencerUsername: params.influencerUsername,
         clientId: params.clientId,
@@ -56,7 +59,7 @@ class ConversationScreen extends React.Component {
       match: { params }
     } = this.props;
     axios
-      .get(`${this.state.url}/messages/chat_messages`, {
+      .get(`/messages/chat_messages`, {
         params: {
           influencer_username: params.influencerUsername,
           client_id: params.clientId
