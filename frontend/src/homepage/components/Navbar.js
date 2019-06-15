@@ -1,16 +1,12 @@
 import React, { Component } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
-import Button from "antd/lib/button";
+import { Button } from "antd";
 import * as MaterialUiLibrary from "@material-ui/core";
-import RegisterModal from "../../register/registerModal";
+import RegisterModal from "../../register/RegisterModal";
 import LoginModal from '../../login/loginModal.js';
 import { Link as _Link } from 'react-router-dom';
-import Modal from 'reactstrap/lib/Modal';
-import ModalHeader from 'reactstrap/lib/ModalHeader';
-import ModalBody from 'reactstrap/lib/ModalBody';
-import ModalFooter from 'reactstrap/lib/ModalFooter';
-
-import LoginService from '../../service/loginService';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import * as Antd from "antd";
 
 export default class Navbar extends Component {
   scrollToTop = () => {
@@ -28,7 +24,6 @@ export default class Navbar extends Component {
     this.toggle = this.toggle.bind(this);
     this.loginToggle = this.loginToggle.bind(this);
     this.registerToggle = this.registerToggle.bind(this);
-    this.loginCall = this.loginCall.bind(this);
   }
 
   toggle() {
@@ -45,18 +40,6 @@ export default class Navbar extends Component {
     }));
   }
 
-  loginCall() {
-    console.log('login has been called........');
-    let username = document.getElementById('exampleEmail').value;
-    let password = document.getElementById('examplePassword').value;
-    let loginService = new LoginService();
-    loginService.loginInfluencer(username, password).then((response) => {
-      console.log(response);
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
-
   registerToggle() {
     this.setState(prevState => ({
       modal: true,
@@ -64,6 +47,15 @@ export default class Navbar extends Component {
       loginModal: false,
     }));
   }
+
+  //  handleLoginClick = () => {
+  //     window.location.href = "http://127.0.0.1:8000/influencer/login";
+  // }
+
+  //  handleRegisterClick = () => {
+  //     window.location.href = "http://127.0.0.1:8000/influencer/register";
+  // }
+
 
 
   render() {
@@ -146,10 +138,6 @@ export default class Navbar extends Component {
                 {this.state.loginModal ? <LoginModal /> : null}
                 {this.state.registerModal ? <RegisterModal /> : null}
               </ModalBody>
-              <ModalFooter>
-                <Button color="primary" onClick={this.loginCall}>Submit</Button>{' '}
-                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-              </ModalFooter>
             </Modal>
             <MaterialUiLibrary.Button variant="contained" color="primary" onClick={this.loginToggle}>Login</MaterialUiLibrary.Button>
             <_Link to="/register"><MaterialUiLibrary.Button  variant="contained" color="primary" onClick={this.registerToggle}>Register</MaterialUiLibrary.Button></_Link>

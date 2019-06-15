@@ -1,5 +1,6 @@
-import Modal from 'antd/lib/modal';
+import { Modal } from 'antd';
 import React from "react";
+import * as MaterialUiLibrary from "@material-ui/core";
 import * as Antd from 'antd';
 
 class ClientInfoModal extends React.Component {

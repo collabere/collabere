@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import django
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -26,7 +27,7 @@ SECRET_KEY = 'bmjli76vwfe!6=1cr#w67n6v%r170!n726wf^rnls4+wwtv-^6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'dry-hollows-97567.herokuapp.com', 'collabere.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -44,7 +45,26 @@ INSTALLED_APPS = [
     'conversations',
     'rest_framework',
     'crispy_forms',
-    'frontend'
+    'frontend',
+    'webpack_loader'
+]
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+    }
+}
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'frontend'),
+)
+
+TEMPLATES = [
+    {
+        # ... other settings
+        'DIRS': [os.path.join(BASE_DIR, "templates"), ],
+        # ... other settings
+    },
 ]
 
 CRISPY_TEMPLATE_PACK =  'bootstrap4'
@@ -54,10 +74,10 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware'
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'inclyfy.urls'
@@ -65,13 +85,14 @@ ROOT_URLCONF = 'inclyfy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'frontend')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -84,25 +105,22 @@ WSGI_APPLICATION = 'inclyfy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'inclyfy',
+#         'USER': 'root',
+#         'PASSWORD': 'root',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'inclyfy',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-    # 'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
-
-STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, 'static')
-]
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -137,7 +155,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
@@ -147,3 +164,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'collabere.outbox1@gmail.com'
+EMAIL_HOST_PASSWORD = 'Collabere@2019'

@@ -1,9 +1,5 @@
 import React from "react";
-import Navbar from 'react-bootstrap/Navbar';
-import Button from 'react-bootstrap/Button';
-import FormControl from 'react-bootstrap/FormControl';
-import Nav from 'react-bootstrap/Nav';
-import Form from 'react-bootstrap/Form';
+import { Navbar, Button, FormControl, Nav, Form } from 'react-bootstrap';
 
 export default class HeaderComp extends React.Component {
     render() {

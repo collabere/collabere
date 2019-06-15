@@ -31,7 +31,7 @@ class LoginModal extends React.Component {
     })
       .then(response=> {
         this.setState({authenticatedUsername: response});
-
+    
       })
   }
 

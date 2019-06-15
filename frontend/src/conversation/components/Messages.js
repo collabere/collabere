@@ -17,15 +17,14 @@ export class Messages extends React.Component {
                 <div>
               <Message
                 key={i}
-                clientName={message.responderId}
+                clientName={message.clientId}
                 message={message.message}
-                influencerName={message.reciverId}
+                influencerName={message.influencerName}
                 fromInfluencer={true} />
                 </div>
             );
           });
-
-
+          
         return (
             <div>
             { messages }

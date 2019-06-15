@@ -4,7 +4,7 @@ import "./HomePage.css";
 import Navbar from "./Navbar";
 import Section from "./Section";
 import dummyText from "./DummyText";
-import FooterComp from "../../footer/FooterComp";
+import FooterComp from "../../footer/components/FooterComp";
 import InfluencerSection from "./InfluencerSection.js";
 import BrandSection from "./BrandSection";
 import HowItWorksSection from "./HowItWorksSection.js";
@@ -13,7 +13,7 @@ class HomePage extends Component {
   render() {
     return (
       <div>
-        <Navbar/>
+        <Navbar />
         <InfluencerSection
           dark={true}
           id="section1"

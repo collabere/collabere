@@ -15,7 +15,6 @@ import {
   ModalFooter
 } from "reactstrap";
 import axios from "axios";
-import LoginScreen from "../login/LoginScreen";
 import LoginModal from "../login/loginModal";
 
 function checkPasswordComplexity(pwd) {
