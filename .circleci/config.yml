@@ -44,7 +44,7 @@ jobs: # A basic unit of work in a run
           name: AWS EC2 deploy
           command: |
             #Run script inside of machine
-            ssh -i "CollabereKeyPair.pem" ubuntu@ec2-13-232-88-209.ap-south-1.compute.amazonaws.com "/deploy.sh"
+            ssh -i "~/development/collabere/CollabereKeyPair.pem" ubuntu@ec2-13-232-88-209.ap-south-1.compute.amazonaws.com "/deploy.sh"
 
 workflows:
   version: 2
