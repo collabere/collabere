@@ -33,7 +33,7 @@ jobs: # A basic unit of work in a run
             - "/usr/local/lib/python3.6/site-packages"
 
   deploy:
-    working_directory: ~/development/collabere
+    working_directory: ~/collabere
     docker:
       - image: circleci/node:chakracore-8.11.1
     steps:
@@ -44,7 +44,7 @@ jobs: # A basic unit of work in a run
           name: AWS EC2 deploy
           command: |
             #Run script inside of machine
-            ssh -i "~/development/collabere/CollabereKeyPair.pem" ubuntu@ec2-13-232-88-209.ap-south-1.compute.amazonaws.com "/deploy.sh"
+            ssh -i "~CollabereKeyPair.pem" ubuntu@ec2-13-232-88-209.ap-south-1.compute.amazonaws.com "/deploy.sh"
 
 workflows:
   version: 2
