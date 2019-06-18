@@ -33,16 +33,16 @@ jobs: # A basic unit of work in a run
             - "/usr/local/lib/python3.6/site-packages"
 
   deploy:
-  docker:
-    - image: circleci/node:chakracore-8.11.1
-  steps:
-    - restore_cache:
-        keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-    - run:
-        name: AWS EC2 deploy
-        command: |
-          #Run script inside of machine
-          ssh -i "CollabereKeyPair.pem" ubuntu@ec2-13-232-88-209.ap-south-1.compute.amazonaws.com
-          chmod +x deploy.sh
-          ./deploy.sh
+    docker:
+      - image: circleci/node:chakracore-8.11.1
+    steps:
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: AWS EC2 deploy
+          command: |
+            #Run script inside of machine
+            ssh -i "CollabereKeyPair.pem" ubuntu@ec2-13-232-88-209.ap-south-1.compute.amazonaws.com
+            chmod +x deploy.sh
+            ./deploy.sh
