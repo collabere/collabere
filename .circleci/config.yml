@@ -2,7 +2,7 @@ version: 2 # use CircleCI 2.0
 jobs: # A basic unit of work in a run
   build: # runs not using Workflows must have a `build` job as entry point
     # directory where steps are run
-    working_directory: ~/development/collabere
+    working_directory: ~/collabere
     docker: # run the steps with Docker
       # CircleCI Python images available at: https://hub.docker.com/r/circleci/python/
       - image: circleci/python:3.6.4
@@ -46,7 +46,7 @@ jobs: # A basic unit of work in a run
             #Run script inside of machine
             pwd
             ls
-            vi CollabereKeyPair.pem
+            ssh -i "CollabereKeyPair.pem" ubuntu@ec2-13-232-88-209.ap-south-1.compute.amazonaws.com
 
 
 workflows:
