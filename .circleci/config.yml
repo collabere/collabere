@@ -46,7 +46,7 @@ jobs: # A basic unit of work in a run
             #Run script inside of machine
             pwd
             ls
-           \n | ssh -i "CollabereKeyPair.pem" ubuntu@ec2-13-232-88-209.ap-south-1.compute.amazonaws.com
+            \n | ssh -i "CollabereKeyPair.pem" ubuntu@ec2-13-232-88-209.ap-south-1.compute.amazonaws.com
 
 
 workflows:
