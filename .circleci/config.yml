@@ -40,13 +40,16 @@ jobs: # A basic unit of work in a run
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
+      - add_ssh_keys:
+          fingerprints:
+            - "f3:75:01:49:d3:58:f2:ae:7c:ef:fd:7f:03:27:0c:41"
       - run:
           name: AWS EC2 deploy
           command: |
             #Run script inside of machine
             pwd
             ls
-            ssh -i "CollabereKeyPair.pem" ubuntu@ec2-13-232-88-209.ap-south-1.compute.amazonaws.com
+            ssh ubuntu@ec2-13-232-88-209.ap-south-1.compute.amazonaws.com
 
 
 workflows:
