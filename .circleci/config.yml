@@ -49,7 +49,7 @@ jobs: # A basic unit of work in a run
             #Run script inside of machine
             pwd
             ls
-            ssh ubuntu@13.232.88.209
+            ssh -o StrictHostKeyChecking=no ubuntu@13.232.88.209 "./deploy.sh"
 
 
 workflows:
