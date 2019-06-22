@@ -36,9 +36,6 @@ jobs: # A basic unit of work in a run
     working_directory: ~/collabere
     docker:
       - image: circleci/node:chakracore-8.11.1
-    branches:
-      only:
-        - release
     steps:
       - restore_cache:
           keys:
@@ -61,4 +58,7 @@ workflows:
   build_and_deploy:
     jobs:
       - build
-      - deploy
+      - deploy:
+        - filters:
+            branches:
+              only: develop
