@@ -17,9 +17,7 @@ import UpdateModal from "./Profile-update-modal-dialogue";
 import ClientInfoModal from "./Client-info-modal";
 import { IconButton, Icon } from "@material-ui/core";
 import SideNavMenu from "./Side-nav-menu";
-
-
-
+import { local, dev } from '../../config/envConfig';
 
 const Search = Input.Search;
 
@@ -32,21 +30,18 @@ class ClientScreen extends React.Component {
       hasMore: true,
       updatModalOpen: false,
       colour: '#FFFFFF',
-      currentListItem: ''
-
+      currentListItem: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSortAplphabetically = this.handleSortAplphabetically.bind(this);
-  
-
-
+    this.url = (process.env.NODE_ENV === undefined) ? local.url : dev.url;
   }
 
   fetchArticles = () => {
     const { match: { params } } = this.props;
 
     axios
-      .get("http://127.0.0.1:8000/influencer/v1/clients", {
+      .get(`/influencer/v1/clients`, {
         params: { username: params.influencerUsername }
       }).then(res => {
       console.log(res);

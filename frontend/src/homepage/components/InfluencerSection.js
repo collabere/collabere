@@ -13,7 +13,7 @@ export default function InfluencerSection({ dark, id }) {
         <h1>Product for influencers</h1>
         <div>
         <p style ={{float: 'left'}}>Collaboration requests at one place No emails, No DMs</p>
-        <img src={require('/home/sanskar95/development/collabere-ui/src/homepage/components/download.png')} />
+        {/* <img src={require('')} /> */}
         </div>
         <div>
         <p  style ={{float: 'right'}}>
@@ -21,7 +21,7 @@ export default function InfluencerSection({ dark, id }) {
           2 projects worth $800 in negotiation 3 projects worth $1250 ready to
           start
         </p>
-        <img src={require('/home/sanskar95/development/collabere-ui/src/homepage/components/download.png')}  style ={{float: 'left'}}/>
+        {/* <img src={require('')}  style ={{float: 'left'}}/> */}
         </div>
         <p>
           Track and visualize your metrics Earnings per month and deal Earnings

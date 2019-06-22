@@ -1,5 +1,6 @@
 import React from "react";
 import { Link as _Link } from "react-router-dom";
+import { local, dev } from '../config/envConfig';
 
 import {
   Col,
@@ -40,7 +41,7 @@ class RegisterModal extends React.Component {
       passwordSecond: "",
       successModal: false,
       loginScreenOpen: false,
-      usernameValidFlag: ""
+      usernameValidFlag: "",
     };
     this.handleChangeOfInputFields = this.handleChangeOfInputFields.bind(this);
     this.handleChangeOfInputName = this.handleChangeOfInputName.bind(this);
@@ -50,12 +51,13 @@ class RegisterModal extends React.Component {
     this.closeLoginModal = this.closeLoginModal.bind(this);
     this.validateUsername = this.validateUsername.bind(this);
     this.handleCredentialSubmit = this.handleCredentialSubmit.bind(this);
+    this.url = (process.env.NODE_ENV === undefined) ? local.url : dev.url;
   }
 
   handleCredentialSubmit() {
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/influencer/register/",
+      url: `/influencer/register/`,
       data: {
         username: this.state.username,
         name: this.state.name,
@@ -83,7 +85,7 @@ class RegisterModal extends React.Component {
 
   validateUsername(username) {
     axios
-      .get("http://127.0.0.1:8000/influencer/username", {
+      .get(`/influencer/username`, {
         params: { username: username }
       })
       .then(res => {

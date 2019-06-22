@@ -2,7 +2,7 @@ import React from "react";
 import { ModalBody, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import { Link , Redirect } from 'react-router-dom';
 import axios from "axios";
-
+import { local , dev } from '../config/envConfig';
 
 
 class LoginModal extends React.Component {
@@ -11,16 +11,18 @@ class LoginModal extends React.Component {
     this.state = {
       username: "",
       password: "",
-      authenticatedUsername: null
+      authenticatedUsername: null,
     };
+    this.url = (process.env.NODE_ENV === undefined) ? local.url : dev.url;
     this.handleChangeOfInputFields = this.handleChangeOfInputFields.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleLogin() {
+    console.log(process.env.NODE_ENV);
     axios({
       method: "post",
-      url: "http://127.0.0.1:8000/influencer/login/",
+      url: `/influencer/login/`,
       data: {
         username: this.state.username,
         password: this.state.password,
@@ -43,7 +45,8 @@ class LoginModal extends React.Component {
 
   render() {
     const {authenticatedUsername} = this.state
-     if (authenticatedUsername) {
+     if (authenticatedUsername && authenticatedUsername.data !==false) {
+         console.log(authenticatedUsername)
       return (
         <Redirect to={`/clients/${this.state.username}`}/>
       )
