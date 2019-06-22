@@ -59,6 +59,6 @@ workflows:
     jobs:
       - build
       - deploy:
-        - filters:
+          filters:
             branches:
-              only: develop
+              only: release
