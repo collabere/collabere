@@ -7,5 +7,4 @@ urlpatterns = [
     url(r'put$', insertClient, name='insert_influencer'),
     url(r'intro_email$', insertHomePageIntoEmail, name='insert_messages'),
     url(r'all_emails$', getAllHomePageIntroEmails)
-
 ]
