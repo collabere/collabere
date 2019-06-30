@@ -28,5 +28,6 @@ class MessageSerializer(ModelSerializer):
             'clientId',
             'message',
             'timestamp',
+            'projectInitiationDate',
         )
         read_only_fields = fields

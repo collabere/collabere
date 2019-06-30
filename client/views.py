@@ -24,7 +24,9 @@ def deleteClientInfo(request, clientId):
 
 @api_view(['PUT'])
 def insertClient(request):
+    print(request.data)
     serializer = ClientSerializer(data=request.data)
+    print(serializer)
     if serializer.is_valid():
         serializer.save()
         serializer_dict = serializer.data

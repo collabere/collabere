@@ -1,7 +1,9 @@
 from django.db import models
 from django.db.transaction import atomic
 from django.db.models import PROTECT, OneToOneField, QuerySet, Model
-
+from project.models import Project
+from datetime import datetime
+from django.utils import timezone
 
 # Create your models here.
 class MessagesQuerySet(QuerySet):
@@ -27,3 +29,4 @@ class Messages(models.Model):
     message = models.TextField()
     fromInfluencer = models.BooleanField(default=True)
     timestamp = models.DateTimeField()
+    projectInitiationDate = models.ForeignKey(Project, on_delete=models.CASCADE, default=timezone.now)

@@ -22,7 +22,8 @@ from django.views.generic import TemplateView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^messages/', include('conversations.urls')),
-    url(r'^influencer/',include ('influencer.urls')),
-    url(r'^client/',include ('client.urls')),
+    url(r'^influencer/',include('influencer.urls')),
+    url(r'^client/',include('client.urls')),
+    url(r'^project/',include('project.urls')),
     url(r'^', TemplateView.as_view(template_name="index.html")),
 ]
