@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from client.models import Client
 from .serializers import ClientSerializer, HomePageIntroEmailSerializer
-from .service import getClientFromClientId, deleteClientUsingClientId, getAllHomePageIntroEmail
+from .service import getClientFromClientId, deleteClientUsingClientId, getAllHomePageIntroEmail,checkPresenceOfClientByClientEmailId
 # Create your views here.
 
 @api_view(['GET'])
@@ -51,3 +51,9 @@ def insertHomePageIntoEmail(request):
 def getAllHomePageIntroEmails(request):
     homePageIntroEmails = getAllHomePageIntroEmail()
     return Response(HomePageIntroEmailSerializer(homePageIntroEmails, many=True).data)
+
+@api_view(['GET'])
+def checkExistenceOfClient(request):
+    clientEmail= request.GET.get('clientEmail')
+    print(clientEmail)
+    return Response(checkPresenceOfClientByClientEmailId(clientEmail))
