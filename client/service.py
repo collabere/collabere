@@ -9,6 +9,8 @@ def checkPresenceOfClientByClientEmailId(clientEmailId):
         return True
     else:
         return False
+def getClientByClientEmailId(clientEmailId):
+    return Client.objects.filter(email=clientEmailId)
 
 def deleteClientUsingClientId(clientId):
     return Client.objects.filter(uid=clientId).delete()

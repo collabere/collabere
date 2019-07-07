@@ -3,6 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from project.models import Project
 from .serializers import ProjectSerializer
+from client.service import *
 from .service import getProjectsByClientId, getProjectsByInfluencerUserName, getProjectsByInfluencerUserNameAndClientId
 
 @api_view(['GET'])
@@ -24,6 +25,8 @@ def getAllProjectsByClientIdAndInfluencerUserName(request, clientId, influencerU
 @api_view(['PUT'])
 def insertProject(request):
     serializer = ProjectSerializer(data=request.data)
+    clientId= getattr(list(getClientByClientEmailId(request.data['email']))[0], 'uid')
+    serializer.initial_data['clientId'] = clientId
     if serializer.is_valid():
         serializer.save()
         serializer_dict = serializer.data
