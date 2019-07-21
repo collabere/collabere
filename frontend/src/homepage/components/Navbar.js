@@ -1,14 +1,18 @@
 import React, { Component } from "react";
 import { Link, animateScroll as scroll } from "react-scroll";
-import { Button } from "antd";
 import * as MaterialUiLibrary from "@material-ui/core";
 import RegisterModal from "../../register/RegisterModal";
-import LoginModal from '../../login/loginModal.js';
-import { Link as _Link } from 'react-router-dom';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import LoginModal from "../../login/loginModal.js";
+import { Link as _Link } from "react-router-dom";
+import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import {
+  Navbar,
+  Form,
+} from "react-bootstrap";
+
 import * as Antd from "antd";
 
-export default class Navbar extends Component {
+export default class HomeNavBar extends Component {
   scrollToTop = () => {
     scroll.scrollToTop();
   };
@@ -19,7 +23,7 @@ export default class Navbar extends Component {
       modal: false,
       loginModal: false,
       registerModal: false
-    }
+    };
 
     this.toggle = this.toggle.bind(this);
     this.loginToggle = this.loginToggle.bind(this);
@@ -44,7 +48,7 @@ export default class Navbar extends Component {
     this.setState(prevState => ({
       modal: true,
       registerModal: true,
-      loginModal: false,
+      loginModal: false
     }));
   }
 
@@ -56,33 +60,28 @@ export default class Navbar extends Component {
   //     window.location.href = "http://127.0.0.1:8000/influencer/register";
   // }
 
-
-
   render() {
     return (
-      <nav className="nav" id="navbar">
-        <div>
-          <img src={require('../../collabere.png')} style={{ height: '60px' }} />
-        </div>
-        <div className="nav-content">
-
-          <ul className="nav-items">
-            <li className="nav-item">
-              <MaterialUiLibrary.Button style={{ marginTop: '19px', fontSize: '1rem', fontWeight: '600' }}>
-                <Link
-                  activeClass="active"
-                  to="section1"
-                  spy={true}
-                  smooth={true}
-                  offset={-70}
-                  duration={500}
-                >
-                  Influencers
-                </Link>
-              </MaterialUiLibrary.Button>
-            </li>
-            <li className="nav-item">
-              <MaterialUiLibrary.Button style={{ marginTop: '19px', fontSize: '1rem', fontWeight: '600' }}>
+      <Navbar  expand="lg" style={{backgroundColor: '#40e0d0'}}>
+        <Navbar.Brand href="#home">Collabere</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav" style={{marginLeft: '90px'}}>
+          <Form inline >
+            <MaterialUiLibrary.Button
+              style={{  paddingLeft:'40px',fontSize: "1rem", fontWeight: "600" }}
+            >
+              <Link
+                activeClass="active"
+                to="section1"
+                spy={true}
+                smooth={true}
+                offset={-70}
+                duration={500}
+              >
+                Influencers
+              </Link>
+            </MaterialUiLibrary.Button>
+            <MaterialUiLibrary.Button style={{ paddingLeft:'40px',fontSize: '1rem', fontWeight: '600' }}>
                 <Link
                   activeClass="active"
                   to="section2"
@@ -94,10 +93,8 @@ export default class Navbar extends Component {
                   Brands
                 </Link>
               </MaterialUiLibrary.Button>
-            </li>
-            <li className="nav-item">
-              <MaterialUiLibrary.Button style={{ marginTop: '19px', fontSize: '1rem', fontWeight: '600' }}>
-                <Link
+              <MaterialUiLibrary.Button style={{  paddingLeft:'40px',fontSize: '1rem', fontWeight: '600' }}>
+                 <Link
                   activeClass="active"
                   to="section3"
                   spy={true}
@@ -108,10 +105,8 @@ export default class Navbar extends Component {
                  How it Works
                 </Link>
               </MaterialUiLibrary.Button>
-            </li>
-            <li className="nav-item">
-              <MaterialUiLibrary.Button style={{ marginTop: '19px', fontSize: '1rem', fontWeight: '600' }}>
-                <Link
+              <MaterialUiLibrary.Button style={{ paddingLeft:'40px', fontSize: '1rem', fontWeight: '600' }}>
+                 <Link
                   activeClass="active"
                   to="section4"
                   spy={true}
@@ -122,28 +117,44 @@ export default class Navbar extends Component {
                  About Us
                 </Link>
               </MaterialUiLibrary.Button>
-            </li>
-          </ul>
-          <div style={{ marginLeft: '150px' }}>
-            <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-              {this.state.loginModal ?
-                <ModalHeader toggle={this.toggle}>Login</ModalHeader> :
-                null
-              }
-              {this.state.registerModal ?
-                <ModalHeader toggle={this.toggle}>Register</ModalHeader> :
-                null
-              }
-              <ModalBody>
-                {this.state.loginModal ? <LoginModal /> : null}
-                {this.state.registerModal ? <RegisterModal /> : null}
-              </ModalBody>
-            </Modal>
-            <MaterialUiLibrary.Button variant="contained" color="primary" onClick={this.loginToggle}>Login</MaterialUiLibrary.Button>
-            <_Link to="/register"><MaterialUiLibrary.Button  variant="contained" color="primary" onClick={this.registerToggle}>Register</MaterialUiLibrary.Button></_Link>
-          </div>
-        </div>
-      </nav>
+              <Form inline style={{marginLeft: '90px'}} >
+              <Modal
+                isOpen={this.state.modal}
+                toggle={this.toggle}
+                className={this.props.className}
+                style={{width: '80%'}}
+              >
+                {this.state.loginModal ? (
+                  <ModalHeader toggle={this.toggle}>Login</ModalHeader>
+                ) : null}
+                {this.state.registerModal ? (
+                  <ModalHeader toggle={this.toggle}>Register</ModalHeader>
+                ) : null}
+                <ModalBody>
+                  {this.state.loginModal ? <LoginModal /> : null}
+                  {this.state.registerModal ? <RegisterModal /> : null}
+                </ModalBody>
+              </Modal>
+              <MaterialUiLibrary.Button
+                variant="contained"
+                color="primary"
+                onClick={this.loginToggle}
+              >
+                Login
+              </MaterialUiLibrary.Button>
+              <_Link to="/register">
+                <MaterialUiLibrary.Button
+                  variant="contained"
+                  color="primary"
+                  onClick={this.registerToggle}
+                >
+                  Register
+                </MaterialUiLibrary.Button>
+              </_Link>
+           </Form>
+          </Form>
+        </Navbar.Collapse>
+      </Navbar>
     );
   }
 }
