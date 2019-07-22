@@ -1,10 +1,11 @@
 from django.db import models
+import uuid
 
 # Create your models here.
 
 
 class Client(models.Model):
-    uid = models.BigIntegerField(primary_key=True)
+    uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=100)
     email = models.EmailField()
     city = models.CharField(max_length=50)

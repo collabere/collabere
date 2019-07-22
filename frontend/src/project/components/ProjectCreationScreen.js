@@ -91,7 +91,7 @@ class ProjectCreationScreen extends React.Component {
 
   handleCredentialSubmit() {
     axios({
-      method: "post",
+      method: "put",
       url: `/client/put/`,
       data: {
         name: this.state.name,
