@@ -47,8 +47,14 @@ INSTALLED_APPS = [
     'crispy_forms',
     'frontend',
     'webpack_loader',
-    'project'
+    'project',
+    'knox',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
+}
+
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'bundles/',

@@ -7,3 +7,4 @@ psycopg2-binary
 dj_database_url
 gunicorn
 whitenoise
+django-rest-knox==4.1.0
