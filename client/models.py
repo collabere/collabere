@@ -5,7 +5,7 @@ import uuid
 
 
 class Client(models.Model):
-    uid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    uid = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=100)
     email = models.EmailField()
     city = models.CharField(max_length=50)
