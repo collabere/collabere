@@ -1,30 +1,17 @@
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django.db.transaction import atomic
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
-from django.views import generic
-from django.views.generic import CreateView
+import json
 import logging
-from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
-from braces.views import CsrfExemptMixin
+from django.contrib.auth import authenticate
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .utils import  handleEmptyAbsentKey
-import json
-from django.views.decorators.csrf import csrf_exempt
-from influencer.models import Influencer, ClientMapping
 
-from .serializers import ClientMappingSerializer, InfluencerSerializer
-from .service import getAllClientOfAnInfluencer, validateUsername, getInfluencerFromInfluencerUsername, getInfluencerFromInfluencerId, deleteInfluencerUsingInfluencerId, influencer_signup
 from client import serializers
+from influencer.models import Influencer
+from .serializers import ClientMappingSerializer, InfluencerSerializer
+from .service import getAllClientOfAnInfluencer, validateUsername, getInfluencerFromInfluencerUsername, \
+    deleteInfluencerUsingInfluencerId, influencer_signup
+from .utils import handleEmptyAbsentKey
 
 # Create your views here.
 _logger = logging.getLogger(__name__)
@@ -60,6 +47,18 @@ def deleteInfluencer(request, influencerId):
 @api_view(['PUT'])
 def putInfluencer(request):
     serializer = InfluencerSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        serializer_dict = serializer.data
+        serializer_dict["message"] = "Settings updated successfully."
+        return Response(serializer_dict, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+def saveClientMappingWithInfluencer(request):
+    serializer = ClientMappingSerializer(data=request.data)
+    print(request.data)
     if serializer.is_valid():
         serializer.save()
         serializer_dict = serializer.data

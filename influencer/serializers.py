@@ -5,14 +5,14 @@ from django.contrib.auth.models import User
 
 
 class ClientMappingSerializer(serializers.Serializer):
-    influencerId = serializers.IntegerField()
+    influencerUsername = serializers.CharField()
     clientId = serializers.IntegerField()
 
     def create(self, validated_data):
         return ClientMapping.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
-        instance.influencerId = validated_data.get('influencerId', instance.influencerId)
+        instance.influencerUsername = validated_data.get('influencerUsername', instance.influencerId)
         instance.clientId = validated_data.get('clientId', instance.clientId)
         instance.save()
         return instance
