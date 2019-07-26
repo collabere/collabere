@@ -4,7 +4,7 @@ from django.conf.urls import url
 from django.contrib.auth import views
 from django.views.decorators.csrf import csrf_exempt
 
-from .views import handleLogin, getClientsBasedOnInfluencers, getInfluencerDetails, deleteInfluencer, putInfluencer,handleRegisterInfluencer, usernameFetch
+from .views import handleLogin, getClientsBasedOnInfluencers, getInfluencerDetails, deleteInfluencer, putInfluencer,handleRegisterInfluencer, usernameFetch,saveClientMappingWithInfluencer
 
 
 urlpatterns = [
@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'delete/(\d+)$', deleteInfluencer, name='influencer_delete'),
     url(r'put$', putInfluencer, name='insert_influencer'),
     url(r'register/', handleRegisterInfluencer, name='influencer_register'),
+    url(r'save_client_mapping/', saveClientMappingWithInfluencer, name='save_client_influencer_mapping'),
 ]
