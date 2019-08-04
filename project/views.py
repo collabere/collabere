@@ -15,7 +15,11 @@ def getAllProjectsByClientId(request, clientId):
 @api_view(['GET'])
 def getAllProjectsByInfluencerUserName(request, influencerUserName):
     projectDetails = getProjectsByInfluencerUserName(influencerUserName)
-    return Response(ProjectSerializer(projectDetails, many=True).data)
+    projectSerializerData=ProjectSerializer(projectDetails, many=True).data;
+    for projectDetail in projectSerializerData:
+        clientId=projectDetail['clientId']
+        projectDetail["clientName"]=getattr(list(getClientFromClientId(clientId))[0], 'name')
+    return Response(projectSerializerData)
 
 @api_view(['GET'])
 def getAllProjectsByClientIdAndInfluencerUserName(request, clientId, influencerUserName):

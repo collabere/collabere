@@ -7,6 +7,8 @@ import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import Icon from '@material-ui/core/Icon';
+
 
 import { Link } from "react-router-dom";
 
@@ -57,7 +59,7 @@ class SideNavMenu extends React.Component {
 
     return (
       <div>
-        <Button onClick={this.toggleDrawer("left", true)}>MENU</Button>
+        <Button onClick={this.toggleDrawer("left", true)}><Icon>menu</Icon></Button>
 
         <Drawer
           open={this.state.left}
