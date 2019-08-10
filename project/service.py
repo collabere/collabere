@@ -7,4 +7,7 @@ def getProjectsByInfluencerUserName(influencerUserName):
     return Project.objects.filter(influencerUserName=influencerUserName)
 
 def getProjectsByInfluencerUserNameAndClientId(influencerUserName, clientId):
-    return Project.objects.filter(influencerUserName=influencerId, clientId=clientId)
+    return Project.objects.filter(influencerUserName=influencerUserName, clientId=clientId)
+
+def getProjectByProjectInitiationDate(projectInitiationDate):
+    return Project.objects.filter(projectInitiationDate=projectInitiationDate)

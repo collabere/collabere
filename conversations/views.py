@@ -14,7 +14,7 @@ from client.service import *
 from conversations.models import Messages
 from conversations.serializers import MessageSerializer
 from inclyfy import settings
-from .service import  getMessagesByInfluencerusernameAndClientId,getAllMessages, deleteAllMessagesBasedOnResponderAndReciverId, saveMessages
+from .service import  getMessagesByInfluencerusernameAndClientId,getAllMessages, deleteAllMessagesBasedOnResponderAndReciverId, saveMessages,getMessagesByProjectInitiationDate
 
 
 
@@ -40,6 +40,12 @@ def getAll(request):
     print(messages)
     return Response(MessageSerializer(messages,many=True).data)
 
+@api_view(['GET' ])
+def getMessagesPertainingToAProject(request):
+    messages =  getMessagesByProjectInitiationDate(request.GET.get("projectInitiationDate"))
+    print(messages)
+    return Response(MessageSerializer(messages,many=True).data)
+
 @api_view(['DELETE'])
 def deleteMessages(request, reciverId, responderId):
     try:
@@ -58,7 +64,9 @@ def insertMessages(request):
     clientId = jsonResponse['clientId']
     timestamp= datetime.now()
     message = jsonResponse['message']
-    messages = saveMessages(influencerUsername, clientId,timestamp, message)
+    projectInitiationDate=jsonResponse['projectInitiationDate']
+    fromInfluencer=jsonResponse['fromInfluencer']
+    messages = saveMessages(influencerUsername, clientId,timestamp, message,fromInfluencer, projectInitiationDate)
 
     if messages is not None:
         clientEmail = getattr(list(getClientFromClientId(clientId))[0], 'email')
@@ -67,15 +75,3 @@ def insertMessages(request):
         return Response(True, status=status.HTTP_200_OK)
     else:
         return Response(False, status=status.HTTP_400_BAD_REQUEST)
-
-#not used for now
-# @api_view(['PUT'])
-# def insertMessages(request):
-#     serializer = MessageSerializer(data=request.data)
-#     if serializer.is_valid():
-#         serializer.save()
-#         serializer_dict = serializer.data
-#         serializer_dict["message"] = "Settings updated successfully."
-#         return Response(serializer_dict, status=200)
-#     else:
-#         return Response(serializer.errors,status=400)

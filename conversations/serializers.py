@@ -27,6 +27,7 @@ class MessageSerializer(ModelSerializer):
             'influencerUsername',
             'clientId',
             'message',
+            'fromInfluencer',
             'timestamp',
             'projectInitiationDate',
         )
