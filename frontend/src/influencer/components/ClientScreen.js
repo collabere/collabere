@@ -213,7 +213,7 @@ class ClientScreen extends React.Component {
                   <Link
                     to={`/messages/${
                       this.props.match.params.influencerUsername
-                    }/${item.uid}`}
+                    }/${item.clientId}/${item.projectInitiationDate}`}
                   >
                     <a>
                       <List.Item key={item.id}>

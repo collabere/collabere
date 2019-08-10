@@ -3,20 +3,19 @@ import axios from "axios";
 import Messages from "./Messages.js";
 import ChatBox from "./ChatBox.js";
 import SideNavMenu from "../../influencer/components/Side-nav-menu.js";
-import {local , dev} from "../../config/envConfig";
+import { local, dev } from "../../config/envConfig";
+import { Navbar, FormControl, Nav, Form } from "react-bootstrap";
 require("../styles/ConversationScreen.css");
+
 
 class ConversationScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.url = (process.env.NODE_ENV === undefined) ? local.url : dev.url;
+    this.url = process.env.NODE_ENV === undefined ? local.url : dev.url;
   }
   state = {
-    message: [],
-    
+    messages: []
   };
-
-  
 
   componentDidMount() {
     this.fetchMessages();
@@ -27,11 +26,13 @@ class ConversationScreen extends React.Component {
     } = this.props;
     axios({
       method: "post",
-      url: `/messages/insert_message/`,
+      url: `/insert_message/`,
       data: {
         influencerUsername: params.influencerUsername,
         clientId: params.clientId,
         message: message,
+        projectInitiationDate: params.projectInitiationDate,
+        fromInfluencer: true
       },
       headers: {
         "content-type": "application/json"
@@ -41,10 +42,11 @@ class ConversationScreen extends React.Component {
       const messageObject = {
         message
       };
+      messageObject.fromInfluencer = true;
+    this.addMessage(messageObject);
 
-      messageObject.fromMe = true;
-      this.addMessage(messageObject);
     });
+
   };
 
   addMessage = message => {
@@ -61,8 +63,7 @@ class ConversationScreen extends React.Component {
     axios
       .get(`/messages/chat_messages`, {
         params: {
-          influencer_username: params.influencerUsername,
-          client_id: params.clientId
+          projectInitiationDate: params.projectInitiationDate
         }
       })
       .then(res => {
@@ -76,16 +77,17 @@ class ConversationScreen extends React.Component {
   render() {
     return (
       <div>
-        <nav
-          className="navbar navbar-light"
-          style={{ backgroundColor: "#00ffff" }}
-        >
-          <SideNavMenu />
-          <p style={{ marginRight: "950px" }}>Conversations</p>
-        </nav>
+       <Navbar expand="lg" style={{ backgroundColor: "#40e0d0" }}>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link href="#home">Home</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
         <div
           className="container"
-          style={{ maxWidth: "800px", marginLeft: "500px" }}
+          style={{ maxWidth: "75%", margin: "auto" }}
         >
           <Messages messages={this.state.messages} />
           <ChatBox onSend={this.sendHandler} />

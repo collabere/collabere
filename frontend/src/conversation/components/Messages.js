@@ -9,7 +9,7 @@ export class Messages extends React.Component {
     //     const objDiv = document.getElementById('messageList');
     //     objDiv.scrollTop = objDiv.scrollHeight;
     //   }
-    
+
     render() {
         // Loop through all the messages in the state and create a Message component
         const messages = this.props.messages.map((message, i) => {
@@ -20,11 +20,11 @@ export class Messages extends React.Component {
                 clientName={message.clientId}
                 message={message.message}
                 influencerName={message.influencerName}
-                fromInfluencer={true} />
+                fromInfluencer={message.fromInfluencer} />
                 </div>
             );
           });
-          
+
         return (
             <div>
             { messages }
@@ -35,6 +35,6 @@ export class Messages extends React.Component {
     Messages.defaultProps = {
         messages: []
       };
-      
-export default Messages;  
+
+export default Messages;
 
