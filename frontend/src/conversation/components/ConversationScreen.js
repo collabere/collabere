@@ -26,7 +26,7 @@ class ConversationScreen extends React.Component {
     } = this.props;
     axios({
       method: "post",
-      url: `/insert_message/`,
+      url: `/messages/insert_message/`,
       data: {
         influencerUsername: params.influencerUsername,
         clientId: params.clientId,
