@@ -1,13 +1,16 @@
+import datetime
 import smtplib
 import time
 import imaplib
 import email
+# from client.service import getClientIdByClientEmailId
+
 
 
 def read_email_from_gmail():
     try:
         mail = imaplib.IMAP4_SSL('imap.gmail.com')
-        mail.login('gsanskar@student.nitw.ac.in', 'torquerf1')
+        mail.login('collabere.outbox1@gmail.com', 'Collabere@2019')
         mail.select('inbox')
 
         type, data = mail.search(None, 'ALL')
@@ -25,17 +28,17 @@ def read_email_from_gmail():
                     msg = email.message_from_string(response_part[1].decode("utf-8"))
                     email_subject = msg['subject']
                     email_from = msg['from']
-                    if msg.is_multipart():
-                        for payload in msg.get_payload():
-                            # if payload.is_multipart(): ...
-                            print(payload.get_payload())
-                    else:
-                        print(msg.get_payload())
-                    print('From : ' + email_from + '\n')
-                    print('Subject : ' + email_subject + '\n')
+                    collabereMessagesFilterFlag=email_subject.split()[len(email_subject.split())-1]=="Collabere"
+                    if collabereMessagesFilterFlag:
+                       influencerUsername = email_subject.split()[3]
+                       clientEmailId=email_from.split()[len(email_from.split())-1].replace('>', '').replace('<', '')
+                       projectInitiationDate=email_subject.split()[len(email_subject.split())-3]
+                       if msg.is_multipart():
+                         message=msg.get_payload()[0].get_payload().split('\r\n\r\n', 1)[0]
+                return influencerUsername,clientEmailId,message,projectInitiationDate
+
 
     except Exception as e:
         print(str(e))
 
 
-read_email_from_gmail()
