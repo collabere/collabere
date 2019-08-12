@@ -5,7 +5,9 @@ import ChatBox from "./ChatBox.js";
 import SideNavMenu from "../../influencer/components/Side-nav-menu.js";
 import { local, dev } from "../../config/envConfig";
 import { Navbar, FormControl, Nav, Form } from "react-bootstrap";
+import LinearProgress from '@material-ui/core/LinearProgress';
 require("../styles/ConversationScreen.css");
+
 
 
 class ConversationScreen extends React.Component {
@@ -14,14 +16,16 @@ class ConversationScreen extends React.Component {
     this.url = process.env.NODE_ENV === undefined ? local.url : dev.url;
   }
   state = {
-    messages: []
+    messages: [],
+    isLoading: false
   };
 
   componentDidMount() {
-    this.fetchLatestClientEmailMessages();
-    this.fetchMessages();
+    this.fetchLatestClientEmailAndMessages();
+    // this.fetchMessages();
   }
   sendHandler = message => {
+    this.setState({isLoading: true})
     const {
       match: { params }
     } = this.props;
@@ -45,6 +49,7 @@ class ConversationScreen extends React.Component {
       };
       messageObject.fromInfluencer = true;
     this.addMessage(messageObject);
+    this.setState({isLoading: false})
 
     });
 
@@ -75,7 +80,7 @@ class ConversationScreen extends React.Component {
       });
   };
 
-  fetchLatestClientEmailMessages = () => {
+  fetchLatestClientEmailAndMessages = () => {
     const {
       match: { params }
     } = this.props;
@@ -86,7 +91,7 @@ class ConversationScreen extends React.Component {
         }
       })
       .then(res => {
-        console.log(res.data);
+       this.fetchMessages()
       });
   };
 
@@ -106,6 +111,7 @@ class ConversationScreen extends React.Component {
           style={{ maxWidth: "75%", margin: "auto" }}
         >
           <Messages messages={this.state.messages} />
+          {this.state.isLoading ? (<LinearProgress />) : null}
           <ChatBox onSend={this.sendHandler} />
         </div>
       </div>

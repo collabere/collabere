@@ -95,4 +95,4 @@ def insertMessageFromClientEamil(request):
         else:
             return Response(False, status=status.HTTP_400_BAD_REQUEST)
     else:
-        return Response(False, status=status.HTTP_400_BAD_REQUEST)
+        return Response(False, status=status.HTTP_200_OK)
