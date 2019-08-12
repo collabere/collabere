@@ -22,7 +22,6 @@ class ConversationScreen extends React.Component {
 
   componentDidMount() {
     this.fetchLatestClientEmailAndMessages();
-    // this.fetchMessages();
   }
   sendHandler = message => {
     this.setState({isLoading: true})
