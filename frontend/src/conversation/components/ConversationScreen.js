@@ -18,6 +18,7 @@ class ConversationScreen extends React.Component {
   };
 
   componentDidMount() {
+    this.fetchLatestClientEmailMessages();
     this.fetchMessages();
   }
   sendHandler = message => {
@@ -71,6 +72,21 @@ class ConversationScreen extends React.Component {
         this.setState({
           messages: res.data
         });
+      });
+  };
+
+  fetchLatestClientEmailMessages = () => {
+    const {
+      match: { params }
+    } = this.props;
+    axios
+      .get(`/messages/insert_client_reply`, {
+        params: {
+          projectInitiationDate: params.projectInitiationDate
+        }
+      })
+      .then(res => {
+        console.log(res.data);
       });
   };
 

@@ -16,7 +16,7 @@ from client.service import *
 from conversations.models import Messages
 from conversations.serializers import MessageSerializer
 from inclyfy import settings
-from .service import  getMessagesByInfluencerusernameAndClientId,getAllMessages, deleteAllMessagesBasedOnResponderAndReciverId, saveMessages,getMessagesByProjectInitiationDate
+from .service import  getMessagesByInfluencerusernameAndClientId,getAllMessages, deleteAllMessagesBasedOnResponderAndReciverId, saveMessages,getMessagesByProjectInitiationDate, getMessagesByProjectInitiationDateForClientSide
 
 
 
@@ -80,9 +80,19 @@ def insertMessages(request):
 
 @api_view(['GET'])
 def insertMessageFromClientEamil(request):
-    influencerUsername,clientEmailId,message,projectInitiationDate=read_email_from_gmail()
-    message=saveMessages(influencerUsername,getClientIdByClientEmailId(clientEmailId),datetime.now(),message,False,projectInitiationDate)
-    if message is not None:
-        return Response(True, status=status.HTTP_200_OK)
+    projectInitiationDate = request.GET.get('projectInitiationDate')
+    influencerUsername,clientEmailId,message,emailArrivalDateTime=read_email_from_gmail(projectInitiationDate)
+    messages=getMessagesByProjectInitiationDateForClientSide(projectInitiationDate)
+
+    if(len(messages)>0):
+        lastMessageTimeStamp = messages[len(messages) - 1].timestamp
+    else:
+        lastMessageTimeStamp=None
+    if lastMessageTimeStamp!=emailArrivalDateTime:
+        message=saveMessages(influencerUsername,getClientIdByClientEmailId(clientEmailId),emailArrivalDateTime,message,False,projectInitiationDate)
+        if message is not None:
+            return Response(True, status=status.HTTP_200_OK)
+        else:
+            return Response(False, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response(False, status=status.HTTP_400_BAD_REQUEST)

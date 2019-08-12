@@ -16,6 +16,9 @@ def getMessagesByProjectInitiationDate(projectInitiationDate):
     projectObject = getProjectByProjectInitiationDate(projectInitiationDate)
     return Messages.objects.all().filter(projectInitiationDate__in=projectObject)
 
+def getMessagesByProjectInitiationDateForClientSide(projectInitiationDate):
+    projectObject = getProjectByProjectInitiationDate(projectInitiationDate)
+    return Messages.objects.all().filter(projectInitiationDate__in=projectObject,fromInfluencer=False)
 
 def getAllMessages():
     return Messages.objects.all()
