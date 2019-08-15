@@ -81,18 +81,21 @@ def insertMessages(request):
 @api_view(['GET'])
 def insertMessageFromClientEamil(request):
     projectInitiationDate = request.GET.get('projectInitiationDate')
-    influencerUsername,clientEmailId,message,emailArrivalDateTime=read_email_from_gmail(projectInitiationDate)
-    messages=getMessagesByProjectInitiationDateForClientSide(projectInitiationDate)
+    if read_email_from_gmail(projectInitiationDate)==False:
+       return Response(False, status=status.HTTP_200_OK)
+    else:
+        influencerUsername,clientEmailId,message,emailArrivalDateTime=read_email_from_gmail(projectInitiationDate)
+        messages=getMessagesByProjectInitiationDateForClientSide(projectInitiationDate)
 
-    if(len(messages)>0):
-        lastMessageTimeStamp = messages[len(messages) - 1].timestamp
-    else:
-        lastMessageTimeStamp=None
-    if lastMessageTimeStamp!=emailArrivalDateTime:
-        message=saveMessages(influencerUsername,getClientIdByClientEmailId(clientEmailId),emailArrivalDateTime,message,False,projectInitiationDate)
-        if message is not None:
-            return Response(True, status=status.HTTP_200_OK)
+        if(len(messages)>0):
+            lastMessageTimeStamp = messages[len(messages) - 1].timestamp
         else:
-            return Response(False, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        return Response(False, status=status.HTTP_200_OK)
+            lastMessageTimeStamp=None
+        if lastMessageTimeStamp!=emailArrivalDateTime:
+            message=saveMessages(influencerUsername,getClientIdByClientEmailId(clientEmailId),emailArrivalDateTime,message,False,projectInitiationDate)
+            if message is not None:
+                return Response(True, status=status.HTTP_200_OK)
+            else:
+                return Response(False, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(False, status=status.HTTP_200_OK)
