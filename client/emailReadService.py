@@ -31,6 +31,7 @@ def read_email_from_gmail(projectInitiationDate):
                     email_subject = msg['subject']
                     email_from = msg['from']
                     email_arrival_date=msg['Date']
+                    emailExistFlag= False
                     collabereMessagesFilterFlag=email_subject.split()[len(email_subject.split())-1]=="Collabere"
                     if collabereMessagesFilterFlag:
                        influencerUsername = email_subject.split()[3]
@@ -38,15 +39,13 @@ def read_email_from_gmail(projectInitiationDate):
                        projectInitiationDateFromEmail=email_subject.split()[len(email_subject.split())-3]
                        if msg.is_multipart():
                          message=msg.get_payload()[0].get_payload().split('\r\n\r\n', 1)[0]
-
                        if projectInitiationDateFromEmail==projectInitiationDate:
                              return influencerUsername,clientEmailId,message,parsedate_to_datetime(email_arrival_date)
 
+            return emailExistFlag
 
     except Exception as e:
         print(str(e))
-
-
 
 
 
