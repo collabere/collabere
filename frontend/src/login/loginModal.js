@@ -1,9 +1,15 @@
 import React from "react";
-import { ModalBody, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import { Link , Redirect } from 'react-router-dom';
+import {
+  ModalBody,
+  Col,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  Button
+} from "reactstrap";
+import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
-import { local , dev } from '../config/envConfig';
-
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -11,30 +17,32 @@ class LoginModal extends React.Component {
     this.state = {
       username: "",
       password: "",
-      authenticatedUsername: null,
+      authenticatedUsername: null
     };
-    this.url = (process.env.NODE_ENV === undefined) ? local.url : dev.url;
     this.handleChangeOfInputFields = this.handleChangeOfInputFields.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleLogin() {
-    console.log(process.env.NODE_ENV);
     axios({
       method: "post",
-      url: `/influencer/login/`,
+      url: `/api/login`
       data: {
         username: this.state.username,
-        password: this.state.password,
+        password: this.state.password
       },
       headers: {
         "content-type": "application/json"
       }
-    })
-      .then(response=> {
-        this.setState({authenticatedUsername: response});
-    
-      })
+    }).then(response => {
+      const { token, username } = response.data;
+      if (token) {
+        axios.defaults.headers.common["Authorization"] = 'Token '+ token;
+        this.setState({ authenticatedUsername: username });
+      } else {
+        axios.defaults.headers.common["Authorization"] = null;
+      }
+    });
   }
 
   handleChangeOfInputFields(event) {
@@ -42,15 +50,11 @@ class LoginModal extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-
   render() {
-    const {authenticatedUsername} = this.state
-     if (authenticatedUsername && authenticatedUsername.data !==false) {
-         console.log(authenticatedUsername)
-      return (
-        <Redirect to={`/clients/${this.state.username}`}/>
-      )
-  }
+    const { authenticatedUsername } = this.state;
+    if (authenticatedUsername) {
+      return <Redirect to={`/clients/${this.state.username}`} />;
+    }
     return (
       <Form className="form">
         <Col>
@@ -77,7 +81,7 @@ class LoginModal extends React.Component {
             />
           </FormGroup>
         </Col>
-      <Button onClick={this.handleLogin}>Login</Button>
+        <Button onClick={this.handleLogin}>Login</Button>
       </Form>
     );
   }
