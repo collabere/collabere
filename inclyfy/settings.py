@@ -47,13 +47,23 @@ INSTALLED_APPS = [
     'crispy_forms',
     'frontend',
     'webpack_loader',
-    'project'
+    'project',
+    'rest_framework.authtoken',
 ]
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': 'bundles/',
         'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
 }
 
 STATICFILES_DIRS = (
