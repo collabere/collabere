@@ -19,7 +19,7 @@ from .service import getAllClientOfAnInfluencer, validateUsername, getInfluencer
 from .utils import handleEmptyAbsentKey
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
-
+from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import AllowAny
 
 
@@ -39,6 +39,8 @@ def getInfluencerDetails(request):
     return Response(InfluencerSerializer(influencer, many=True).data)
 
 @api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
 def usernameFetch(request):
     username = request.GET.get('username')
     return Response(validateUsername(username))
