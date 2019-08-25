@@ -10,18 +10,12 @@ from django.db.transaction import atomic
 class InfluencerQuerySet(QuerySet):
 
     @atomic
-    def create_influencer(self, name, email, username, dob, gender, city, country, followerCount, followingCount, dpUrl, industry, password):
-        user = User.objects.create_user(username=username, email=email, password=password)
-        user.save()
-        id=len(Influencer.objects.all())-1
-
+    def create_influencer(self, name, email, username, dob, gender, city, country, followerCount, followingCount, dpUrl, industry, user):
         influencer = Influencer()
-
         influencer.user = user
-        influencer.id = id
         influencer.name = name
+        influencer.email=email
         influencer.username = username
-        influencer.password = password
         influencer.dob = dob
         influencer.gender = gender
         influencer.city = city
@@ -42,7 +36,6 @@ class Influencer(Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     username = models.CharField(max_length=50)
-    password = models.CharField(max_length=100, blank=False, null=False, default='')
     dob = models.DateField()
     gender = models.CharField(max_length=10)
     city = models.CharField(max_length=50)
@@ -52,8 +45,6 @@ class Influencer(Model):
     dpUrl = models.URLField(default=None, blank=True, null=True)
     industry = models.CharField(max_length=50, default=None, blank=True, null=True)
     user=OneToOneField(settings.AUTH_USER_MODEL, db_column='user_id', on_delete=PROTECT,null=True)
-
-
 
 class ClientMapping(models.Model):
     influencerUsername = models.CharField(max_length=100, default=None)

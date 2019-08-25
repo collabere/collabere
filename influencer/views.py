@@ -3,15 +3,25 @@ import logging
 
 from django.contrib.auth import authenticate
 from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
+
+from rest_framework.decorators import api_view
+
 
 from client import serializers
 from influencer.models import Influencer
-from .serializers import ClientMappingSerializer, InfluencerSerializer
+from .serializers import ClientMappingSerializer,CreateUserSerializer
+from django.contrib.auth import get_user_model
+
 from .service import getAllClientOfAnInfluencer, validateUsername, getInfluencerFromInfluencerUsername, \
     deleteInfluencerUsingInfluencerId, influencer_signup
 from .utils import handleEmptyAbsentKey
+from rest_framework.generics import CreateAPIView
+from rest_framework.views import APIView
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import AllowAny
+
 
 # Create your views here.
 _logger = logging.getLogger(__name__)
@@ -29,6 +39,8 @@ def getInfluencerDetails(request):
     return Response(InfluencerSerializer(influencer, many=True).data)
 
 @api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
 def usernameFetch(request):
     username = request.GET.get('username')
     return Response(validateUsername(username))
@@ -80,29 +92,50 @@ def handleLogin(request):
     else:
         return  Response(False)
 
+class CreateUserAPIView(CreateAPIView):
+    serializer_class = CreateUserSerializer
+    permission_classes = [AllowAny]
 
-@api_view(['POST'])
-def handleRegisterInfluencer(request):
-    jsonResponse= json.loads(request.body.decode('utf-8'))
-    username = jsonResponse['username']
-    password = jsonResponse['password']
-    email = handleEmptyAbsentKey('email', jsonResponse)
-    name = handleEmptyAbsentKey('name', jsonResponse)
-    dob = handleEmptyAbsentKey('dob', jsonResponse)
-    gender = handleEmptyAbsentKey('gender', jsonResponse)
-    city = handleEmptyAbsentKey('city', jsonResponse)
-    country = handleEmptyAbsentKey('country', jsonResponse)
-    industry= handleEmptyAbsentKey('industry', jsonResponse)
-    followerCount= handleEmptyAbsentKey('followerCount', jsonResponse)
-    followingCount= handleEmptyAbsentKey('followingCount', jsonResponse)
-    dpUrl=  handleEmptyAbsentKey('dpUrl', jsonResponse)
+    def create(self, request, *args, **kwargs):
+        jsonResponse = json.loads(request.body.decode('utf-8'))
+        user_data = {}
+        user_data["username"] = jsonResponse['username']
+        user_data["password"] = jsonResponse['password']
+        serializer = self.get_serializer(data=user_data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        username = jsonResponse['username']
+        email = handleEmptyAbsentKey('email', jsonResponse)
+        name = handleEmptyAbsentKey('name', jsonResponse)
+        dob = handleEmptyAbsentKey('dob', jsonResponse)
+        gender = handleEmptyAbsentKey('gender', jsonResponse)
+        city = handleEmptyAbsentKey('city', jsonResponse)
+        country = handleEmptyAbsentKey('country', jsonResponse)
+        industry= handleEmptyAbsentKey('industry', jsonResponse)
+        followerCount= handleEmptyAbsentKey('followerCount', jsonResponse)
+        followingCount= handleEmptyAbsentKey('followingCount', jsonResponse)
+        dpUrl=  handleEmptyAbsentKey('dpUrl', jsonResponse)
+        influencer_signup(name, email, username, dob, gender, city, country, followerCount, followingCount,
+                                       dpUrl, industry)
+        headers = self.get_success_headers(serializer.data)
+        token = Token.objects.create(user=serializer.instance)
+        token_data = {"token": token.key}
+        return Response(
+            {**serializer.data, **token_data},
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
 
-    influencer = influencer_signup(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,password)
 
-    if influencer is not None:
-        return Response(True, status=status.HTTP_200_OK)
-    else:
-        return Response(False, status=status.HTTP_400_BAD_REQUEST)
+class LogoutUserAPIView(APIView):
+    queryset = get_user_model().objects.all()
+
+    def get(self, request, format=None):
+        # simply delete the token to force a login
+        request.user.auth_token.delete()
+        return Response(status=status.HTTP_200_OK)
+
+
 
 
 
