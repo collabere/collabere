@@ -26,7 +26,7 @@ class LoginModal extends React.Component {
   handleLogin() {
     axios({
       method: "post",
-      url: `/api/login`
+      url: `/api/login`,
       data: {
         username: this.state.username,
         password: this.state.password
