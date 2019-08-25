@@ -6,6 +6,7 @@ from influencer.serializers import ClientMappingSerializer
 from .serializers import ClientSerializer, HomePageIntroEmailSerializer
 from .service import getClientFromClientId, deleteClientUsingClientId, getAllHomePageIntroEmail, \
     checkPresenceOfClientByClientEmailId
+from rest_framework.decorators import authentication_classes, permission_classes
 
 
 # Create your views here.
@@ -29,6 +30,8 @@ def deleteClientInfo(request, clientId):
 
 
 @api_view(['PUT'])
+@authentication_classes([])
+@permission_classes([])
 def insertClient(request):
     serializer = ClientSerializer(data=request.data)
     if serializer.is_valid():
@@ -50,6 +53,8 @@ def insertClient(request):
 
 
 @api_view(['POST'])
+@authentication_classes([])
+@permission_classes([])
 def insertHomePageIntoEmail(request):
     serializer = HomePageIntroEmailSerializer(data=request.data)
     if serializer.is_valid():
@@ -68,6 +73,8 @@ def getAllHomePageIntroEmails(request):
 
 
 @api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
 def checkExistenceOfClient(request):
     clientEmail = request.GET.get('clientEmail')
     print(clientEmail)
