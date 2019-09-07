@@ -22,6 +22,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/auth/', include('knox.urls')),
+    url(r'^accounts/', include('allauth.urls')),
     url(r'^messages/', include('conversations.urls')),
     url(r'^influencer/',include('influencer.urls')),
     url(r'^client/',include('client.urls')),

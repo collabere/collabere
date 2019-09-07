@@ -45,7 +45,8 @@ class LoginModal extends React.Component {
 
   render() {
     const {authenticatedUsername} = this.state
-     if (authenticatedUsername) {
+     if (authenticatedUsername && authenticatedUsername.data !==false) {
+         console.log(authenticatedUsername)
       return (
         <Redirect to={`/clients/${this.state.username}`}/>
       )

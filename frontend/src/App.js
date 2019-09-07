@@ -8,6 +8,8 @@ import RegisterModal from './register/RegisterModal';
 import Pricing from './footer/components/Pricing';
 import TermsAndConditions from './footer/components/Terms-conditions';
 import PrivacyPolicy from './footer/components/Privacy-policy';
+import ProjectCreationScreen from './project/components/ProjectCreationScreen.js';
+
 
 
 class App extends Component {
@@ -22,6 +24,8 @@ class App extends Component {
                 <Route path="/privacy-policy" component = {PrivacyPolicy}></Route>
                 <Route path="/terms-conditions" component = {TermsAndConditions}></Route>
                 <Route path="/pricing" component = {Pricing}></Route>
+                <Route path="/project/:influencerUsername" component={ProjectCreationScreen}></Route>
+
 
             </Router>
         );

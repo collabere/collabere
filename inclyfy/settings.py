@@ -11,9 +11,20 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import django
+import ldap
+from django_auth_ldap.config import LDAPSearch
+import logging
+
+logger = logging.getLogger('django_auth_ldap')
+logger.addHandler(logging.StreamHandler())
+logger.setLevel(logging.DEBUG)
+
+AUTH_LDAP_BIND_DN = "admin"
+AUTH_LDAP_BIND_PASSWORD = "niks225611"
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    "ou=People,dc=collabere,dc=com", ldap.SCOPE_SUBTREE, "(uid=%(user)s)"
+)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -39,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'corsheaders',
     'client',
     'influencer',
@@ -49,6 +61,13 @@ INSTALLED_APPS = [
     'webpack_loader',
     'project',
     'knox',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.instagram',
+    'allauth.socialaccount.providers.github'
 ]
 
 REST_FRAMEWORK = {
@@ -87,6 +106,8 @@ MIDDLEWARE = [
 
 ]
 
+AUTHENTICATION_BACKENDS = ["django_auth_ldap.backend.LDAPBackend","django.contrib.auth.backends.ModelBackend","allauth.account.auth_backends.AuthenticationBackend"]
+
 ROOT_URLCONF = 'inclyfy.urls'
 
 TEMPLATES = [
@@ -115,19 +136,13 @@ WSGI_APPLICATION = 'inclyfy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'inclyfy',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': 'inclyfy',#'collabere_db',
+        'USER': 'postgres',
+        'PASSWORD': 'warangal2017',
+        'HOST': 'localhost',#'collabere-db.cz2o54urftre.ap-south-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -176,3 +191,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'collabere.outbox1@gmail.com'
 EMAIL_HOST_PASSWORD = 'Collabere@2019'
+SITE_ID = 1
