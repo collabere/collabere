@@ -6,7 +6,6 @@ import * as MaterialUiLibrary from "@material-ui/core";
 import * as Antd from "antd";
 
 import { List, Avatar, Card } from "antd";
-import { Link } from "react-router-dom";
 
 import { message, Spin } from "antd";
 
@@ -14,11 +13,10 @@ import InfiniteScroll from "react-infinite-scroller";
 import { Menu, Dropdown, Input } from "antd";
 
 import UpdateModal from "./Profile-update-modal-dialogue";
-import ClientInfoModal from "./Client-info-modal";
 import { IconButton, Icon } from "@material-ui/core";
 import SideNavMenu from "./Side-nav-menu";
 import { local, dev } from "../../config/envConfig";
-
+import ProjectCard from "./ProjectDetailCard";
 
 const Search = Input.Search;
 
@@ -45,12 +43,7 @@ class ClientScreen extends React.Component {
     } = this.props;
 
     axios
-      .get(
-        `/project/byInfluencerUserName/${
-          params.influencerUsername
-        }`,
-        {}
-      )
+      .get(`/project/byInfluencerUserName/${params.influencerUsername}`, {})
       .then(res => {
         console.log(res);
         this.setState({
@@ -178,7 +171,7 @@ class ClientScreen extends React.Component {
             </Form>
           </Navbar.Collapse>
         </Navbar>
-        <div style={{ maxWidth: "35%", margin: "auto" }}>
+        <div style={{ maxWidth: "80%", margin: "auto" }}>
           <Antd.Button onClick={this.handleSortAplphabetically}>
             Sort Alphabetically
           </Antd.Button>
@@ -207,41 +200,20 @@ class ClientScreen extends React.Component {
                         ? "#ebebeb"
                         : "#FFFFFF"
                   }}
-                  onMouseOver={() => this.onHover(item.projectInitiationDate)}
-                  onMouseOut={() => this.onHover()}
                 >
-                  <Link
-                    to={`/messages/${
-                      this.props.match.params.influencerUsername
-                    }/${item.clientId}/${item.projectInitiationDate}`}
-                  >
-                    <a>
-                      <List.Item key={item.id}>
-                        <List.Item.Meta
-                          avatar={
-                            <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                          }
-                          title={
-                            <Antd.Button
-                              style={{
-                                fontSize: "medium",
-                                backgroundColor: "#b266ff",
-                                borderColor: "#b266ff",
-                                borderRadius: "20px"
-                              }}
-                              type="primary"
-                            >
-                              {item.clientName}
-                            </Antd.Button>
-                          }
-                        />
-                        <p>Date Started: {item.projectInitiationDate}</p>
-                      </List.Item>
-                    </a>
-                  </Link>
-                  <p>{item.introText}</p>
-
-                  <hr />
+                  <List.Item key={item.id}>
+                    <ProjectCard
+                      clientName={item.clientName}
+                      introText={item.introText}
+                      dateStarted={item.projectInitiationDate}
+                      minBudget={item.minBudget}
+                      maxBudget={item.maxBudget}
+                      clientId={item.clientId}
+                      influencerUserName={
+                        this.props.match.params.influencerUsername
+                      }
+                    />
+                  </List.Item>
                 </div>
               )}
             >
