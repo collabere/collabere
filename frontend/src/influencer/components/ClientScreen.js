@@ -17,7 +17,8 @@ import UpdateModal from "./Profile-update-modal-dialogue";
 import ClientInfoModal from "./Client-info-modal";
 import { IconButton, Icon } from "@material-ui/core";
 import SideNavMenu from "./Side-nav-menu";
-import { local, dev } from '../../config/envConfig';
+import { local, dev } from "../../config/envConfig";
+
 
 const Search = Input.Search;
 
@@ -29,26 +30,33 @@ class ClientScreen extends React.Component {
       loading: false,
       hasMore: true,
       updatModalOpen: false,
-      colour: '#FFFFFF',
-      currentListItem: '',
+      colour: "#FFFFFF",
+      currentListItem: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSortAplphabetically = this.handleSortAplphabetically.bind(this);
-    this.url = (process.env.NODE_ENV === undefined) ? local.url : dev.url;
+    this.handleSortByStartingDates = this.handleSortByStartingDates.bind(this);
+    this.url = process.env.NODE_ENV === undefined ? local.url : dev.url;
   }
 
   fetchArticles = () => {
-    const { match: { params } } = this.props;
+    const {
+      match: { params }
+    } = this.props;
 
     axios
-      .get(`/influencer/v1/clients`, {
-        params: { username: params.influencerUsername }
-      }).then(res => {
-      console.log(res);
-      this.setState({
-        clients: res.data
+      .get(
+        `/project/byInfluencerUserName/${
+          params.influencerUsername
+        }`,
+        {}
+      )
+      .then(res => {
+        console.log(res);
+        this.setState({
+          clients: res.data
+        });
       });
-    });
   };
 
   handleInfiniteOnLoad = () => {
@@ -89,7 +97,7 @@ class ClientScreen extends React.Component {
     if (e.target.value !== "") {
       currentList = this.state.clients;
       newList = currentList.filter(client => {
-        const clientNameLoweCase = client.name.toLowerCase();
+        const clientNameLoweCase = client.clientName.toLowerCase();
         const filter = e.target.value.toLowerCase();
         return clientNameLoweCase.includes(filter);
       });
@@ -101,11 +109,11 @@ class ClientScreen extends React.Component {
     });
   }
 
-  handleSortAplphabetically ()  {
+  handleSortAplphabetically() {
     let sortedList = this.state.clients;
     sortedList.sort(function(a, b) {
-      var textA = a.name.toUpperCase();
-      var textB = b.name.toUpperCase();
+      var textA = a.clientName.toUpperCase();
+      var textB = b.clientName.toUpperCase();
       return textA < textB ? -1 : textA > textB ? 1 : 0;
     });
     this.setState({
@@ -113,15 +121,25 @@ class ClientScreen extends React.Component {
     });
   }
 
-  onHover = (name) => {
-    console.log(name);
-    this.setState({ currentListItem: name });
-}
+  handleSortByStartingDates() {
+    let sortedList = this.state.clients;
+    sortedList.sort(function(a, b) {
+      var dateA = Date.parse(a.projectInitiationDate);
+      var dateB = Date.parse(b.projectInitiationDate);
+      return dateA < dateB ? -1 : dateA > dateB ? 1 : 0;
+    });
+    this.setState({
+      clients: sortedList.reverse()
+    });
+  }
 
-onHoverOut = () => {
-  this.setState({ currentListItem: '#ffffff' });
-}
+  onHover = date => {
+    this.setState({ currentListItem: date });
+  };
 
+  onHoverOut = () => {
+    this.setState({ currentListItem: "#ffffff" });
+  };
 
   render() {
     const menu = (
@@ -137,46 +155,41 @@ onHoverOut = () => {
 
     return (
       <div>
-        <nav class="navbar navbar-light" style={{ backgroundColor: "#00ffff" }}>
-        <SideNavMenu influencerUsername ={this.props.match.params.influencerUsername}/>
-          {/* <a class="navbar-brand">Collabere</a> */}
-          <Search
-            placeholder="Search Client"
-            onChange={this.handleChange}
-            style={{ width: 200 }}
+        <Navbar expand="lg" style={{ backgroundColor: "#40e0d0" }}>
+          <SideNavMenu
+            influencerUsername={this.props.match.params.influencerUsername}
           />
-          <form class="form-inline">
-            <Dropdown overlay={menu} placement="topLeft">
-              <Button color="#000000">SETTNGS</Button>
-            </Dropdown>
-          </form>
-        </nav>
-      <div style={{ maxWidth: "800px", marginLeft: "680px" }}>
-          <Antd.Button
-            onClick={
-              this.handleSortAplphabetically
-            }
-          >
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link href="#home">Home</Nav.Link>
+            </Nav>
+            <Form inline>
+              <Search
+                placeholder="Search Client"
+                onChange={this.handleChange}
+                style={{ width: 200 }}
+              />
+              <Dropdown overlay={menu} placement="topLeft">
+                <Button color="#000000">
+                  <Icon>settings</Icon>
+                </Button>
+              </Dropdown>
+            </Form>
+          </Navbar.Collapse>
+        </Navbar>
+        <div style={{ maxWidth: "35%", margin: "auto" }}>
+          <Antd.Button onClick={this.handleSortAplphabetically}>
             Sort Alphabetically
           </Antd.Button>
-          <Antd.Button
-            onClick={
-              this.handleSortAplphabetically
-            }
-          >
-            Sort By Recent Message
+          <Antd.Button onClick={this.handleSortByStartingDates}>
+            Sort By Starting Date
           </Antd.Button>
-          <Antd.Button
-            onClick={
-              this.handleSortAplphabetically
-            }
-          >
+          <Antd.Button onClick={this.handleSortAplphabetically}>
             Sort By Stuff
           </Antd.Button>
-        </div>
+          <hr />
 
-        <hr />
-        <div className="demo-infinite-container">
           <InfiniteScroll
             initialLoad={false}
             pageStart={0}
@@ -187,10 +200,23 @@ onHoverOut = () => {
             <List
               dataSource={this.state.clients}
               renderItem={item => (
-                <div  style={{ maxWidth: "800px", marginLeft: "500px", backgroundColor: this.state.currentListItem === item.name? '#ebebeb': '#FFFFFF'}} onMouseOver={()=>this.onHover(item.name)} onMouseOut={()=>this.onHover()}>
-                  <Link to={`/messages/${this.props.match.params.influencerUsername}/${item.uid}`}>
+                <div
+                  style={{
+                    backgroundColor:
+                      this.state.currentListItem === item.projectInitiationDate
+                        ? "#ebebeb"
+                        : "#FFFFFF"
+                  }}
+                  onMouseOver={() => this.onHover(item.projectInitiationDate)}
+                  onMouseOut={() => this.onHover()}
+                >
+                  <Link
+                    to={`/messages/${
+                      this.props.match.params.influencerUsername
+                    }/${item.clientId}/${item.projectInitiationDate}`}
+                  >
                     <a>
-                      <List.Item key={item.id} >
+                      <List.Item key={item.id}>
                         <List.Item.Meta
                           avatar={
                             <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
@@ -205,17 +231,16 @@ onHoverOut = () => {
                               }}
                               type="primary"
                             >
-                              {item.name}
+                              {item.clientName}
                             </Antd.Button>
                           }
-                          content={<p>{item.name}</p>}
                         />
+                        <p>Date Started: {item.projectInitiationDate}</p>
                       </List.Item>
                     </a>
                   </Link>
-                  <div>
-                    <ClientInfoModal email={item.email} />{" "}
-                  </div>
+                  <p>{item.introText}</p>
+
                   <hr />
                 </div>
               )}
@@ -228,6 +253,8 @@ onHoverOut = () => {
             </List>
           </InfiniteScroll>
         </div>
+        <hr />
+        <div className="demo-infinite-container" />
       </div>
     );
   }

@@ -1,4 +1,5 @@
 from django.db.transaction import atomic
+from django.contrib.auth.models import User
 
 from influencer.models import Influencer, ClientMapping
 from client import  service
@@ -28,7 +29,8 @@ def deleteInfluencerUsingInfluencerId(influencerId):
 
 
 @atomic
-def influencer_signup(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,password):
-    influencer = Influencer.objects.create_influencer(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,password)
+def influencer_signup(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry):
+    user = User.objects.get(username=username)
+    influencer = Influencer.objects.create_influencer(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,user)
     return influencer
 

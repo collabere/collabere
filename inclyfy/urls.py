@@ -17,12 +17,18 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import include, path, re_path
 from django.views.generic import TemplateView
+from .views import login
+
+
+# from rest_framework_jwt.views import obtain_jwt_token
+
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api/auth/', include('knox.urls')),
     url(r'^accounts/', include('allauth.urls')),
+    path('api/login', login),
     url(r'^messages/', include('conversations.urls')),
     url(r'^influencer/',include('influencer.urls')),
     url(r'^client/',include('client.urls')),

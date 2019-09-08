@@ -5,6 +5,8 @@ from project.models import Project
 from .serializers import ProjectSerializer
 from client.service import *
 from .service import getProjectsByClientId, getProjectsByInfluencerUserName, getProjectsByInfluencerUserNameAndClientId
+from rest_framework.decorators import authentication_classes, permission_classes
+
 
 @api_view(['GET'])
 def getAllProjectsByClientId(request, clientId):
@@ -15,7 +17,11 @@ def getAllProjectsByClientId(request, clientId):
 @api_view(['GET'])
 def getAllProjectsByInfluencerUserName(request, influencerUserName):
     projectDetails = getProjectsByInfluencerUserName(influencerUserName)
-    return Response(ProjectSerializer(projectDetails, many=True).data)
+    projectSerializerData=ProjectSerializer(projectDetails, many=True).data;
+    for projectDetail in projectSerializerData:
+        clientId=projectDetail['clientId']
+        projectDetail["clientName"]=getattr(list(getClientFromClientId(clientId))[0], 'name')
+    return Response(projectSerializerData)
 
 @api_view(['GET'])
 def getAllProjectsByClientIdAndInfluencerUserName(request, clientId, influencerUserName):
@@ -23,6 +29,8 @@ def getAllProjectsByClientIdAndInfluencerUserName(request, clientId, influencerU
     return Response(ProjectSerializer(projectDetails, many=True).data)
 
 @api_view(['PUT'])
+@authentication_classes([])
+@permission_classes([])
 def insertProject(request):
     serializer = ProjectSerializer(data=request.data)
     clientId= getattr(list(getClientByClientEmailId(request.data['email']))[0], 'uid')

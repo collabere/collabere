@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from rest_framework import status
 from django.core.mail import send_mail
+
+from client.emailReadService import read_email_from_gmail
 from client.service import *
 
 
@@ -14,7 +16,7 @@ from client.service import *
 from conversations.models import Messages
 from conversations.serializers import MessageSerializer
 from inclyfy import settings
-from .service import  getMessagesByInfluencerusernameAndClientId,getAllMessages, deleteAllMessagesBasedOnResponderAndReciverId, saveMessages
+from .service import  getMessagesByInfluencerusernameAndClientId,getAllMessages, deleteAllMessagesBasedOnResponderAndReciverId, saveMessages,getMessagesByProjectInitiationDate, getMessagesByProjectInitiationDateForClientSide
 
 
 
@@ -40,6 +42,12 @@ def getAll(request):
     print(messages)
     return Response(MessageSerializer(messages,many=True).data)
 
+@api_view(['GET' ])
+def getMessagesPertainingToAProject(request):
+    messages =  getMessagesByProjectInitiationDate(request.GET.get("projectInitiationDate"))
+    print(messages)
+    return Response(MessageSerializer(messages,many=True).data)
+
 @api_view(['DELETE'])
 def deleteMessages(request, reciverId, responderId):
     try:
@@ -58,24 +66,36 @@ def insertMessages(request):
     clientId = jsonResponse['clientId']
     timestamp= datetime.now()
     message = jsonResponse['message']
-    messages = saveMessages(influencerUsername, clientId,timestamp, message)
+    projectInitiationDate=jsonResponse['projectInitiationDate']
+    fromInfluencer=jsonResponse['fromInfluencer']
+    messages = saveMessages(influencerUsername, clientId,timestamp, message,fromInfluencer, projectInitiationDate)
 
     if messages is not None:
         clientEmail = getattr(list(getClientFromClientId(clientId))[0], 'email')
-        subject = 'Message from ' + influencerUsername
+        subject = 'Message from ' + influencerUsername + " for the project started on " + projectInitiationDate + ' on Collabere'
         sendeEmailAsMessage(subject, message, clientEmail)
         return Response(True, status=status.HTTP_200_OK)
     else:
         return Response(False, status=status.HTTP_400_BAD_REQUEST)
 
-#not used for now
-# @api_view(['PUT'])
-# def insertMessages(request):
-#     serializer = MessageSerializer(data=request.data)
-#     if serializer.is_valid():
-#         serializer.save()
-#         serializer_dict = serializer.data
-#         serializer_dict["message"] = "Settings updated successfully."
-#         return Response(serializer_dict, status=200)
-#     else:
-#         return Response(serializer.errors,status=400)
+@api_view(['GET'])
+def insertMessageFromClientEamil(request):
+    projectInitiationDate = request.GET.get('projectInitiationDate')
+    if read_email_from_gmail(projectInitiationDate)==False:
+       return Response(False, status=status.HTTP_200_OK)
+    else:
+        influencerUsername,clientEmailId,message,emailArrivalDateTime=read_email_from_gmail(projectInitiationDate)
+        messages=getMessagesByProjectInitiationDateForClientSide(projectInitiationDate)
+
+        if(len(messages)>0):
+            lastMessageTimeStamp = messages[len(messages) - 1].timestamp
+        else:
+            lastMessageTimeStamp=None
+        if lastMessageTimeStamp!=emailArrivalDateTime:
+            message=saveMessages(influencerUsername,getClientIdByClientEmailId(clientEmailId),emailArrivalDateTime,message,False,projectInitiationDate)
+            if message is not None:
+                return Response(True, status=status.HTTP_200_OK)
+            else:
+                return Response(False, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(False, status=status.HTTP_200_OK)

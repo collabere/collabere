@@ -57,7 +57,7 @@ class RegisterModal extends React.Component {
   handleCredentialSubmit() {
     axios({
       method: "post",
-      url: `/influencer/register/`,
+      url: `/influencer/auth/register/`,
       data: {
         username: this.state.username,
         name: this.state.name,

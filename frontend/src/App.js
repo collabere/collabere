@@ -18,7 +18,7 @@ class App extends Component {
             <Router>
                 <Route exact path="/" component={HomePage}></Route>
                 <Route path="/clients/:influencerUsername" component={ClientScreen} />
-                <Route exact path="/messages/:influencerUsername/:clientId" component={ConversationScreen} />
+                <Route exact path="/messages/:influencerUsername/:clientId/:projectInitiationDate" component={ConversationScreen} />
                 <Route exact path="/home" component={HomePage} />
                 <Route path="/register" component={RegisterModal}></Route>
                 <Route path="/privacy-policy" component = {PrivacyPolicy}></Route>

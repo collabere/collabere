@@ -20,3 +20,6 @@ def getAllHomePageIntroEmail():
 
 def getClientInfoByEmail():
     return Client.objects.filter(email=email)
+    
+def getClientIdByClientEmailId(clientEmailId):
+    return getattr(list(getClientByClientEmailId(clientEmailId))[0], 'uid')

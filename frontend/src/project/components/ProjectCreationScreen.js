@@ -102,7 +102,8 @@ class ProjectCreationScreen extends React.Component {
         city: this.state.city,
         country: this.state.country,
         industry: this.state.industry,
-        phoneNumber: this.state.phoneNumber
+        phoneNumber: this.state.phoneNumber,
+        influencerUsername: this.state.influencerUsername
       },
       headers: {
         "content-type": "application/json"
