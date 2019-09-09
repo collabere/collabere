@@ -5,10 +5,8 @@ import ChatBox from "./ChatBox.js";
 import SideNavMenu from "../../influencer/components/Side-nav-menu.js";
 import { local, dev } from "../../config/envConfig";
 import { Navbar, FormControl, Nav, Form } from "react-bootstrap";
-import LinearProgress from '@material-ui/core/LinearProgress';
+import LinearProgress from "@material-ui/core/LinearProgress";
 require("../styles/ConversationScreen.css");
-
-
 
 class ConversationScreen extends React.Component {
   constructor(props) {
@@ -23,7 +21,9 @@ class ConversationScreen extends React.Component {
   componentDidMount() {
     this.fetchLatestClientEmailAndMessages();
   }
-  sendHandler = message => {
+
+
+sendHandler = message => {
     this.setState({isLoading: true})
     const {
       match: { params }
@@ -54,6 +54,7 @@ class ConversationScreen extends React.Component {
 
   };
 
+
   addMessage = message => {
     // Append the message to the component state
     const messages = this.state.messages;
@@ -61,7 +62,8 @@ class ConversationScreen extends React.Component {
     this.setState({ messages });
   };
 
-  fetchMessages = () => {
+
+fetchMessages = () => {
     const {
       match: { params }
     } = this.props;
@@ -80,24 +82,13 @@ class ConversationScreen extends React.Component {
   };
 
   fetchLatestClientEmailAndMessages = () => {
-    const {
-      match: { params }
-    } = this.props;
-    axios
-      .get(`/messages/insert_client_reply`, {
-        params: {
-          projectInitiationDate: params.projectInitiationDate
-        }
-      })
-      .then(res => {
-       this.fetchMessages()
-      });
+    this.fetchMessages();
   };
 
   render() {
     return (
       <div>
-       <Navbar expand="lg" style={{ backgroundColor: "#40e0d0" }}>
+        <Navbar expand="lg" style={{ backgroundColor: "#40e0d0" }}>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
@@ -105,12 +96,9 @@ class ConversationScreen extends React.Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <div
-          className="container"
-          style={{ maxWidth: "75%", margin: "auto" }}
-        >
+        <div className="App" style={{ maxWidth: "100%", margin: "auto" }}>
           <Messages messages={this.state.messages} />
-          {this.state.isLoading ? (<LinearProgress />) : null}
+          {this.state.isLoading ? <LinearProgress /> : null}
           <ChatBox onSend={this.sendHandler} />
         </div>
       </div>

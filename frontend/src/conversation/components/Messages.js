@@ -1,40 +1,32 @@
+import { Component } from "react";
 import React from "react";
 
-import Message from './Message.js';
+require("../styles/ConversationScreen.css");
 
-export class Messages extends React.Component {
+class Messages extends Component {
+  render() {
+    const { messages } = this.props;
+    return (
+      <ul className="Messages-list">
+        {messages.map(m => this.renderMessage(m))}
+      </ul>
+    );
+  }
 
-    // componentDidUpdate() {
-    //     // There is a new message in the state, scroll to bottom of list
-    //     const objDiv = document.getElementById('messageList');
-    //     objDiv.scrollTop = objDiv.scrollHeight;
-    //   }
-
-    render() {
-        // Loop through all the messages in the state and create a Message component
-        const messages = this.props.messages.map((message, i) => {
-            return (
-                <div>
-              <Message
-                key={i}
-                clientName={message.clientId}
-                message={message.message}
-                influencerName={message.influencerName}
-                fromInfluencer={message.fromInfluencer} />
-                </div>
-            );
-          });
-
-        return (
-            <div>
-            { messages }
-            </div>
-        );
-      }
-    }
-    Messages.defaultProps = {
-        messages: []
-      };
+  renderMessage(messageObject) {
+    const { timestamp, message } = messageObject;
+    // const messageFromMe = member.id === currentMember.id;
+    const className = messageObject.fromInfluencer
+      ? "Messages-message currentMember"
+      : "Messages-message";
+    return (
+      <li className={className}>
+        <div className="Message-content">
+          <div className="text">{message}</div>
+        </div>
+      </li>
+    );
+  }
+}
 
 export default Messages;
-

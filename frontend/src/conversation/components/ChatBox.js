@@ -1,44 +1,39 @@
-import React from 'react';
+import {Component} from "react";
+import React from "react";
+require("../styles/ConversationScreen.css");
 
-export class ChatBox extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { chatInput: '' };
 
-    // React ES6 does not bind 'this' to event handlers by default
-    this.submitHandler = this.submitHandler.bind(this);
-    this.textChangeHandler = this.textChangeHandler.bind(this);
-  }
-  
-  submitHandler(event) {
-    // Stop the form from refreshing the page on submit
-    event.preventDefault();
-
-    // Clear the input box
-    this.setState({ chatInput: '' });
-
-    // Call the onSend callback with the chatInput message
-    this.props.onSend(this.state.chatInput);
+class ChatBox extends Component {
+  state = {
+    text: ""
   }
 
-  textChangeHandler(event)  {
-    this.setState({ chatInput: event.target.value });
+  onChange(e) {
+    this.setState({text: e.target.value});
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+    this.setState({text: ""});
+    this.props.onSend(this.state.text);
   }
 
   render() {
     return (
-      <form className="chat-input" onSubmit={this.submitHandler}>
-        <input type="text"
-          onChange={this.textChangeHandler}
-          value={this.state.chatInput}
-          placeholder="Write a message..."
-          required />
-      </form>
+      <div className="input">
+        <form onSubmit={e => this.onSubmit(e)}>
+          <input
+            onChange={e => this.onChange(e)}
+            value={this.state.text}
+            type="text"
+            placeholder="Enter your message and press ENTER"
+            autofocus="true"
+          />
+          <button>Send</button>
+        </form>
+      </div>
     );
   }
 }
-
-ChatBox.defaultProps = {
-};
 
 export default ChatBox;
