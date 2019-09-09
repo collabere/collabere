@@ -72,15 +72,6 @@
 .currentMember > .Message-content .text {
   background-color: orangered;
 }
-
-form {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  max-width: 900px;
-  margin: 0 auto 40px;
-}
-
 input {
   padding: 5px;
   font-size: 16px;

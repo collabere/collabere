@@ -21,7 +21,11 @@ class ChatBox extends Component {
   render() {
     return (
       <div className="input">
-        <form onSubmit={e => this.onSubmit(e)}>
+        <form style={{display: 'flex',
+  width: '100%',
+  justifyContent: 'space-between',
+  maxWidth: '900px',
+  margin: '0 auto 40px'}} onSubmit={e => this.onSubmit(e)}>
           <input
             onChange={e => this.onChange(e)}
             value={this.state.text}
