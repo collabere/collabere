@@ -81,8 +81,19 @@ fetchMessages = () => {
       });
   };
 
-  fetchLatestClientEmailAndMessages = () => {
-    this.fetchMessages();
+fetchLatestClientEmailAndMessages = () => {
+    const {
+      match: { params }
+    } = this.props;
+    axios
+      .get(`/messages/insert_client_reply`, {
+        params: {
+          projectInitiationDate: params.projectInitiationDate
+        }
+      })
+      .then(res => {
+       this.fetchMessages()
+      });
   };
 
   render() {
@@ -98,7 +109,7 @@ fetchMessages = () => {
         </Navbar>
         <div className="App" style={{ maxWidth: "100%", margin: "auto" }}>
           <Messages messages={this.state.messages} />
-          {this.state.isLoading ? <LinearProgress /> : null}
+//          {this.state.isLoading ? <LinearProgress /> : null}
           <ChatBox onSend={this.sendHandler} />
         </div>
       </div>
