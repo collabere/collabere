@@ -22,9 +22,8 @@ class ConversationScreen extends React.Component {
     this.fetchLatestClientEmailAndMessages();
   }
 
-
-sendHandler = message => {
-    this.setState({isLoading: true})
+  sendHandler = message => {
+    this.setState({ isLoading: true });
     const {
       match: { params }
     } = this.props;
@@ -40,7 +39,7 @@ sendHandler = message => {
       },
       headers: {
         "content-type": "application/json",
-        'Authorization': sessionStorage.getItem('token')
+        Authorization: sessionStorage.getItem("token")
       }
     }).then(response => {
       console.log(response);
@@ -48,13 +47,10 @@ sendHandler = message => {
         message
       };
       messageObject.fromInfluencer = true;
-    this.addMessage(messageObject);
-    this.setState({isLoading: false})
-
+      this.addMessage(messageObject);
+      this.setState({ isLoading: false });
     });
-
   };
-
 
   addMessage = message => {
     // Append the message to the component state
@@ -63,18 +59,20 @@ sendHandler = message => {
     this.setState({ messages });
   };
 
-
-fetchMessages = () => {
+  fetchMessages = () => {
     const {
       match: { params }
     } = this.props;
-    const authHeaders= { 'headers': { 'Authorization': sessionStorage.getItem('token') } }  
+    const authHeaders = {
+      headers: { Authorization: sessionStorage.getItem("token") }
+    };
     axios
       .get(`/messages/chat_messages`, {
         params: {
           projectInitiationDate: params.projectInitiationDate
-        }
-      }, authHeaders)
+        },
+        headers: { Authorization: sessionStorage.getItem("token") }
+      })
       .then(res => {
         console.log(res.data);
         this.setState({
@@ -83,19 +81,19 @@ fetchMessages = () => {
       });
   };
 
-fetchLatestClientEmailAndMessages = () => {
+  fetchLatestClientEmailAndMessages = () => {
     const {
       match: { params }
     } = this.props;
-    const authHeaders= { 'headers': { 'Authorization': sessionStorage.getItem('token') } }  
     axios
       .get(`/messages/insert_client_reply`, {
         params: {
           projectInitiationDate: params.projectInitiationDate
-        }
-      },authHeaders)
+        },
+        headers: { Authorization: sessionStorage.getItem("token") }
+      })
       .then(res => {
-       this.fetchMessages()
+        this.fetchMessages();
       });
   };
 
@@ -112,7 +110,7 @@ fetchLatestClientEmailAndMessages = () => {
         </Navbar>
         <div className="App" style={{ maxWidth: "100%", margin: "auto" }}>
           <Messages messages={this.state.messages} />
-//          {this.state.isLoading ? <LinearProgress /> : null}
+          // {this.state.isLoading ? <LinearProgress /> : null}
           <ChatBox onSend={this.sendHandler} />
         </div>
       </div>
