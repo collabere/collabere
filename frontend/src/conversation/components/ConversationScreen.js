@@ -39,7 +39,8 @@ sendHandler = message => {
         fromInfluencer: true
       },
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
+        'Authorization': sessionStorage.getItem('token')
       }
     }).then(response => {
       console.log(response);
@@ -67,12 +68,13 @@ fetchMessages = () => {
     const {
       match: { params }
     } = this.props;
+    const authHeaders= { 'headers': { 'Authorization': sessionStorage.getItem('token') } }  
     axios
       .get(`/messages/chat_messages`, {
         params: {
           projectInitiationDate: params.projectInitiationDate
         }
-      })
+      }, authHeaders)
       .then(res => {
         console.log(res.data);
         this.setState({
@@ -85,12 +87,13 @@ fetchLatestClientEmailAndMessages = () => {
     const {
       match: { params }
     } = this.props;
+    const authHeaders= { 'headers': { 'Authorization': sessionStorage.getItem('token') } }  
     axios
       .get(`/messages/insert_client_reply`, {
         params: {
           projectInitiationDate: params.projectInitiationDate
         }
-      })
+      },authHeaders)
       .then(res => {
        this.fetchMessages()
       });

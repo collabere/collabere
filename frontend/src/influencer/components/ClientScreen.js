@@ -41,9 +41,9 @@ class ClientScreen extends React.Component {
     const {
       match: { params }
     } = this.props;
-
+    const authHeaders= { 'headers': { 'Authorization': sessionStorage.getItem('token') } }  
     axios
-      .get(`/project/byInfluencerUserName/${params.influencerUsername}`, {})
+      .get(`/project/byInfluencerUserName/${params.influencerUsername}`, authHeaders)
       .then(res => {
         console.log(res);
         this.setState({
