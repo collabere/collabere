@@ -10,6 +10,7 @@ import {
 } from "reactstrap";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
+import Login from '../socialMedia/login';
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -82,6 +83,7 @@ class LoginModal extends React.Component {
           </FormGroup>
         </Col>
         <Button onClick={this.handleLogin}>Login</Button>
+        <Login/>
       </Form>
     );
   }

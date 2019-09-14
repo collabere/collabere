@@ -36,6 +36,7 @@ class Influencer(Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     username = models.CharField(max_length=50)
+    password = models.CharField(max_length=100, default=None)
     dob = models.DateField()
     gender = models.CharField(max_length=10)
     city = models.CharField(max_length=50)
