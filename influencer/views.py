@@ -15,12 +15,13 @@ from .serializers import ClientMappingSerializer,CreateUserSerializer
 from django.contrib.auth import get_user_model
 
 from .service import getAllClientOfAnInfluencer, validateUsername, getInfluencerFromInfluencerUsername, \
-    deleteInfluencerUsingInfluencerId, influencer_signup
+    deleteInfluencerUsingInfluencerId, influencer_signup, changePassword
 from .utils import handleEmptyAbsentKey
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import AllowAny
+from influencer.applicationConstants import *
 
 
 # Create your views here.
@@ -126,6 +127,18 @@ class CreateUserAPIView(CreateAPIView):
             headers=headers
         )
 
+@api_view(['PUT'])
+@authentication_classes([])
+@permission_classes([])
+def changePasswordInboundUsername(request, format=None):
+    jsonResponse = json.loads(request.body.decode('utf-8'))
+    username = jsonResponse[USERNAME]
+    newPassword = jsonResponse[NEW_PASSWORD]
+    changePassword(username, newPassword)
+    return Response(status=status.HTTP_200_OK)
+
+
+
 
 class LogoutUserAPIView(APIView):
     queryset = get_user_model().objects.all()
@@ -134,6 +147,8 @@ class LogoutUserAPIView(APIView):
         # simply delete the token to force a login
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
+
+
 
 
 

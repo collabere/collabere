@@ -34,3 +34,9 @@ def influencer_signup(name,email,username,dob,gender,city,country, followerCount
     influencer = Influencer.objects.create_influencer(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry,user)
     return influencer
 
+@atomic
+def changePassword(username , newPassword):
+     user = User.objects.get(username=username)
+     user.set_password(newPassword)
+     user.save()
+
