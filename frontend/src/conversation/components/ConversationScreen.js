@@ -5,10 +5,8 @@ import ChatBox from "./ChatBox.js";
 import SideNavMenu from "../../influencer/components/Side-nav-menu.js";
 import { local, dev } from "../../config/envConfig";
 import { Navbar, FormControl, Nav, Form } from "react-bootstrap";
-import LinearProgress from '@material-ui/core/LinearProgress';
+import LinearProgress from "@material-ui/core/LinearProgress";
 require("../styles/ConversationScreen.css");
-
-
 
 class ConversationScreen extends React.Component {
   constructor(props) {
@@ -23,8 +21,9 @@ class ConversationScreen extends React.Component {
   componentDidMount() {
     this.fetchLatestClientEmailAndMessages();
   }
+
   sendHandler = message => {
-    this.setState({isLoading: true})
+    this.setState({ isLoading: true });
     const {
       match: { params }
     } = this.props;
@@ -39,7 +38,8 @@ class ConversationScreen extends React.Component {
         fromInfluencer: true
       },
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
+        Authorization: sessionStorage.getItem("token")
       }
     }).then(response => {
       console.log(response);
@@ -47,11 +47,9 @@ class ConversationScreen extends React.Component {
         message
       };
       messageObject.fromInfluencer = true;
-    this.addMessage(messageObject);
-    this.setState({isLoading: false})
-
+      this.addMessage(messageObject);
+      this.setState({ isLoading: false });
     });
-
   };
 
   addMessage = message => {
@@ -65,11 +63,15 @@ class ConversationScreen extends React.Component {
     const {
       match: { params }
     } = this.props;
+    const authHeaders = {
+      headers: { Authorization: sessionStorage.getItem("token") }
+    };
     axios
       .get(`/messages/chat_messages`, {
         params: {
           projectInitiationDate: params.projectInitiationDate
-        }
+        },
+        headers: { Authorization: sessionStorage.getItem("token") }
       })
       .then(res => {
         console.log(res.data);
@@ -87,17 +89,18 @@ class ConversationScreen extends React.Component {
       .get(`/messages/insert_client_reply`, {
         params: {
           projectInitiationDate: params.projectInitiationDate
-        }
+        },
+        headers: { Authorization: sessionStorage.getItem("token") }
       })
       .then(res => {
-       this.fetchMessages()
+        this.fetchMessages();
       });
   };
 
   render() {
     return (
       <div>
-       <Navbar expand="lg" style={{ backgroundColor: "#40e0d0" }}>
+        <Navbar expand="lg" style={{ backgroundColor: "#40e0d0" }}>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
@@ -105,12 +108,9 @@ class ConversationScreen extends React.Component {
             </Nav>
           </Navbar.Collapse>
         </Navbar>
-        <div
-          className="container"
-          style={{ maxWidth: "75%", margin: "auto" }}
-        >
+        <div className="App" style={{ maxWidth: "100%", margin: "auto" }}>
           <Messages messages={this.state.messages} />
-          {this.state.isLoading ? (<LinearProgress />) : null}
+          // {this.state.isLoading ? <LinearProgress /> : null}
           <ChatBox onSend={this.sendHandler} />
         </div>
       </div>

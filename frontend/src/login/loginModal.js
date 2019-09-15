@@ -11,6 +11,8 @@ import {
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import Login from '../socialMedia/login';
+import * as MaterialUiLibrary from "@material-ui/core";
+
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -38,7 +40,9 @@ class LoginModal extends React.Component {
     }).then(response => {
       const { token, username } = response.data;
       if (token) {
-        axios.defaults.headers.common["Authorization"] = 'Token '+ token;
+        const authToken='Token '+ token;
+        sessionStorage.setItem('token', authToken)
+        axios.defaults.headers.common["Authorization"] = authToken;
         this.setState({ authenticatedUsername: username });
       } else {
         axios.defaults.headers.common["Authorization"] = null;
@@ -82,8 +86,8 @@ class LoginModal extends React.Component {
             />
           </FormGroup>
         </Col>
-        <Button onClick={this.handleLogin}>Login</Button>
-        <Login/>
+        <MaterialUiLibrary.Button variant="contained" color="primary" onClick={this.handleLogin}>Login</MaterialUiLibrary.Button>
+        <Link style={{textDecoration: 'none'}} to='/forgot-password'> <MaterialUiLibrary.Button  color="secondary">Forgot Password?</MaterialUiLibrary.Button></Link>        
       </Form>
     );
   }
