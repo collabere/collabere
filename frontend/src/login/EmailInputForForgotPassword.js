@@ -34,7 +34,7 @@ class EmailInputForReset extends React.Component {
   handleSend() {
     axios({
       method: "put",
-      url: "http://localhost:8000/influencer/auth/send_email_to_reset_password/",
+      url: `/influencer/auth/send_email_to_reset_password/`,
       data: {
         influencerEmail: this.state.email,
       },
