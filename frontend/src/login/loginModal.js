@@ -10,6 +10,8 @@ import {
 } from "reactstrap";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
+import * as MaterialUiLibrary from "@material-ui/core";
+
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -83,7 +85,8 @@ class LoginModal extends React.Component {
             />
           </FormGroup>
         </Col>
-        <Button onClick={this.handleLogin}>Login</Button>
+        <MaterialUiLibrary.Button variant="contained" color="primary" onClick={this.handleLogin}>Login</MaterialUiLibrary.Button>
+        <Link style={{textDecoration: 'none'}} to='/forgot-password'> <MaterialUiLibrary.Button  color="secondary">Forgot Password?</MaterialUiLibrary.Button></Link>        
       </Form>
     );
   }
