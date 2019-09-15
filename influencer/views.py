@@ -135,7 +135,7 @@ class CreateUserAPIView(CreateAPIView):
 @permission_classes([])
 def changePasswordInboundUsername(request, format=None):
     jsonResponse = json.loads(request.body.decode('utf-8'))
-    username = jsonResponse[USERNAME]
+    username = jsonResponse[INFLUENCER_USERNAME]
     newPassword = jsonResponse[NEW_PASSWORD]
     changePassword(username, newPassword)
     return Response(status=status.HTTP_200_OK)
