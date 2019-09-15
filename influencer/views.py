@@ -1,12 +1,14 @@
 import json
 import logging
-
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 
 from rest_framework.decorators import api_view
+from inclyfy import settings
+from django.core.mail import send_mail
 
 
 from client import serializers
@@ -15,13 +17,14 @@ from .serializers import ClientMappingSerializer,CreateUserSerializer
 from django.contrib.auth import get_user_model
 
 from .service import getAllClientOfAnInfluencer, validateUsername, getInfluencerFromInfluencerUsername, \
-    deleteInfluencerUsingInfluencerId, influencer_signup, changePassword
+    deleteInfluencerUsingInfluencerId, influencer_signup, changePassword, getInfluencerFromInfluencerEmail
 from .utils import handleEmptyAbsentKey
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import AllowAny
 from influencer.applicationConstants import *
+
 
 
 # Create your views here.
@@ -138,6 +141,23 @@ def changePasswordInboundUsername(request, format=None):
     return Response(status=status.HTTP_200_OK)
 
 
+@api_view(['PUT'])
+@authentication_classes([])
+@permission_classes([])
+def sendEmailToResetPassword(request):
+    jsonResponse = json.loads(request.body.decode('utf-8'))
+    influencerEmail = jsonResponse[INFLUENCER_EMAIL]
+    influencer=getInfluencerFromInfluencerEmail(influencerEmail)
+    influencerUsername=getattr(influencer[0], 'username')
+    associatedDjangoUsername=getattr(influencer[0], 'user')
+    user=User.objects.get(username=associatedDjangoUsername)
+    token, _ = Token.objects.get_or_create(user=user)
+    subject=EMAIL_SUBJECT
+    message=EMAIL_MESSAGE_STRING+" "+COLLABERE_PASSWORD_RESET_URL+influencerUsername+SLASH+str(token)
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [influencerEmail]
+    send_mail(subject, message, email_from, recipient_list)
+    return Response(status=status.HTTP_200_OK)
 
 
 class LogoutUserAPIView(APIView):

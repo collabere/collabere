@@ -5,7 +5,7 @@ from django.contrib.auth import views
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.authtoken.views import obtain_auth_token
 
-from .views import handleLogin, getClientsBasedOnInfluencers, getInfluencerDetails, deleteInfluencer, putInfluencer, usernameFetch,saveClientMappingWithInfluencer,CreateUserAPIView,LogoutUserAPIView, changePasswordInboundUsername
+from .views import handleLogin, getClientsBasedOnInfluencers, getInfluencerDetails, deleteInfluencer, putInfluencer, usernameFetch,saveClientMappingWithInfluencer,CreateUserAPIView,LogoutUserAPIView, changePasswordInboundUsername, sendEmailToResetPassword
 
 
 urlpatterns = [
@@ -22,7 +22,10 @@ urlpatterns = [
         name='auth_user_create'),
     url(r'^auth/change_password/$',
         changePasswordInboundUsername,
-        name='forgot_password'),
+        name='change_password'),
+    url(r'^auth/send_email_to_reset_password/$',
+        sendEmailToResetPassword,
+        name='reset_password'),
     url(r'^auth/logout/$',
         LogoutUserAPIView.as_view(),
         name='auth_user_logout')

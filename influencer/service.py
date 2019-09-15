@@ -11,6 +11,9 @@ def getAllClientOfAnInfluencer(influencerUsername):
         clients.extend(service.getClientFromClientId(client_mapping.clientId))
     return clients
 
+def getInfluencerFromInfluencerEmail(email):
+    return Influencer.objects.all().filter(email=email)
+
 def getInfluencerFromInfluencerUsername(username):
     return Influencer.objects.all().filter(username=username)
 
