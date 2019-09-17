@@ -34,6 +34,7 @@ class ClientScreen extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSortAplphabetically = this.handleSortAplphabetically.bind(this);
     this.handleSortByStartingDates = this.handleSortByStartingDates.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
     this.url = process.env.NODE_ENV === undefined ? local.url : dev.url;
   }
 
@@ -134,6 +135,9 @@ class ClientScreen extends React.Component {
     this.setState({ currentListItem: "#ffffff" });
   };
 
+  handleLogout() {
+    sessionStorage.removeItem('token')
+  }
   render() {
     const menu = (
       <Menu>
@@ -141,7 +145,7 @@ class ClientScreen extends React.Component {
           <UpdateModal />
         </Menu.Item>
         <Menu.Item>
-          <Button color="primary">Logout</Button>
+         <Link style={{textDecoration: 'none'}} to='/'> <Button color="primary" onClick={this.handleLogout}>Logout</Button></Link>
         </Menu.Item>
       </Menu>
     );
