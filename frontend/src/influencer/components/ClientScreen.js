@@ -9,6 +9,7 @@ import { List, Avatar, Card } from "antd";
 
 import { message, Spin } from "antd";
 
+import { Link } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroller";
 import { Menu, Dropdown, Input } from "antd";
 
