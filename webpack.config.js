@@ -11,8 +11,8 @@ module.exports = {
 
 output: {
       filename: 'main.js',
-      path: path.resolve(__dirname, 'frontend/static/frontend'),
-        publicPath: './frontend/static/frontend'
+      path: path.resolve(__dirname, 'frontend/static'),
+        publicPath: './frontend/static'
 
     },
 
@@ -36,16 +36,17 @@ output: {
         test: /\.svg$/,
         loader: 'svg-inline-loader'
       },
-      {
-        test: /\.(png|jp(e*)g|svg)$/,
-            use: [{
-                loader: 'url-loader',
-                options: {
-                    limit: 8000, // Convert images < 8kb to base64 strings
-                    name: 'images/[hash]-[name].[ext]'
-                }
-            }]
-      }
+{
+    test: /\.(jpg|png|gif|svg|pdf|ico)$/,
+    use: [
+        {
+            loader: 'url-loader',
+            options: {
+                name: '[path][name]-[hash:8].[ext]'
+            },
+        },
+    ]
+},
     ]
   },
   resolve: {

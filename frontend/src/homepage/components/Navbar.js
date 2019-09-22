@@ -9,6 +9,7 @@ import {
   Navbar,
   Form,
 } from "react-bootstrap";
+import collabere from '../../../images/collabere.png'
 
 import * as Antd from "antd";
 
@@ -63,7 +64,7 @@ export default class HomeNavBar extends Component {
   render() {
     return (
       <Navbar  expand="lg" style={{backgroundColor: '#40e0d0'}}>
-        <Navbar.Brand href="#home">Collabere</Navbar.Brand>
+        <Navbar.Brand href="#home"><img src={collabere}></img></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" style={{marginLeft: '90px'}}>
           <Form inline >
