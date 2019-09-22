@@ -6,7 +6,10 @@ import SideNavMenu from "../../influencer/components/Side-nav-menu.js";
 import { local, dev } from "../../config/envConfig";
 import { Navbar, FormControl, Nav, Form } from "react-bootstrap";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 require("../styles/ConversationScreen.css");
+
 
 class ConversationScreen extends React.Component {
   constructor(props) {
@@ -15,7 +18,8 @@ class ConversationScreen extends React.Component {
   }
   state = {
     messages: [],
-    isLoading: false
+    isLoading: false,
+    messagesLoadingFlag: true
   };
 
   componentDidMount() {
@@ -76,7 +80,8 @@ class ConversationScreen extends React.Component {
       .then(res => {
         console.log(res.data);
         this.setState({
-          messages: res.data
+          messages: res.data,
+          messagesLoadingFlag: false
         });
       });
   };
@@ -109,6 +114,8 @@ class ConversationScreen extends React.Component {
           </Navbar.Collapse>
         </Navbar>
         <div className="App" style={{ maxWidth: "100%", margin: "auto" }}>
+        {this.state.messagesLoadingFlag ? (<LinearProgress />):null}
+
           <Messages messages={this.state.messages} />
           // {this.state.isLoading ? <LinearProgress /> : null}
           <ChatBox onSend={this.sendHandler} />
