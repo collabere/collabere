@@ -123,7 +123,7 @@ export default class HomeNavBar extends Component {
                 isOpen={this.state.modal}
                 toggle={this.toggle}
                 className={this.props.className}
-                style={{width: '80%'}}
+                style={{width: '100'}}
               >
                 {this.state.loginModal ? (
                   <ModalHeader toggle={this.toggle}>Login</ModalHeader>

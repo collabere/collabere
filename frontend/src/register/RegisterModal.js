@@ -316,14 +316,6 @@ class RegisterModal extends React.Component {
           <ModalBody>
             {this.state.loginScreenOpen ? <LoginModal /> : null}
           </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.toggleLoginScreen}>
-              Login
-            </Button>
-            <Button color="secondary" onClick={this.closeLoginModal}>
-              Cancel
-            </Button>
-          </ModalFooter>
         </Modal>
       </div>
     );
