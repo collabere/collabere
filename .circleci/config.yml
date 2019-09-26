@@ -50,6 +50,7 @@ jobs: # A basic unit of work in a run
             pwd
             ls
             ssh -o StrictHostKeyChecking=no ubuntu@13.232.88.209 "./deploy.sh"
+            exit
 
 
 
