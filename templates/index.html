@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-    {% load static %}
 
 
 <html>
@@ -15,7 +14,8 @@
 <body>
     <!-- <div id="app" class="columns">React</div> -->
     <div id="root"></div>
-    <script src="{% static "main.js" %}"></script>
+        {% load static %}
+    <script src="{% static 'main.js'%}"></script>
 </body>
 
 </html>
