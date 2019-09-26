@@ -27,6 +27,13 @@ class ProjectCard extends React.Component {
     this.setState({ popoverOpen: true });
   };
 
+  parseDate = (serverDateString) => {
+    var array=serverDateString.split('T');
+    var date=array[0];
+    var time = array[1].split(".")[0];
+    return date.concat(" at ").concat(time)
+  }
+
   render() {
     const pathToNavigate = "/messages/"
       .concat(this.props.influencerUsername)
@@ -52,7 +59,7 @@ class ProjectCard extends React.Component {
                 color="#4B0082"
                 component="p"
               >
-                Project Starting Date: {this.props.dateStarted}
+                Project Starting Date: {this.parseDate(this.props.dateStarted.toString())}
               </Typography>
               <Typography
                 style={{ color: "#4B0082" }}
