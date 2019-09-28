@@ -143,7 +143,7 @@ class ClientScreen extends React.Component {
     const menu = (
       <Menu>
         <Menu.Item>
-          <UpdateModal />
+          <UpdateModal influencerUsername={this.props.match.params.influencerUsername}  />
         </Menu.Item>
         <Menu.Item>
          <Link style={{textDecoration: 'none'}} to='/'> <Button color="primary" onClick={this.handleLogout}>Logout</Button></Link>

@@ -9,11 +9,12 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from inclyfy import settings
 from django.core.mail import send_mail
+from rest_framework.parsers import JSONParser
 
 
 from client import serializers
 from influencer.models import Influencer
-from .serializers import ClientMappingSerializer,CreateUserSerializer
+from .serializers import ClientMappingSerializer,CreateUserSerializer,InfluencerSerializer
 from django.contrib.auth import get_user_model
 
 from .service import getAllClientOfAnInfluencer, validateUsername, getInfluencerFromInfluencerUsername, \
@@ -62,7 +63,9 @@ def deleteInfluencer(request, influencerId):
 
 @api_view(['PUT'])
 def putInfluencer(request):
-    serializer = InfluencerSerializer(data=request.data)
+    data = JSONParser().parse(request)
+    influencer=getInfluencerFromInfluencerUsername(data['username']).first()
+    serializer = InfluencerSerializer(influencer,data=data)
     if serializer.is_valid():
         serializer.save()
         serializer_dict = serializer.data
