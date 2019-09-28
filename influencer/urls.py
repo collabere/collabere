@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'username', usernameFetch, name='influence_username_fetch'),
     url(r'user_details', getInfluencerDetails, name='influencer_details'),
     url(r'delete/(\d+)$', deleteInfluencer, name='influencer_delete'),
-    url(r'put$', putInfluencer, name='insert_influencer'),
+    url(r'updateDetails$', putInfluencer, name='update_influencer'),
     url(r'save_client_mapping/', saveClientMappingWithInfluencer, name='save_client_influencer_mapping'),
     url(r'^auth/register/$',
         CreateUserAPIView.as_view(),
