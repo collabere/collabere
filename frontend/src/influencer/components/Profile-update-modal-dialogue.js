@@ -5,38 +5,47 @@ import * as Antd from "antd";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { keys } from "@material-ui/core/styles/createBreakpoints";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogActions';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 
 class UpdateModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      updateData: {}
-
+      updateData: {},
+      visible: false,
+      successModalVisible: false,
+      spinnerVisible: false
     };
     this.handleChangeOfInputFields = this.handleChangeOfInputFields.bind(this);
     this.handleUpdateProfile = this.handleUpdateProfile.bind(this);
-
-
   }
 
-  handleUpdateProfile(){
+  handleUpdateProfile() {
+    this.setState({spinnerVisible: true})
     axios({
       method: "put",
       url: `/influencer/updateDetails`,
       data: this.constructRequiredObject(this.state.updateData),
       headers: {
         "content-type": "application/json",
-        'Authorization': sessionStorage.getItem('token')
+        Authorization: sessionStorage.getItem("token")
       }
     })
       .then(response => {
+        this.setState({spinnerVisible: false})
         console.log(response);
+        this.handleSuccessModalOpen()
       })
       .catch(function(error) {
         console.log(error);
       });
-
   }
   constructRequiredObject = inputObj => {
     var requiredObj = {};
@@ -45,7 +54,7 @@ class UpdateModal extends React.Component {
         requiredObj[e] = inputObj[e];
       }
     });
-    requiredObj['username']=this.props.influencerUsername
+    requiredObj["username"] = this.props.influencerUsername;
     return requiredObj;
   };
 
@@ -62,6 +71,17 @@ class UpdateModal extends React.Component {
     });
   };
 
+  handleSuccessModalOpen = () => {
+    this.setState({
+      successModalVisible: true
+    });
+  };
+
+  handleSuccessModalClose =() =>{
+    this.setState({successModalVisible: false})
+    this.handleOk();
+}
+
   handleCancel = e => {
     console.log(e);
     this.setState({
@@ -70,16 +90,17 @@ class UpdateModal extends React.Component {
   };
   handleChangeOfInputFields(event) {
     event.preventDefault();
-    var key =event.target.name;
+    var key = event.target.name;
     var value = event.target.value;
     this.setState(prevState => {
-      let updateDataClone = Object.assign({}, prevState.updateData);  
-      updateDataClone[key] = value;                     
-      return {updateData: updateDataClone };                               
-    })
+      let updateDataClone = Object.assign({}, prevState.updateData);
+      updateDataClone[key] = value;
+      return { updateData: updateDataClone };
+    });
   }
 
   render() {
+    const {spinnerVisible}= this.state
     return (
       <div>
         <MaterialUiLibrary.Button type="primary" onClick={this.showModal}>
@@ -94,7 +115,7 @@ class UpdateModal extends React.Component {
           <Form>
             <Form.Group controlId="exampleForm.ControlInput1">
               <Form.Label>Username</Form.Label>
-              <Form.Control type="text" />
+              <Form.Control type="text" disabled />
             </Form.Group>
 
             <Form.Group controlId="exampleForm.ControlInput1">
@@ -149,7 +170,29 @@ class UpdateModal extends React.Component {
               />
             </Form.Group>
           </Form>
+          {spinnerVisible ? <CircularProgress /> : null}
         </Modal>
+        <Dialog
+          open={this.state.successModalVisible}
+          onClose={this.handleSuccessModalClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Success"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Your profile has been updated successfully.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <MaterialUiLibrary.Button
+              onClick={this.handleSuccessModalClose}
+              color="primary"
+            >
+              OK 
+            </MaterialUiLibrary.Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }
