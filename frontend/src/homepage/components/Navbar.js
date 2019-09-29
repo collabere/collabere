@@ -63,13 +63,13 @@ export default class HomeNavBar extends Component {
 
   render() {
     return (
-      <Navbar  expand="lg" style={{backgroundColor: '#40e0d0'}}>
+      <Navbar  expand="lg" style={{backgroundColor: '#7e0015'}}>
         <Navbar.Brand href="#home"><img src={collabere}></img></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" style={{marginLeft: '90px'}}>
           <Form inline >
             <MaterialUiLibrary.Button
-              style={{  paddingLeft:'40px',fontSize: "1rem", fontWeight: "600" }}
+              style={{  paddingLeft:'40px',fontSize: "1rem", fontWeight: "600", color: '#ffffff' }}
             >
               <Link
                 activeClass="active"
@@ -82,7 +82,7 @@ export default class HomeNavBar extends Component {
                 Influencers
               </Link>
             </MaterialUiLibrary.Button>
-            <MaterialUiLibrary.Button style={{ paddingLeft:'40px',fontSize: '1rem', fontWeight: '600' }}>
+            <MaterialUiLibrary.Button style={{ paddingLeft:'40px',fontSize: '1rem', fontWeight: '600', color: '#ffffff' }}>
                 <Link
                   activeClass="active"
                   to="section2"
@@ -94,7 +94,7 @@ export default class HomeNavBar extends Component {
                   Brands
                 </Link>
               </MaterialUiLibrary.Button>
-              <MaterialUiLibrary.Button style={{  paddingLeft:'40px',fontSize: '1rem', fontWeight: '600' }}>
+              <MaterialUiLibrary.Button style={{  paddingLeft:'40px',fontSize: '1rem', fontWeight: '600', color: '#ffffff' }}>
                  <Link
                   activeClass="active"
                   to="section3"
@@ -106,7 +106,7 @@ export default class HomeNavBar extends Component {
                  How it Works
                 </Link>
               </MaterialUiLibrary.Button>
-              <MaterialUiLibrary.Button style={{ paddingLeft:'40px', fontSize: '1rem', fontWeight: '600' }}>
+              <MaterialUiLibrary.Button style={{ paddingLeft:'40px', fontSize: '1rem', fontWeight: '600', color: '#ffffff' }}>
                  <Link
                   activeClass="active"
                   to="section4"
