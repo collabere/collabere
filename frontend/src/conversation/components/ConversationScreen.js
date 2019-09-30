@@ -105,7 +105,7 @@ class ConversationScreen extends React.Component {
   render() {
     return (
       <div>
-        <Navbar expand="lg" style={{ backgroundColor: "#40e0d0" }}>
+        <Navbar expand="lg" style={{ backgroundColor: "#7e0015" }}>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">

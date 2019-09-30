@@ -153,7 +153,7 @@ class ClientScreen extends React.Component {
 
     return (
       <div>
-        <Navbar expand="lg" style={{ backgroundColor: "#40e0d0" }}>
+        <Navbar expand="lg" style={{ backgroundColor: "#7e0015" }}>
           <SideNavMenu
             influencerUsername={this.props.match.params.influencerUsername}
           />
