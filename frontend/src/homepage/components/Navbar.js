@@ -5,6 +5,7 @@ import RegisterModal from "../../register/RegisterModal";
 import LoginModal from "../../login/loginModal.js";
 import { Link as _Link } from "react-router-dom";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import MenuIcon from '@material-ui/icons/Menu';
 import {
   Navbar,
   Form,
@@ -65,7 +66,7 @@ export default class HomeNavBar extends Component {
     return (
       <Navbar  expand="lg" style={{backgroundColor: '#7e0015'}}>
         <Navbar.Brand href="#home"><img src={collabere}></img></Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle><MenuIcon style={{color: 'white'}} /></Navbar.Toggle> 
         <Navbar.Collapse id="basic-navbar-nav" style={{marginLeft: '90px'}}>
           <Form inline >
             <MaterialUiLibrary.Button
