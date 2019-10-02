@@ -66,7 +66,7 @@ export default class HomeNavBar extends Component {
     return (
       <Navbar  expand="lg" style={{backgroundColor: '#7e0015'}}>
         <Navbar.Brand href="#home"><img src={collabere}></img></Navbar.Brand>
-        <Navbar.Toggle><MenuIcon style={{color: 'white'}} /></Navbar.Toggle> 
+        <Navbar.Toggle style={{borderColor: 'white'}}><MenuIcon style={{color: 'white'}} /></Navbar.Toggle> 
         <Navbar.Collapse id="basic-navbar-nav" style={{marginLeft: '90px'}}>
           <Form inline >
             <MaterialUiLibrary.Button
