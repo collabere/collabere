@@ -117,7 +117,6 @@ class ConversationScreen extends React.Component {
         {this.state.messagesLoadingFlag ? (<LinearProgress />):null}
 
           <Messages messages={this.state.messages} />
-          // {this.state.isLoading ? <LinearProgress /> : null}
           <ChatBox onSend={this.sendHandler} />
         </div>
       </div>
