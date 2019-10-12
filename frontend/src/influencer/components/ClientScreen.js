@@ -9,6 +9,7 @@ import { List, Avatar, Card } from "antd";
 
 import { message, Spin } from "antd";
 
+import { Link } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroller";
 import { Menu, Dropdown, Input } from "antd";
 
@@ -34,6 +35,7 @@ class ClientScreen extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSortAplphabetically = this.handleSortAplphabetically.bind(this);
     this.handleSortByStartingDates = this.handleSortByStartingDates.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
     this.url = process.env.NODE_ENV === undefined ? local.url : dev.url;
   }
 
@@ -134,21 +136,24 @@ class ClientScreen extends React.Component {
     this.setState({ currentListItem: "#ffffff" });
   };
 
+  handleLogout() {
+    sessionStorage.removeItem('token')
+  }
   render() {
     const menu = (
       <Menu>
         <Menu.Item>
-          <UpdateModal />
+          <UpdateModal influencerUsername={this.props.match.params.influencerUsername}  />
         </Menu.Item>
         <Menu.Item>
-          <Button color="primary">Logout</Button>
+         <Link style={{textDecoration: 'none'}} to='/'> <Button color="primary" onClick={this.handleLogout}>Logout</Button></Link>
         </Menu.Item>
       </Menu>
     );
 
     return (
       <div>
-        <Navbar expand="lg" style={{ backgroundColor: "#40e0d0" }}>
+        <Navbar expand="lg" style={{ backgroundColor: "#7e0015" }}>
           <SideNavMenu
             influencerUsername={this.props.match.params.influencerUsername}
           />

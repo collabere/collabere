@@ -5,10 +5,12 @@ import RegisterModal from "../../register/RegisterModal";
 import LoginModal from "../../login/loginModal.js";
 import { Link as _Link } from "react-router-dom";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import MenuIcon from '@material-ui/icons/Menu';
 import {
   Navbar,
   Form,
 } from "react-bootstrap";
+import collabere from '../../../images/collabere.png'
 
 import * as Antd from "antd";
 
@@ -62,13 +64,13 @@ export default class HomeNavBar extends Component {
 
   render() {
     return (
-      <Navbar  expand="lg" style={{backgroundColor: '#40e0d0'}}>
-        <Navbar.Brand href="#home">Collabere</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar  expand="lg" style={{backgroundColor: '#7e0015'}}>
+        <Navbar.Brand href="#home"><img src={collabere}></img></Navbar.Brand>
+        <Navbar.Toggle style={{borderColor: 'white'}}><MenuIcon style={{color: 'white'}} /></Navbar.Toggle> 
         <Navbar.Collapse id="basic-navbar-nav" style={{marginLeft: '90px'}}>
           <Form inline >
             <MaterialUiLibrary.Button
-              style={{  paddingLeft:'40px',fontSize: "1rem", fontWeight: "600" }}
+              style={{  paddingLeft:'40px',fontSize: "1rem", fontWeight: "600", color: '#ffffff' }}
             >
               <Link
                 activeClass="active"
@@ -81,7 +83,7 @@ export default class HomeNavBar extends Component {
                 Influencers
               </Link>
             </MaterialUiLibrary.Button>
-            <MaterialUiLibrary.Button style={{ paddingLeft:'40px',fontSize: '1rem', fontWeight: '600' }}>
+            <MaterialUiLibrary.Button style={{ paddingLeft:'40px',fontSize: '1rem', fontWeight: '600', color: '#ffffff' }}>
                 <Link
                   activeClass="active"
                   to="section2"
@@ -93,7 +95,7 @@ export default class HomeNavBar extends Component {
                   Brands
                 </Link>
               </MaterialUiLibrary.Button>
-              <MaterialUiLibrary.Button style={{  paddingLeft:'40px',fontSize: '1rem', fontWeight: '600' }}>
+              <MaterialUiLibrary.Button style={{  paddingLeft:'40px',fontSize: '1rem', fontWeight: '600', color: '#ffffff' }}>
                  <Link
                   activeClass="active"
                   to="section3"
@@ -105,7 +107,7 @@ export default class HomeNavBar extends Component {
                  How it Works
                 </Link>
               </MaterialUiLibrary.Button>
-              <MaterialUiLibrary.Button style={{ paddingLeft:'40px', fontSize: '1rem', fontWeight: '600' }}>
+              <MaterialUiLibrary.Button style={{ paddingLeft:'40px', fontSize: '1rem', fontWeight: '600', color: '#ffffff' }}>
                  <Link
                   activeClass="active"
                   to="section4"
@@ -122,7 +124,7 @@ export default class HomeNavBar extends Component {
                 isOpen={this.state.modal}
                 toggle={this.toggle}
                 className={this.props.className}
-                style={{width: '80%'}}
+                style={{width: '100'}}
               >
                 {this.state.loginModal ? (
                   <ModalHeader toggle={this.toggle}>Login</ModalHeader>

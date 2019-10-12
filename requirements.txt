@@ -10,3 +10,7 @@ whitenoise
 django-rest-knox==4.1.0
 django-auth-ldap==2.0.0
 django-allauth==0.39.1
+
+
+
+
