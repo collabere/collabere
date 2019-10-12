@@ -78,26 +78,26 @@ class ClientMappingSerializer(serializers.Serializer):
 #         )
 #         # read_only_fields = fields
 
-# class InfluencerSerializer(ModelSerializer):
-#     user = User()
-#     class Meta:
-#         model = Influencer
-#         fields = (
-#             'id',
-#             'name',
-#             'email',
-#             'username',
-#             'dob',
-#             'gender',
-#             'city',
-#             'country',
-#             'followerCount',
-#             'followingCount',
-#             'dpUrl',
-#             'industry',
-#             'user'
-#         )
-#         read_only_fields = fields
+class InfluencerSerializer(ModelSerializer):
+    user = User()
+    class Meta:
+        model = Influencer
+        fields = (
+            'id',
+            'name',
+            'email',
+            'username',
+            'dob',
+            'gender',
+            'city',
+            'country',
+            'followerCount',
+            'followingCount',
+            'dpUrl',
+            'industry',
+            'user'
+        )
+        read_only_fields = fields
 #
 # class UserSerializer(serializers.ModelSerializer):
 #     class Meta:

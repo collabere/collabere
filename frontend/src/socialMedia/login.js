@@ -3,7 +3,8 @@ import TwitterLogin from 'react-twitter-auth';
 import FacebookLogin from 'react-facebook-login';
 import { GoogleLogin } from 'react-google-login';
 import InstagramLogin from 'react-instagram-login';
-import * as axios from 'axios';
+import axios from 'axios';
+import { Redirect } from 'react-router-dom'
 
 class Login extends React.Component {
     constructor(props) {
@@ -32,7 +33,7 @@ class Login extends React.Component {
             mode: 'cors',
             cache: 'default'
         };
-        fetch('http://localhost:8000/api/v1/auth/facebook', options).then(r => {
+        fetch('/api/v1/auth/facebook', options).then(r => {
             const token = r.headers.get('x-auth-token');
             r.json().then(user => {
                 if (token) {
@@ -43,50 +44,49 @@ class Login extends React.Component {
     }
 
     googleResponse = (response) => {
-        // const tokenBlob = new Blob([JSON.stringify({access_token: response.accessToken}, null, 2)], {type : 'application/json'});
-        // const options = {
-        //     method: 'POST',
-        //     body: tokenBlob,
-        //     mode: 'cors',
-        //     cache: 'default'
-        // };
-        // fetch('/accounts/google/login/callback/', options).then(r => {
-        //     const token = r.headers.get('x-auth-token');
-        //     console.log(r.json());
-        //     r.json().then(user => {
-        //         console.log(user);
-        //         if (token) {
-        //             this.setState({isAuthenticated: true, user, token})
-        //         }
-        //     }).catch(err => {
-        //         console.log(err);
-        //     });
-        // })
         console.log(response.profileObj.email);
         
         axios({
-            method: "post",
-            url: `/api/login`,
-            data: {
-              username: this.state.username,
-              password: this.state.password
-            },
+            method: "get",
+            url: `/influencer/user_fetch_email?email=${response.profileObj.email}`,
             headers: {
               "content-type": "application/json"
             }
           }).then(response => {
-            const { token, username } = response.data;
-            if (token) {
-              axios.defaults.headers.common["Authorization"] = 'Token '+ token;
-              this.setState({ authenticatedUsername: username });
+            // const { token, username } = response.data;
+            // if (token) {
+            //   axios.defaults.headers.common["Authorization"] = 'Token '+ token;
+            //   this.setState({ authenticatedUsername: username });
+            // } else {
+            //   axios.defaults.headers.common["Authorization"] = null;
+            // }
+            console.log(response);
+            if(response.data.length  === 0) {
+                
             } else {
-              axios.defaults.headers.common["Authorization"] = null;
+                
             }
           });
     }
 
     instagramResponse = (response) => {
         console.log(response);
+        const data = {
+            "client_id": "49f4a71ef28b448a864a7519a197ba0c",
+            "client_secret": "db912bb77fd5472895e8e097191bb1a7",
+            "grant_type": "authorization_code",
+            "redirect_uri": "http://localhost:8000/api/social_redirect/",
+            "code": response
+        }
+        axios.post({
+            method: "post",
+            url: "https://api.instagram.com/oauth/access_token",
+            data : data
+        }).then((res) => {
+            console.log(res);
+        }).catch((err) => {
+            console.log("error", err);
+        });
     }
 
     onFailure = (e) => {
@@ -127,6 +127,7 @@ class Login extends React.Component {
                      <InstagramLogin
                         clientId="49f4a71ef28b448a864a7519a197ba0c"
                         buttonText="Login"
+                        redirectUri="http://localhost:8000/api/social_redirect"
                         onSuccess={this.instagramResponse}
                         onFailure={this.instagramResponse}
                     />

@@ -13,7 +13,7 @@ from django.core.mail import send_mail
 
 from client import serializers
 from influencer.models import Influencer
-from .serializers import ClientMappingSerializer,CreateUserSerializer
+from .serializers import ClientMappingSerializer,CreateUserSerializer, InfluencerSerializer
 from django.contrib.auth import get_user_model
 
 from .service import getAllClientOfAnInfluencer, validateUsername, getInfluencerFromInfluencerUsername, \
@@ -40,6 +40,14 @@ def getClientsBasedOnInfluencers(request):
 def getInfluencerDetails(request):
     influencerUsername = request.GET.get('username')
     influencer = getInfluencerFromInfluencerUsername(influencerUsername)
+    return Response(InfluencerSerializer(influencer, many=True).data)
+
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
+def getInfluencerWithEmail(request):
+    influencerEmail = request.GET.get('email')
+    influencer = getInfluencerFromInfluencerEmail(influencerEmail)
     return Response(InfluencerSerializer(influencer, many=True).data)
 
 @api_view(['GET'])
