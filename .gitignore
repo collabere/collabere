@@ -2,3 +2,5 @@ venv
 *.pyc
 node_modules
 .idea
+*/__pycache__/*
+db.sqlite3
