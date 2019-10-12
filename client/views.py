@@ -5,7 +5,7 @@ from client.models import Client
 from influencer.serializers import ClientMappingSerializer
 from .serializers import ClientSerializer, HomePageIntroEmailSerializer
 from .service import getClientFromClientId, deleteClientUsingClientId, getAllHomePageIntroEmail, \
-    checkPresenceOfClientByClientEmailId
+    checkPresenceOfClientByClientEmailId, getClientInfoByEmail
 from rest_framework.decorators import authentication_classes, permission_classes
 
 
@@ -71,6 +71,11 @@ def getAllHomePageIntroEmails(request):
     homePageIntroEmails = getAllHomePageIntroEmail()
     return Response(HomePageIntroEmailSerializer(homePageIntroEmails, many=True).data)
 
+
+@api_view(['GET'])
+def getClientByEmail(request, email):
+    clientInfo = getClientInfoByEmail(email)
+    return Response(ClientSerializer(clientInfo, many=True).data)
 
 @api_view(['GET'])
 @authentication_classes([])

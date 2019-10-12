@@ -80,6 +80,14 @@ def updateInfluencerPublicDetails(request):
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([])
+def getInfluencerWithEmail(request):
+    influencerEmail = request.GET.get('email')
+    influencer = getInfluencerFromInfluencerEmail(influencerEmail)
+    return Response(InfluencerSerializer(influencer, many=True).data)
+
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
 def usernameFetch(request):
     username = request.GET.get('username')
     return Response(validateUsername(username))

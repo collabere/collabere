@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import getClientInfoFromClientId, deleteClientInfo, insertClient, insertHomePageIntoEmail, getAllHomePageIntroEmails,checkExistenceOfClient
+from .views import getClientByEmail, getClientInfoFromClientId, deleteClientInfo, insertClient, insertHomePageIntoEmail, getAllHomePageIntroEmails,checkExistenceOfClient
 
 urlpatterns = [
     url(r'^v1/(\d+)$', getClientInfoFromClientId,name='client_details'),
@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'put$', insertClient, name='insert_influencer'),
     url(r'intro_email$', insertHomePageIntoEmail, name='insert_messages'),
     url(r'all_emails$', getAllHomePageIntroEmails),
+    url(r'byClientEmail/(\w+)$', getClientByEmail),
     url(r'clientEmail', checkExistenceOfClient, name='check_client_email_existence'),
 
 ]

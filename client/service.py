@@ -18,5 +18,8 @@ def deleteClientUsingClientId(clientId):
 def getAllHomePageIntroEmail():
     return HomePageIntroEmail.objects.all();
 
+def getClientInfoByEmail():
+    return Client.objects.filter(email=email)
+    
 def getClientIdByClientEmailId(clientEmailId):
     return getattr(list(getClientByClientEmailId(clientEmailId))[0], 'uid')

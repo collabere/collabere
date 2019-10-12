@@ -29,8 +29,6 @@ class App extends Component {
                 <Route path="/project/:influencerUsername" component={ProjectCreationScreen}></Route>
                 <Route path="/forgot-password" component={EmailInputForReset}></Route>
                 <Route path="/change-password/:influencerUsername/:token" component={ForgotPasswordComponent}></Route>
-
-
             </Router>
         );
     }
