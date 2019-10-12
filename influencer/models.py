@@ -4,6 +4,7 @@ from django.conf import  settings
 # Create your models here.
 from django.db.models import PROTECT, OneToOneField, QuerySet, Model
 from django.db.transaction import atomic
+from django.contrib.postgres.fields import ArrayField
 
 
 
@@ -49,5 +50,10 @@ class Influencer(Model):
 class ClientMapping(models.Model):
     influencerUsername = models.CharField(max_length=100, default=None)
     clientId = models.BigIntegerField()
+
+class InfluencerPublicProfileDetails(models.Model):
+    referralLink= models.CharField(max_length=500)
+    videoLink = models.CharField(max_length= 500)
+    influencer = models.ForeignKey(Influencer, on_delete=models.CASCADE)
 
 

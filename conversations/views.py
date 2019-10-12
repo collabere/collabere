@@ -39,7 +39,6 @@ def getAllMessagesByInfluencerUsernameAndClientId(request):
 @api_view(['GET' ])
 def getAll(request):
     messages=getAllMessages()
-    print(messages)
     return Response(MessageSerializer(messages,many=True).data)
 
 @api_view(['GET' ])

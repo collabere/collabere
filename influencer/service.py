@@ -1,7 +1,7 @@
 from django.db.transaction import atomic
 from django.contrib.auth.models import User
 
-from influencer.models import Influencer, ClientMapping
+from influencer.models import Influencer, ClientMapping, InfluencerPublicProfileDetails
 from client import  service
 
 def getAllClientOfAnInfluencer(influencerUsername):
@@ -30,6 +30,9 @@ def getInfluencerFromInfluencerId(influencerUsername):
 def deleteInfluencerUsingInfluencerId(influencerId):
     return Influencer.objects.filter(uid=influencerId).delete()
 
+def getInfluencerPublicProfileDetailsFromInfuencerUsername(influencerUsername):
+    influencer= getInfluencerFromInfluencerUsername(influencerUsername)
+    return InfluencerPublicProfileDetails.objects.get(influencer=influencer[0])
 
 @atomic
 def influencer_signup(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry):
