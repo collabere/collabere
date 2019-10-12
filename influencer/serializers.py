@@ -1,9 +1,18 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from .models import ClientMapping, Influencer
+from .models import ClientMapping, Influencer, InfluencerPublicProfileDetails
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
+
+class InfluencerPublicProfileDetailsSerializer(ModelSerializer):
+    class Meta:
+        model = InfluencerPublicProfileDetails
+        fields = (
+            'referralLink',
+            'videoLink',
+        )
+        # read_only_fields = ('referralLink', 'videoLink')
 
 class ClientMappingSerializer(serializers.Serializer):
     influencerUsername = serializers.CharField()
@@ -24,7 +33,6 @@ class ClientMappingSerializer(serializers.Serializer):
             'influencerUsername',
             'clientId',
         )
-        # read_only_fields = fields
 
 
 class InfluencerSerializer(serializers.ModelSerializer):
