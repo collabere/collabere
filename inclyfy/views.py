@@ -40,7 +40,7 @@ def redirect(request):
         "client_id": "49f4a71ef28b448a864a7519a197ba0c",
         "client_secret": "db912bb77fd5472895e8e097191bb1a7",
         "grant_type": "authorization_code",
-        "redirect_uri": "http://collabere.com/api/social_redirect",
+        "redirect_uri": "www.collabere.com/api/social_redirect",
         "code": code
     }
     r = requests.post(url="https://api.instagram.com/oauth/access_token", data=data)
