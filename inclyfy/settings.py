@@ -12,19 +12,19 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import django
-import ldap
-from django_auth_ldap.config import LDAPSearch
+# import ldap
+# from django_auth_ldap.config import LDAPSearch
 import logging
 
 logger = logging.getLogger('django_auth_ldap')
 logger.addHandler(logging.StreamHandler())
 logger.setLevel(logging.DEBUG)
 
-AUTH_LDAP_BIND_DN = "admin"
-AUTH_LDAP_BIND_PASSWORD = "niks225611"
-AUTH_LDAP_USER_SEARCH = LDAPSearch(
-    "ou=People,dc=collabere,dc=com", ldap.SCOPE_SUBTREE, "(uid=%(user)s)"
-)
+# AUTH_LDAP_BIND_DN = "admin"
+# AUTH_LDAP_BIND_PASSWORD = "niks225611"
+# AUTH_LDAP_USER_SEARCH = LDAPSearch(
+#     "ou=People,dc=collabere,dc=com", ldap.SCOPE_SUBTREE, "(uid=%(user)s)"
+# )
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
