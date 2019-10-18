@@ -32,7 +32,7 @@ class UpdatePublicProfileModal extends React.Component {
     this.setState({ spinnerVisible: true });
     axios({
       method: "put",
-      url: `http://localhost:8000/influencer/update_public_details`,
+      url: `/influencer/update_public_details`,
       data: this.constructRequiredObject(this.state.updateData),
       headers: {
         "content-type": "application/json",
