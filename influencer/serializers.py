@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from .models import ClientMapping, Influencer, InfluencerPublicProfileDetails
+from .models import ClientMapping, Influencer, InfluencerPublicProfileDetails, InstagramAuthModel
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
@@ -13,6 +13,13 @@ class InfluencerPublicProfileDetailsSerializer(ModelSerializer):
             'videoLink',
         )
         # read_only_fields = ('referralLink', 'videoLink')
+
+class InstagramAuthModelSerializer(ModelSerializer):
+    class Meta:
+        model = InstagramAuthModel
+        fields = (
+            'instagramUserId',
+        )
 
 class ClientMappingSerializer(serializers.Serializer):
     influencerUsername = serializers.CharField()
