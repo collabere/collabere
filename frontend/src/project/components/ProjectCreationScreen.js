@@ -81,6 +81,7 @@ class ProjectCreationScreen extends React.Component {
     this.handleClosingOfProjectSuccessModal = this.handleClosingOfProjectSuccessModal.bind(
       this
     );
+    this.handleChangeOfClientEmail = this.handleChangeOfClientEmail.bind(this); 
   }
 
   componentDidMount() {
@@ -139,7 +140,12 @@ class ProjectCreationScreen extends React.Component {
     event.preventDefault();
     this.setState({ [event.target.name]: event.target.value });
   }
-
+  
+  handleChangeOfClientEmail(event) {
+    event.preventDefault();
+    this.setState({ [event.target.id]: event.target.value });
+  }
+  
   handleClosingOfEmailPrompt() {
     this.setState({ emailExistPromptOpen: false });
   }
@@ -233,7 +239,7 @@ class ProjectCreationScreen extends React.Component {
                 fullWidth
                 margin="normal"
                 variant="outlined"
-                onChange={this.handleChangeOfInputFields}
+                onChange={this.handleChangeOfClientEmail}
                 InputLabelProps={{
                   shrink: true
                 }}
