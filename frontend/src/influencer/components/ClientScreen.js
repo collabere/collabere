@@ -18,6 +18,7 @@ import { IconButton, Icon } from "@material-ui/core";
 import SideNavMenu from "./Side-nav-menu";
 import { local, dev } from "../../config/envConfig";
 import ProjectCard from "./ProjectDetailCard";
+import UpdatePublicProfileModal from "./Public-details-update-modal";
 
 const Search = Input.Search;
 
@@ -144,6 +145,9 @@ class ClientScreen extends React.Component {
       <Menu>
         <Menu.Item>
           <UpdateModal influencerUsername={this.props.match.params.influencerUsername}  />
+        </Menu.Item>
+        <Menu.Item>
+          <UpdatePublicProfileModal influencerUsername={this.props.match.params.influencerUsername} />
         </Menu.Item>
         <Menu.Item>
          <Link style={{textDecoration: 'none'}} to='/'> <Button color="primary" onClick={this.handleLogout}>Logout</Button></Link>
