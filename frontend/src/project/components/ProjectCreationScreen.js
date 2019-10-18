@@ -20,6 +20,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import * as MaterialUiLibrary from "@material-ui/core";
+import TextField from '@material-ui/core/TextField';
 
 class ProjectCreationScreen extends React.Component {
   constructor(props) {
@@ -83,10 +84,8 @@ class ProjectCreationScreen extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      match: { params }
-    } = this.props;
-    this.setState({ influencerUsername: params.influencerUsername });
+    const { influencerUsername } = this.props;
+    this.setState({ influencerUsername: influencerUsername });
   }
 
   handleCredentialSubmit() {
@@ -192,7 +191,7 @@ class ProjectCreationScreen extends React.Component {
   handleSavingOfProjectDetails() {
     axios({
       method: "put",
-      url: `/project/put`,
+      url: `localhost:8000/project/put`,
       data: {
         email: this.state.email,
         influencerUserName: this.state.influencerUsername,
@@ -218,9 +217,8 @@ class ProjectCreationScreen extends React.Component {
       <div
         style={{
           maxWidth: "70%",
-          border: "1px solid green",
           padding: "2px",
-          margin: "5% auto 5% auto"
+          margin: "1% auto 1% auto"
         }}
       >
         <Form
@@ -229,16 +227,18 @@ class ProjectCreationScreen extends React.Component {
         >
           <Col>
             <FormGroup>
-              <Label>Enter your email here</Label>
-              <Input
-                type="text"
-                name="email"
+              <TextField
                 id="email"
+                placeholder="Enter your email here"
+                fullWidth
+                margin="normal"
+                variant="outlined"
                 onChange={this.handleChangeOfInputFields}
+                InputLabelProps={{
+                  shrink: true
+                }}
               />
             </FormGroup>
-          </Col>
-          <Col>
             <Button
               color="primary"
               onClick={() => this.handleClientEmailSubmit(this.state.email)}
@@ -246,6 +246,7 @@ class ProjectCreationScreen extends React.Component {
               Get Started!
             </Button>
           </Col>
+         
         </Form>
         <Modal isOpen={this.state.openClientInfoModal}>
           <ModalHeader>Register As Client</ModalHeader>
