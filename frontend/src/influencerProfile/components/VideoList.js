@@ -77,6 +77,7 @@ export default function VideoList({ influencerUsername, links }) {
 
   return (
     <div>
+      {sessionStorage.getItem('token') &&
       <Button
         style={{ float: "right" }}
         color="secondary"
@@ -84,6 +85,7 @@ export default function VideoList({ influencerUsername, links }) {
       >
         Delete Selected
       </Button>
+      }
       <h3 style={{ margin: "16px 0" }}>Videos</h3>
 
       <List
@@ -97,17 +99,19 @@ export default function VideoList({ influencerUsername, links }) {
               frameborder="0"
               allowfullscreen
             ></iframe>
-            <Checkbox
+            {sessionStorage.getItem('token') && <Checkbox
               checked={item.checked}
               value="dd"
               onChange={handleChange(item)}
               inputProps={{
                 "aria-label": "primary checkbox"
               }}
-            />
+            /> }
+            
           </List.Item>
         )}
       />
     </div>
   );
 }
+

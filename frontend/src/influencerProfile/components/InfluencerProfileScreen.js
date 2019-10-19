@@ -71,10 +71,10 @@ export default function InfluencerProfileScreen(props) {
           influencerUsername={username}
         />
       )}
-      {value === 1 && (
+      {value === 2 && (
         <VideoList influencerUsername={username} links={data.videoLink} />
       )}
-      {value === 2 && <ReferalLinkList referals={data.referralLink} />}
+      {value === 1 && <ReferalLinkList referals={data.referralLink} />}
     </div>
   );
 }
