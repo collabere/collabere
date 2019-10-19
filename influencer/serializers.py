@@ -12,7 +12,9 @@ class InfluencerPublicProfileDetailsSerializer(ModelSerializer):
             'referralLink',
             'videoLink',
         )
-        # read_only_fields = ('referralLink', 'videoLink')
+        extra_kwargs = {'referralLink': {'required': False},'videoLink': {'required': False}}
+
+
 
 class ClientMappingSerializer(serializers.Serializer):
     influencerUsername = serializers.CharField()
