@@ -149,6 +149,9 @@ class ClientScreen extends React.Component {
         <Menu.Item>
           <UpdatePublicProfileModal influencerUsername={this.props.match.params.influencerUsername} />
         </Menu.Item>
+        <Menu.Item >
+          <Link to={{pathname: `/profile/${this.props.match.params.influencerUsername}`}}> <Button color="primary" >See your public profile</Button>       </Link>
+        </Menu.Item>
         <Menu.Item>
          <Link style={{textDecoration: 'none'}} to='/'> <Button color="primary" onClick={this.handleLogout}>Logout</Button></Link>
         </Menu.Item>
