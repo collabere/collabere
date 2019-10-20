@@ -3,6 +3,11 @@ import { List, Typography } from "antd";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogActions";
 
 function getId(url) {
   var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -27,6 +32,7 @@ function getVideoListObjects(links) {
 }
 export default function VideoList({ influencerUsername, links }) {
   const [items, modifyItems] = React.useState(getVideoListObjects(links));
+  const [succesModalVisible, setSuccessModalVisible] = React.useState(false);
 
   const handleChange = item => event => {
     var newItems = [];
@@ -57,6 +63,11 @@ export default function VideoList({ influencerUsername, links }) {
     obj["username"] = influencerUsername;
     return obj;
   };
+
+  const handleSuccessModalClose = () => {
+    setSuccessModalVisible(false);
+    window.location.reload();
+  };
   const handleDeleteButtonClick = () => {
     axios({
       method: "put",
@@ -69,6 +80,7 @@ export default function VideoList({ influencerUsername, links }) {
     })
       .then(response => {
         console.log(response);
+        setSuccessModalVisible(true);
       })
       .catch(function(error) {
         console.log(error);
@@ -77,15 +89,15 @@ export default function VideoList({ influencerUsername, links }) {
 
   return (
     <div>
-      {sessionStorage.getItem('token') &&
-      <Button
-        style={{ float: "right" }}
-        color="secondary"
-        onClick={handleDeleteButtonClick}
-      >
-        Delete Selected
-      </Button>
-      }
+      {sessionStorage.getItem("token") && (
+        <Button
+          style={{ float: "right" }}
+          color="secondary"
+          onClick={handleDeleteButtonClick}
+        >
+          Delete Selected
+        </Button>
+      )}
       <h3 style={{ margin: "16px 0" }}>Videos</h3>
 
       <List
@@ -99,19 +111,37 @@ export default function VideoList({ influencerUsername, links }) {
               frameborder="0"
               allowfullscreen
             ></iframe>
-            {sessionStorage.getItem('token') && <Checkbox
-              checked={item.checked}
-              value="dd"
-              onChange={handleChange(item)}
-              inputProps={{
-                "aria-label": "primary checkbox"
-              }}
-            /> }
-            
+            {sessionStorage.getItem("token") && (
+              <Checkbox
+                checked={item.checked}
+                value="dd"
+                onChange={handleChange(item)}
+                inputProps={{
+                  "aria-label": "primary checkbox"
+                }}
+              />
+            )}
           </List.Item>
         )}
       />
+      <Dialog
+        open={succesModalVisible}
+        onClose={handleSuccessModalClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Success"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Selected Videos have been removed successfully
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleSuccessModalClose} color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
-
