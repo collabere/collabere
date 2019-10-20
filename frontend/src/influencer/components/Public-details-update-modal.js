@@ -20,12 +20,31 @@ class UpdatePublicProfileModal extends React.Component {
       updateData: {},
       visible: false,
       successModalVisible: false,
-      spinnerVisible: false
+      spinnerVisible: false,
+      existingLinks: null,
+      existingReferrals: null
     };
     this.handleUpdatePublicProfile = this.handleUpdatePublicProfile.bind(this);
     this.handleChangeOfMultilineInputFields = this.handleChangeOfMultilineInputFields.bind(
       this
     );
+  }
+  componentDidMount(){
+    axios
+      .get(`/influencer/get_public_details`, {
+        params: {
+          username: this.props.influencerUsername
+        },
+        headers: {
+           'Authorization': sessionStorage.getItem('token') 
+        }
+      })
+      .then(res => {
+        this.setState({
+          existingLinks:  res.data.videoLink ? res.data.videoLink.split(",").join("\n"): null ,
+          existingReferrals: res.data.referralLink ? res.data.referralLink.split(",").join("\n") : null
+        });
+      });
   }
 
   handleUpdatePublicProfile() {
@@ -79,7 +98,8 @@ class UpdatePublicProfileModal extends React.Component {
   };
 
   handleSuccessModalClose = () => {
-    this.setState({ successModalVisible: false });
+    this.setState({ successModalVisible: false , visible: false});
+
   };
 
   handleCancel = e => {
@@ -120,6 +140,7 @@ class UpdatePublicProfileModal extends React.Component {
               label="Enter Video Links Here"
               multiline
               rowsMax="10"
+              defaultValue={this.state.existingLinks}
               onChange={this.handleChangeOfMultilineInputFields}
               margin="normal"
               variant="outlined"
@@ -129,6 +150,7 @@ class UpdatePublicProfileModal extends React.Component {
               label="Enter Referal Links Here"
               multiline
               rowsMax="10"
+              defaultValue={this.state.existingReferrals}
               onChange={this.handleChangeOfMultilineInputFields}
               margin="normal"
               variant="outlined"
@@ -137,7 +159,7 @@ class UpdatePublicProfileModal extends React.Component {
           {spinnerVisible ? <CircularProgress /> : null}
         </Modal>
         <Dialog
-          open={this.state.successModalOpen}
+          open={this.state.successModalVisible}
           onClose={this.handleSuccessModalClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
