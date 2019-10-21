@@ -22,12 +22,15 @@ function getId(url) {
 
 function getVideoListObjects(links) {
   var videoObjectList = [];
-  links.split(",").forEach(element => {
-    var obj = {};
-    obj["link"] = element;
-    obj["checked"] = false;
-    videoObjectList.push(obj);
-  });
+  if (links) {
+    links.split(",").forEach(element => {
+      var obj = {};
+      obj["link"] = element;
+      obj["checked"] = false;
+      videoObjectList.push(obj);
+    });
+  }
+
   return videoObjectList;
 }
 export default function VideoList({ influencerUsername, links }) {
@@ -59,7 +62,8 @@ export default function VideoList({ influencerUsername, links }) {
 
   const constructObjectToPost = () => {
     var obj = {};
-    obj["videoLink"] = returnLinks().join(",");
+    obj["videoLink"] =
+      returnLinks().length === 0 ? null : returnLinks().join(",");
     obj["username"] = influencerUsername;
     return obj;
   };
@@ -94,36 +98,43 @@ export default function VideoList({ influencerUsername, links }) {
           style={{ float: "right" }}
           color="secondary"
           onClick={handleDeleteButtonClick}
+          disabled={
+            items.length === items.filter(item => item.checked === false).length
+          }
         >
           Delete Selected
         </Button>
       )}
       <h3 style={{ margin: "16px 0" }}>Videos</h3>
+      {items.length === 0 ? (
+        <p style={{ color: "red" }}>No videos have been added! </p>
+      ) : (
+        <List
+          size="small"
+          bordered
+          dataSource={items}
+          renderItem={item => (
+            <List.Item style={{ backgroundColor: "#DCDCDC" }}>
+              <iframe
+                src={"//www.youtube.com/embed/" + getId(item.link)}
+                frameborder="0"
+                allowfullscreen
+              ></iframe>
+              {sessionStorage.getItem("token") && (
+                <Checkbox
+                  checked={item.checked}
+                  value="dd"
+                  onChange={handleChange(item)}
+                  inputProps={{
+                    "aria-label": "primary checkbox"
+                  }}
+                />
+              )}
+            </List.Item>
+          )}
+        />
+      )}
 
-      <List
-        size="small"
-        bordered
-        dataSource={items}
-        renderItem={item => (
-          <List.Item style={{ backgroundColor: "#DCDCDC" }}>
-            <iframe
-              src={"//www.youtube.com/embed/" + getId(item.link)}
-              frameborder="0"
-              allowfullscreen
-            ></iframe>
-            {sessionStorage.getItem("token") && (
-              <Checkbox
-                checked={item.checked}
-                value="dd"
-                onChange={handleChange(item)}
-                inputProps={{
-                  "aria-label": "primary checkbox"
-                }}
-              />
-            )}
-          </List.Item>
-        )}
-      />
       <Dialog
         open={succesModalVisible}
         onClose={handleSuccessModalClose}
