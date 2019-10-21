@@ -197,7 +197,7 @@ class ProjectCreationScreen extends React.Component {
   handleSavingOfProjectDetails() {
     axios({
       method: "put",
-      url: `localhost:8000/project/put`,
+      url: `/project/put`,
       data: {
         email: this.state.email,
         influencerUserName: this.state.influencerUsername,
