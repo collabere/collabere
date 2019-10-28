@@ -51,6 +51,7 @@ output: {
   },
   resolve: {
     extensions: ['*', '.js', '.jsx']
-  }
+  },
+  watch: true
 
 };
