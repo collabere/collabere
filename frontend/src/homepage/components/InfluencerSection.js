@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, Typography, Grid } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-import CollaborateImg from '../../../images/influencer-marketing.jpg';
+import CollaborateImg from '../../../images/resized1.jpg';
 
 const useStyles = makeStyles({
   card: {
@@ -31,6 +31,9 @@ const useStyles = makeStyles({
   },
   backgroundSetup: {
     backgroundImage: `url(${CollaborateImg})`
+  },
+  backgroundColorStyle: {
+    backgroundColor: '#ebeddc'
   }
 });
 
@@ -47,7 +50,7 @@ export default function InfluencerSection({ dark, id }) {
   return (
     <div>
       <div style={paddingStyle}>
-        <Card className={classes.card}>
+        <Card className={`${classes.card} ${classes.backgroundSetup}`}>
           <CardContent>
             <Typography variant="h5" component="h2">
               Collaborate effectively with a business portfolio
@@ -66,7 +69,7 @@ export default function InfluencerSection({ dark, id }) {
             Product for influencers
             </Typography>
             <Typography variant="body2" component="p" className={classes.leftAlign}>
-              <Card>
+              <Card className={classes.backgroundColorStyle}>
                 <CardContent>
                   <Typography>
                   Own a business portfolio
@@ -78,7 +81,7 @@ export default function InfluencerSection({ dark, id }) {
             </Typography>
             <Typography variant="body2" component="p" className={classes.rightAlign}>
               <div style={leftPaddingStyle}>
-                <Card>
+                <Card className={classes.backgroundColorStyle}>
                   <CardContent>
                     <Typography>
                     Collaboration requests
@@ -90,7 +93,7 @@ export default function InfluencerSection({ dark, id }) {
               </div>
             </Typography>
             <Typography variant="body2" component="p" className={classes.leftAlign}>
-              <Card>
+              <Card className={classes.backgroundColorStyle}>
                 <CardContent>
                   <Typography>
                   A comfortable interface
@@ -102,7 +105,7 @@ export default function InfluencerSection({ dark, id }) {
             </Typography>
             <Typography variant="body2" component="p" className={classes.rightAlign}>
               <div style={leftPaddingStyle}>
-                  <Card>
+                  <Card className={classes.backgroundColorStyle}>
                     <CardContent>
                       <Typography>
                       Track and visualize your metrics
@@ -114,7 +117,7 @@ export default function InfluencerSection({ dark, id }) {
                 </div>
             </Typography>
             <Typography variant="body2" component="p" className={classes.leftAlign}>
-              <Card>
+              <Card className={classes.backgroundColorStyle}>
                 <CardContent>
                   <Typography>
                   Know where you stand

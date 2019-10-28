@@ -15,6 +15,10 @@ export default class HomeImage extends Component {
             width: '100%',
             height: 500
         }
+
+        const cardStyle = {
+            textAlign: 'center'
+        }
         return (
             <Card>
                 <CardMedia>
