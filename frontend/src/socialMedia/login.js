@@ -94,6 +94,11 @@ class Login extends React.Component {
     }
 
     render() {
+        const divStyle = {
+            paddingTop: '20px',
+            paddingBottom: '20px',
+        };
+
         let content = !!this.state.isAuthenticated ?
             (
                 <div>
@@ -109,7 +114,7 @@ class Login extends React.Component {
                 </div>
             ) :
             (
-                <div>
+                <div style={divStyle}>
                     {/* <TwitterLogin loginUrl="http://localhost:4000/api/v1/auth/twitter"
                                    onFailure={this.twitterResponse} onSuccess={this.twitterResponse}
                                    requestTokenUrl="http://localhost:4000/api/v1/auth/twitter/reverse"/> */}
@@ -118,15 +123,15 @@ class Login extends React.Component {
                         autoLoad={false}
                         fields="name,email,picture"
                         callback={this.facebookResponse} /> */}
-                    <GoogleLogin
+                    {/* <GoogleLogin
                         clientId="226653634564-adqtobrilha28amq3jhksflm1tnd8abh.apps.googleusercontent.com"
                         buttonText="Login"
                         onSuccess={this.googleResponse}
                         onFailure={this.googleResponse}
-                    />
+                    /> */}
                      <InstagramLogin
                         clientId="49f4a71ef28b448a864a7519a197ba0c"
-                        buttonText="Login"
+                        buttonText="Instagram Login"
                         redirectUri="http://localhost:8000/api/social_redirect"
                         onSuccess={this.instagramResponse}
                         onFailure={this.instagramResponse}

@@ -40,8 +40,8 @@ const useStyles = makeStyles({
 export default function InfluencerSection({ dark, id }) {
   const classes = useStyles();
   const paddingStyle = {
-    paddingBottom: 10,
-    paddingTop: 10,
+    paddingBottom: 5,
+    paddingTop: 5,
   }
 
   const leftPaddingStyle = {

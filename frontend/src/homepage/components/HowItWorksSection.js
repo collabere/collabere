@@ -1,13 +1,37 @@
 import React from "react";
+import { Card, Typography, CardContent } from "@material-ui/core";
+import CollaborateImg from '../../../images/resized1.jpg';
 
 export default function HowItWorksSection({ dark, id }) {
+  const cardStyle = {
+    minHeight: 400,
+    minWidth: 275,
+    textAlign: 'center',
+    backgroundImage: `url(${CollaborateImg})`,
+  }
+
+  const paddingStyle = {
+    paddingBottom: 5,
+    paddingTop: 5,
+  }
+
   return (
-    <div className={"section" + (dark ? " section-dark" : "")}>
-      <div className="section-content" id={id}>
-      <h1>How it works??
-</h1>
-        
-      </div>
+    <div style={paddingStyle}>
+      <Card style={cardStyle}>
+        <CardContent>
+          <Typography variant="h5" component="h2">
+            How It Works ?
+          </Typography>
+        </CardContent>
+        <iframe src='https://www.youtube.com/embed/h6fcK_fRYaI'
+          frameBorder='0'
+          allow='autoplay; encrypted-media'
+          allowFullScreen
+          title='video'
+          width='600'
+          height='400'
+        />
+      </Card>
     </div>
   );
 }

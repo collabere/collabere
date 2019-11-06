@@ -52,11 +52,13 @@ render() {
     backgroundImage: `url(${CollaborateImg})`
   }
 
-  const buttonStyle = {
-    color: 'green'
+  const paddingStyle = {
+    paddingBottom: 5,
+    paddingTop: 5,
   }
+
   return (
-    <div>
+    <div style={paddingStyle}>
       <MaterialUiLibrary.Card style={cardStyle}>
         <MaterialUiLibrary.CardContent>
           <MaterialUiLibrary.Typography variant="h5" component="h2">
