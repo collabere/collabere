@@ -60,36 +60,54 @@ class LoginModal extends React.Component {
     if (authenticatedUsername) {
       return <Redirect to={`/clients/${this.state.username}`} />;
     }
+
+    const cardStyle = {
+      height: '350px',
+      width: '500px',
+    }
+
+    const divStyle ={
+      height: '350px',
+      width: '500px',
+      textAlign: '-webkit-center',
+    }
+
     return (
-      <Form className="form">
-        <Col>
-          <FormGroup>
-            <Label>User Name</Label>
-            <Input
-              type="text"
-              name="username"
-              id="exampleEmail"
-              placeholder="myemail@email.com"
-              onChange={this.handleChangeOfInputFields}
-            />
-          </FormGroup>
-        </Col>
-        <Col>
-          <FormGroup>
-            <Label for="examplePassword">Password</Label>
-            <Input
-              type="password"
-              name="password"
-              id="examplePassword"
-              placeholder="********"
-              onChange={this.handleChangeOfInputFields}
-            />
-          </FormGroup>
-        </Col>
-        <MaterialUiLibrary.Button variant="contained" color="primary" onClick={this.handleLogin}>Login</MaterialUiLibrary.Button>
-        <Link style={{textDecoration: 'none'}} to='/forgot-password'> <MaterialUiLibrary.Button  color="secondary">Forgot Password?</MaterialUiLibrary.Button></Link>
-        <Login/>
-      </Form>
+      <div style={divStyle}>
+        <MaterialUiLibrary.Card style={cardStyle}>
+          <MaterialUiLibrary.CardContent>
+            <Form className="form">
+              <Col>
+                <FormGroup>
+                  <Label>User Name</Label>
+                  <Input
+                    type="text"
+                    name="username"
+                    id="exampleEmail"
+                    placeholder="myemail@email.com"
+                    onChange={this.handleChangeOfInputFields}
+                  />
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup>
+                  <Label for="examplePassword">Password</Label>
+                  <Input
+                    type="password"
+                    name="password"
+                    id="examplePassword"
+                    placeholder="********"
+                    onChange={this.handleChangeOfInputFields}
+                  />
+                </FormGroup>
+              </Col>
+              <MaterialUiLibrary.Button variant="contained" color="primary" onClick={this.handleLogin}>Login</MaterialUiLibrary.Button>
+              <Link style={{textDecoration: 'none'}} to='/forgot-password'> <MaterialUiLibrary.Button  color="secondary">Forgot Password?</MaterialUiLibrary.Button></Link>
+              <Login/>
+            </Form>
+          </MaterialUiLibrary.CardContent>
+        </MaterialUiLibrary.Card>
+      </div>
     );
   }
 }
