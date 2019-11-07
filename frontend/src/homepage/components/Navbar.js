@@ -71,7 +71,8 @@ export default class HomeNavBar extends Component {
     }
 
     const appBarStyle = {
-      backgroundColor: '#7e0015'
+      backgroundColor: '#7e0015',
+      height: '63px',
     }
 
     const typographyStyle = {

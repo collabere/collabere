@@ -26,6 +26,10 @@ class LoginModal extends React.Component {
     this.handleLogin = this.handleLogin.bind(this);
   }
 
+  handleRegister() {
+    console.log('axios called register.s')
+  }
+
   handleLogin() {
     axios({
       method: "post",
@@ -102,6 +106,7 @@ class LoginModal extends React.Component {
                 </FormGroup>
               </Col>
               <MaterialUiLibrary.Button variant="contained" color="primary" onClick={this.handleLogin}>Login</MaterialUiLibrary.Button>
+              <MaterialUiLibrary.Button variant="contained" color="primary" onClick={this.handleRegister}>Register</MaterialUiLibrary.Button>
               <Link style={{textDecoration: 'none'}} to='/forgot-password'> <MaterialUiLibrary.Button  color="secondary">Forgot Password?</MaterialUiLibrary.Button></Link>
               <Login/>
             </Form>
