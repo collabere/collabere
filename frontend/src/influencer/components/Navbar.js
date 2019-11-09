@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import * as MaterialUiLibrary from "@material-ui/core";
 import { Link as _Link } from "react-router-dom";
-import collabere from '../../../images/collabere.png'
+import collabere from "../../homepage/images/collabere.png";
 
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -21,9 +21,16 @@ class InboxNavbar extends Component {
     super(props);
     this.state = {
       isSortMenuOpen: false,
-      anchorEl: null
+      anchorEl: null,
+      searchFieldValue: ""
     };
   }
+
+  handleSearchByName = event => {
+    this.setState({ searchFieldValue: event.target.value }, function() {
+      this.props.handleSearch(this.state.searchFieldValue);
+    });
+  };
 
   render() {
     const rootStyle = {
@@ -91,7 +98,11 @@ class InboxNavbar extends Component {
             >
               <img style={{ paddingBottom: "1rem" }} src={collabere} />
             </MaterialUiLibrary.Typography>
-            <Search placeholder="Search Client" style={{ width: 300 }} />
+            <Search
+              placeholder="Search Client"
+              style={{ width: 300 }}
+              onChange={this.handleSearchByName}
+            />
             <Dropdown overlay={menu} placement="topLeft">
               <IconButton
                 aria-label="account of current user"
