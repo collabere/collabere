@@ -2,8 +2,7 @@ import React, { Component } from "react";
 
 import * as MaterialUiLibrary from "@material-ui/core";
 import { Link as _Link } from "react-router-dom";
-import collabere from "../../homepage/images/collabere.png";
-
+import collabere from '../../../images/collabere.png'
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
