@@ -87,14 +87,14 @@ class ClientScreen extends React.Component {
     this.setState({ updatModalOpen: true });
   };
 
-  handleChange(e) {
+  handleChange(value) {
     let currentList = [];
     let newList = [];
-    if (e.target.value !== "") {
+    if (value !== "") {
       currentList = this.state.clients;
       newList = currentList.filter(client => {
         const clientNameLoweCase = client.clientName.toLowerCase();
-        const filter = e.target.value.toLowerCase();
+        const filter = value.toLowerCase();
         return clientNameLoweCase.includes(filter);
       });
     } else {
@@ -156,6 +156,7 @@ class ClientScreen extends React.Component {
       <div>
         <InboxNavbar
           influencerUsername={this.props.match.params.influencerUsername}
+          handleSearch={this.handleChange}
         />
         <div style={{ maxWidth: "80%", margin: "auto" }}>
           <ExpansionPanel style={{ paddingTop: ".7rem" }}>
@@ -164,7 +165,9 @@ class ClientScreen extends React.Component {
               aria-controls="panel1a-content"
               id="panel1a-header"
             >
-              <Typography style={{ color: "#7e0015", textAlign: 'center' }}>SORT OPTIONS:</Typography>
+              <Typography style={{ color: "#7e0015", textAlign: "center" }}>
+                SORT OPTIONS
+              </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <RadioGroup
@@ -205,7 +208,6 @@ class ClientScreen extends React.Component {
                         ? "#ebebeb"
                         : "#FFFFFF"
                   }}
-                  
                 >
                   <List.Item key={item.id}>
                     <ProjectCard
