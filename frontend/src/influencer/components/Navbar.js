@@ -2,9 +2,8 @@ import React, { Component } from "react";
 
 import * as MaterialUiLibrary from "@material-ui/core";
 import { Link as _Link } from "react-router-dom";
-import collabere from '../../../images/collabere.png'
+import collabere from '../../../images/collabere.png';
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Menu, Dropdown, Input } from "antd";
 import UpdateModal from "./Profile-update-modal-dialogue";
@@ -12,8 +11,6 @@ import UpdatePublicProfileModal from "./Public-details-update-modal";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import SideNavMenu from "./Side-nav-menu";
-
-const Search = Input.Search;
 
 class InboxNavbar extends Component {
   constructor(props) {
@@ -50,7 +47,7 @@ class InboxNavbar extends Component {
     };
 
     const toolbarStyle = {
-      textAlign: "left"
+      textAlign: "center"
     };
     const { influencerUsername } = this.props;
 
@@ -67,7 +64,6 @@ class InboxNavbar extends Component {
             style={{ textDecoration: "none" }}
             to={{ pathname: `/profile/${influencerUsername}` }}
           >
-            {" "}
             <Button color="primary">See your public profile</Button>{" "}
           </Link>
         </Menu.Item>
@@ -87,9 +83,10 @@ class InboxNavbar extends Component {
       <div style={rootStyle}>
         <MaterialUiLibrary.AppBar position="fixed" style={appBarStyle}>
           <MaterialUiLibrary.Toolbar style={toolbarStyle}>
-            <IconButton edge="start" color="inherit" aria-label="menu">
-              <MenuIcon />
-            </IconButton>
+            <SideNavMenu
+              influencerUsername={this.props.influencerUsername}
+              handleSearchByProjectName={this.handleSearchByName}
+            />
             <MaterialUiLibrary.Typography
               variant="h5"
               color="inherit"
@@ -97,11 +94,6 @@ class InboxNavbar extends Component {
             >
               <img style={{ paddingBottom: "1rem" }} src={collabere} />
             </MaterialUiLibrary.Typography>
-            <Search
-              placeholder="Search Client"
-              style={{ width: 300 }}
-              onChange={this.handleSearchByName}
-            />
             <Dropdown overlay={menu} placement="topLeft">
               <IconButton
                 aria-label="account of current user"
@@ -114,7 +106,6 @@ class InboxNavbar extends Component {
             </Dropdown>
           </MaterialUiLibrary.Toolbar>
         </MaterialUiLibrary.AppBar>
-        <SideNavMenu influencerUsername={this.props.influencerUsername} />
       </div>
     );
   }
