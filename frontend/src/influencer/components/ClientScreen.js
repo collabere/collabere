@@ -159,7 +159,7 @@ class ClientScreen extends React.Component {
           handleSearch={this.handleChange}
         />
         <div style={{ maxWidth: "80%", margin: "auto" }}>
-          <ExpansionPanel style={{ paddingTop: ".7rem" }}>
+          <ExpansionPanel style={{ paddingTop: "4rem" }}>
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
