@@ -145,8 +145,10 @@ class ClientScreen extends React.Component {
     this.setState({ sortOptionValue: event.target.value }, function() {
       if (this.state.sortOptionValue === "alphabetical") {
         this.handleSortAplphabetically();
-      } else {
+      } else if(this.state.sortOptionValue === "date") {
         this.handleSortByStartingDates();
+      }else {
+        this.fetchArticles()
       }
     });
   };
@@ -159,7 +161,7 @@ class ClientScreen extends React.Component {
           handleSearch={this.handleChange}
         />
         <div style={{ maxWidth: "80%", margin: "auto" }}>
-          <ExpansionPanel style={{ paddingTop: ".7rem" }}>
+          <ExpansionPanel style={{ paddingTop: "4rem" }}>
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
@@ -184,6 +186,12 @@ class ClientScreen extends React.Component {
                   value="date"
                   control={<Radio color="primary" />}
                   label="Sort By Starting Dates"
+                  labelPlacement="end"
+                />
+                <FormControlLabel
+                  value="reset"
+                  control={<Radio color="primary" />}
+                  label="Reset"
                   labelPlacement="end"
                 />
               </RadioGroup>
