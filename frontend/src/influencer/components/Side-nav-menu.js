@@ -51,7 +51,7 @@ class SideNavMenu extends React.Component {
             />{" "}
           </ListItem>
 
-          <Link to="/clients/">
+        <Link to={`/clients/${this.props.influencerUsername}`} style={{textDecoration: 'none'}}>
             <ListItem button key="Inbox">
               <ListItemText primary="Inbox" />
             </ListItem>
