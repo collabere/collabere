@@ -86,6 +86,7 @@ class InboxNavbar extends Component {
             <SideNavMenu
               influencerUsername={this.props.influencerUsername}
               handleSearchByProjectName={this.handleSearchByName}
+              showSearchBarField={this.props.showSearchBar}
             />
             <MaterialUiLibrary.Typography
               variant="h5"

@@ -7,6 +7,8 @@ import { local, dev } from "../../config/envConfig";
 import { Navbar, FormControl, Nav, Form } from "react-bootstrap";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import InboxNavbar from "../../influencer/components/Navbar";
+
 
 require("../styles/ConversationScreen.css");
 
@@ -105,14 +107,10 @@ class ConversationScreen extends React.Component {
   render() {
     return (
       <div>
-        <Navbar expand="lg" style={{ backgroundColor: "#7e0015" }}>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
+        <InboxNavbar
+          influencerUsername={this.props.match.params.influencerUsername}
+          showSearchBar={false}
+        />
         <div className="App" style={{ maxWidth: "100%", margin: "auto" }}>
         {this.state.messagesLoadingFlag ? (<LinearProgress />):null}
 

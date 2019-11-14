@@ -159,6 +159,7 @@ class ClientScreen extends React.Component {
         <InboxNavbar
           influencerUsername={this.props.match.params.influencerUsername}
           handleSearch={this.handleChange}
+          showSearchBar={true}
         />
         <div style={{ maxWidth: "80%", margin: "auto" }}>
           <ExpansionPanel style={{ paddingTop: "4rem" }}>
