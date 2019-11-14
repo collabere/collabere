@@ -43,15 +43,17 @@ class SideNavMenu extends React.Component {
     const sideList = (
       <div className={classes.list}>
         <List>
+          {this.props.showSearchBarField &&
           <ListItem button key="Metrics">
-            <Search
-              placeholder="Search Client"
-              style={{ width: 300 }}
-              onChange={this.handleSideNavSearchByProjectName}
-            />{" "}
-          </ListItem>
+          <Search
+            placeholder="Search Client"
+            style={{ width: 300 }}
+            onChange={this.handleSideNavSearchByProjectName}
+          />{" "}
+        </ListItem>
+       }
 
-          <Link to="/clients/">
+        <Link to={`/clients/${this.props.influencerUsername}`} style={{textDecoration: 'none'}}>
             <ListItem button key="Inbox">
               <ListItemText primary="Inbox" />
             </ListItem>
