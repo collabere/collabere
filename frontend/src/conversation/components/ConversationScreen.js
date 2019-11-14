@@ -111,7 +111,7 @@ class ConversationScreen extends React.Component {
           influencerUsername={this.props.match.params.influencerUsername}
           showSearchBar={false}
         />
-        <div className="App" style={{ maxWidth: "100%", margin: "auto" }}>
+        <div className="App" style={{ maxWidth: "100%", margin: "auto", marginTop: '4rem' }}>
         {this.state.messagesLoadingFlag ? (<LinearProgress />):null}
 
           <Messages messages={this.state.messages} />
