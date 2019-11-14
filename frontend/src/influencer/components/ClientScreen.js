@@ -226,7 +226,7 @@ class ClientScreen extends React.Component {
                       minBudget={item.minBudget}
                       maxBudget={item.maxBudget}
                       clientId={item.clientId}
-                      influencerUserName={
+                      influencerUsername={
                         this.props.match.params.influencerUsername
                       }
                     />
