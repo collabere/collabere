@@ -10,9 +10,11 @@ import ProjectCreationScreen from "../../project/components/ProjectCreationScree
 import VideoList from "./VideoList";
 import axios from "axios";
 import ReferalLinkList from "./ReferalLinkList";
+import HomeNavBar from "../../homepage/components/Navbar"
 
 export default function InfluencerProfileScreen(props) {
   useEffect(() => {
+    
     axios
       .get(`/influencer/get_public_details`, {
         params: {
@@ -43,14 +45,7 @@ export default function InfluencerProfileScreen(props) {
         margin: "1px auto 5% auto"
       }}
     >
-      <Navbar expand="lg" style={{ backgroundColor: "#7e0015" }}>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+      <HomeNavBar/>
       <div style={{ backgroundColor: "#7e0015", height: "12rem" }}></div>
 
       <Paper style={{ flexGrow: "1" }}>
