@@ -36,6 +36,17 @@ function getVideoListObjects(links) {
 export default function VideoList({ influencerUsername, links }) {
   const [items, modifyItems] = React.useState(getVideoListObjects(links));
   const [succesModalVisible, setSuccessModalVisible] = React.useState(false);
+  const [urlTitleMap, setUrlTitleMap] = React.useState({});
+
+  useEffect(async () => {
+    let urlArray = links.split(",");
+    let map = {};
+    for (let i = 0; i < urlArray.length; i++) {
+      const response = await getVideoTitlePromise(urlArray[i]);
+      map[urlArray[i]] = response.data.items[0].snippet.title;
+    }
+    setUrlTitleMap(map);
+  }, []);
 
   const handleChange = item => event => {
     var newItems = [];
@@ -46,6 +57,19 @@ export default function VideoList({ influencerUsername, links }) {
       newItems.push(obj);
       modifyItems(newItems);
     });
+  };
+
+  const getVideoTitlePromise = videoUrl => {
+    const videoId = getId(videoUrl);
+    let videoTitle = "";
+    let config = {
+      params: {
+        key: "AIzaSyAVUVVKZISe5zlCPL_xuTjVKLmZfwpyCwY",
+        part: "snippet",
+        id: videoId
+      }
+    };
+    return axios.get("https://www.googleapis.com/youtube/v3/videos", config);
   };
 
   const returnLinks = () => {
@@ -120,6 +144,9 @@ export default function VideoList({ influencerUsername, links }) {
                 frameborder="0"
                 allowfullscreen
               ></iframe>
+              <p style={{ fontSize: "2rem", paddingLeft: "1rem" }}>
+                {urlTitleMap[item.link]}
+              </p>
               {sessionStorage.getItem("token") && (
                 <Checkbox
                   checked={item.checked}
