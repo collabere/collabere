@@ -38,14 +38,17 @@ export default function VideoList({ influencerUsername, links }) {
   const [succesModalVisible, setSuccessModalVisible] = React.useState(false);
   const [urlTitleMap, setUrlTitleMap] = React.useState({});
 
-  useEffect(async () => {
-    let urlArray = links.split(",");
-    let map = {};
-    for (let i = 0; i < urlArray.length; i++) {
-      const response = await getVideoTitlePromise(urlArray[i]);
-      map[urlArray[i]] = response.data.items[0].snippet.title;
+  useEffect(() => {
+    async function processMapWithTitle() {
+      let urlArray = links.split(",");
+      let map = {};
+      for (let i = 0; i < urlArray.length; i++) {
+        const response = await getVideoTitlePromise(urlArray[i]);
+        map[urlArray[i]] = response.data.items[0].snippet.title;
+      }
+      setUrlTitleMap(map);
     }
-    setUrlTitleMap(map);
+    processMapWithTitle();
   }, []);
 
   const handleChange = item => event => {
@@ -144,7 +147,7 @@ export default function VideoList({ influencerUsername, links }) {
                 frameborder="0"
                 allowfullscreen
               ></iframe>
-              <p style={{ fontSize: "2rem", paddingLeft: "1rem" }}>
+              <p style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>
                 {urlTitleMap[item.link]}
               </p>
               {sessionStorage.getItem("token") && (
