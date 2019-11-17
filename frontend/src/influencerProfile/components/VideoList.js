@@ -147,7 +147,7 @@ export default function VideoList({ influencerUsername, links }) {
                 frameborder="0"
                 allowfullscreen
               ></iframe>
-              <p style={{ fontSize: "2rem", paddingLeft: "1rem" }}>
+              <p style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>
                 {urlTitleMap[item.link]}
               </p>
               {sessionStorage.getItem("token") && (
