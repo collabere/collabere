@@ -34,9 +34,6 @@ class UpdatePublicProfileModal extends React.Component {
       currentReferral: ""
     };
     this.handleUpdatePublicProfile = this.handleUpdatePublicProfile.bind(this);
-    this.handleChangeOfMultilineInputFields = this.handleChangeOfMultilineInputFields.bind(
-      this
-    );
   }
   componentDidMount() {
     axios
@@ -51,11 +48,11 @@ class UpdatePublicProfileModal extends React.Component {
       .then(res => {
         this.setState({
           existingLinks: res.data.videoLink
-            ? res.data.videoLink.split(",").join("\n")
-            : null,
+            ? res.data.videoLink.split(",")
+            : [],
           existingReferrals: res.data.referralLink
-            ? res.data.referralLink.split(",").join("\n")
-            : null
+            ? res.data.referralLink.split(",")
+            : []
         });
       });
   }
@@ -175,7 +172,7 @@ class UpdatePublicProfileModal extends React.Component {
                 <ExpansionPanelDetails>
                   <TextField
                     id="standard-basic"
-                    label="Standard"
+                    label="Add here"
                     margin="normal"
                     onChange={this.handleChangeOfVideoField}
                   />
@@ -208,7 +205,7 @@ class UpdatePublicProfileModal extends React.Component {
                 <ExpansionPanelDetails>
                   <TextField
                     id="standard-basic"
-                    label="Standard"
+                    label="Add here"
                     margin="normal"
                     onChange={this.handleChangeOfReferralField}
                   />
