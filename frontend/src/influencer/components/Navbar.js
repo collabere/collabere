@@ -95,7 +95,7 @@ class InboxNavbar extends Component {
             >
               <img style={{ paddingBottom: "1rem" }} src={collabere} />
             </MaterialUiLibrary.Typography>
-            <Dropdown overlay={menu} placement="topLeft">
+            <Dropdown overlay={menu} placement="topLeft" trigger={['click']} >
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
