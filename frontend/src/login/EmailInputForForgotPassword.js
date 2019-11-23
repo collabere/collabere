@@ -12,13 +12,16 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import HomeNavBar from "../homepage/components/Navbar";
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 
 class EmailInputForReset extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: "",
-      successModalOpen: false
+      successModalOpen: false,
+      loadingFlag: false
     };
     this.handleChangeOfInputFields = this.handleChangeOfInputFields.bind(this);
     this.handleSend = this.handleSend.bind(this);
@@ -27,6 +30,7 @@ class EmailInputForReset extends React.Component {
   }
 
   handleSend() {
+    this.setState({loadingFlag: true})
     axios({
       method: "put",
       url: `/influencer/auth/send_email_to_reset_password/`,
@@ -37,6 +41,7 @@ class EmailInputForReset extends React.Component {
         "content-type": "application/json"
       }
     }).then(response => {
+      this.setState({loadingFlag: false})
       this.handleSuccessModalOpen();
     });
   }
@@ -64,7 +69,6 @@ class EmailInputForReset extends React.Component {
         }}
       >
         <HomeNavBar />
-
         <Card style={{ backgroundColor: "#D8BFD8", marginTop: '4rem' }}>
           <CardContent>
             <Form className="form">
@@ -92,6 +96,8 @@ class EmailInputForReset extends React.Component {
             </Form>
           </CardContent>
         </Card>
+        {this.state.loadingFlag &&<LinearProgress />}
+
 
         <Dialog
           open={this.state.successModalOpen}
