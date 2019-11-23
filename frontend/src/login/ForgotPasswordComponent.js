@@ -11,13 +11,17 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import HomeNavBar from "../homepage/components/Navbar";
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 
 class EmailInputForReset extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       password: "",
-      successModalOpen: false
+      successModalOpen: false,
+      loadingFlag: false
+
     };
     this.handleChangeOfInputFields = this.handleChangeOfInputFields.bind(this);
     this.handleResetButton = this.handleResetButton.bind(this);
@@ -26,6 +30,8 @@ class EmailInputForReset extends React.Component {
   }
 
   handleResetButton() {
+  this.setState({loadingFlag: true})
+
     const {
       match: { params }
     } = this.props;
@@ -40,6 +46,7 @@ class EmailInputForReset extends React.Component {
         "content-type": "application/json"
       }
     }).then(response => {
+      this.setState({loadingFlag: false})
       this.handleSuccessModalOpen();
     });
   }
@@ -67,6 +74,7 @@ class EmailInputForReset extends React.Component {
         }}
       >
         <HomeNavBar />
+        <LinearProgress />
         <Card style={{ backgroundColor: "#D8BFD8", marginTop: '4rem' }}>
           <CardContent>
             <Form className="form">
@@ -91,6 +99,8 @@ class EmailInputForReset extends React.Component {
             </Form>
           </CardContent>
         </Card>
+        {this.state.loadingFlag &&<LinearProgress />}
+
 
         <Dialog
           open={this.state.successModalOpen}
