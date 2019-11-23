@@ -67,7 +67,7 @@ class EmailInputForReset extends React.Component {
         }}
       >
         <HomeNavBar />
-        <Card style={{ backgroundColor: "#D8BFD8", marginTop: '2rem' }}>
+        <Card style={{ backgroundColor: "#D8BFD8", marginTop: '4rem' }}>
           <CardContent>
             <Form className="form">
               <Col>
