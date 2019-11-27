@@ -40,7 +40,7 @@ class FileUploadView(APIView):
       file_serializer = FileSerializer(data=request.data)
       if file_serializer.is_valid():
           clientEmail = getattr(list(getClientFromClientId(clientId))[0], 'email')
-          subject = 'Message from ' + influencerUsername + " for the project started on " + projectInitiationDate + ' on Collabere'
+          subject = 'File from ' + influencerUsername + " for the project started on " + projectInitiationDate + ' on Collabere'
           msg = EmailMultiAlternatives(subject, 'Please find the below file ', email_from, [clientEmail])
           file=request.FILES['file']
           msg.attach(file.name, file.file.getvalue(), mimetypes.guess_type(file.name)[0])
