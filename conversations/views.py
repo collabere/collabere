@@ -1,20 +1,18 @@
 import json
 from datetime import datetime
-
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from rest_framework import status
 from django.core.mail import send_mail
-
 from client.emailReadService import read_email_from_gmail
 from client.service import *
-
-
+from rest_framework.views import APIView
+from rest_framework.parsers import FileUploadParser
 
 from conversations.models import Messages
-from conversations.serializers import MessageSerializer
+from conversations.serializers import MessageSerializer, FileSerializer
 from inclyfy import settings
 from .service import  getMessagesByInfluencerusernameAndClientId,getAllMessages, deleteAllMessagesBasedOnResponderAndReciverId, saveMessages,getMessagesByProjectInitiationDate, getMessagesByProjectInitiationDateForClientSide
 
@@ -25,7 +23,17 @@ def sendeEmailAsMessage(subject, message,clientEmail):
     message = message
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [clientEmail]
+    print(clientEmail)
     send_mail(subject, message, email_from, recipient_list )
+
+class FileUploadView(APIView):
+    parser_class = (FileUploadParser,)
+    def post(self, request, *args, **kwargs):
+      file_serializer = FileSerializer(data=request.data)
+      if file_serializer.is_valid():
+          return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+      else:
+          return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)     
 
 @api_view(['GET' ])
 def getAllMessagesByInfluencerUsernameAndClientId(request):

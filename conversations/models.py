@@ -30,3 +30,10 @@ class Messages(models.Model):
     fromInfluencer = models.BooleanField(default=True)
     timestamp = models.DateTimeField(primary_key=True, default=timezone.now)
     projectInitiationDate = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+
+
+class File(models.Model):
+    file = models.FileField(blank=False, null=False)
+    def __str__(self):
+        return self.file.name 
