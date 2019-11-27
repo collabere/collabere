@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from  .models import  Messages
+from  .models import  Messages, File
 
 class MessageSerializer(ModelSerializer):
     # uid = serializers.IntegerField()
@@ -32,3 +32,9 @@ class MessageSerializer(ModelSerializer):
             'projectInitiationDate',
         )
         read_only_fields = fields
+
+
+class FileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = File
+        fields = "__all__"  
