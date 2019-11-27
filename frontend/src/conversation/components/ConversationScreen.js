@@ -105,6 +105,9 @@ class ConversationScreen extends React.Component {
   };
 
   render() {
+     const {
+      match: { params }
+    } = this.props;
     return (
       <div>
         <InboxNavbar
@@ -115,7 +118,12 @@ class ConversationScreen extends React.Component {
         {this.state.messagesLoadingFlag ? (<LinearProgress />):null}
 
           <Messages messages={this.state.messages} />
-          <ChatBox onSend={this.sendHandler} />
+           <ChatBox
+            onSend={this.sendHandler}
+            influencerUsername={params.influencerUsername}
+            clientId={params.clientId}
+            projectInitiationDate={params.projectInitiationDate}
+          />
         </div>
       </div>
     );
