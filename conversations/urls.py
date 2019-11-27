@@ -8,6 +8,6 @@ urlpatterns = [
     url(r'delete/(\d+)/(\d+)$', deleteMessages, name='delete_messages'),
     url(r'insert_message', insertMessages, name='save_incomming_message'),
     url(r'insert_client_reply', insertMessageFromClientEamil, name='save_incomming_message'),
-    url(r'^imageUpload', FileUploadView.as_view(),name='file_upload_and_send')
+    url(r'^file_upload', FileUploadView.as_view(),name='file_upload_and_send')
 
 ]

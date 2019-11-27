@@ -1,16 +1,19 @@
 import json
 from datetime import datetime
 from django.shortcuts import render
+import mimetypes
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer
 from rest_framework import status
 from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 from client.emailReadService import read_email_from_gmail
 from client.service import *
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser
-
+from django.core.mail import EmailMultiAlternatives
+from rest_framework import serializers
 from conversations.models import Messages
 from conversations.serializers import MessageSerializer, FileSerializer
 from inclyfy import settings
@@ -29,8 +32,20 @@ def sendeEmailAsMessage(subject, message,clientEmail):
 class FileUploadView(APIView):
     parser_class = (FileUploadParser,)
     def post(self, request, *args, **kwargs):
+      jsonResponse= request.data
+      influencerUsername = jsonResponse['influencerUsername']
+      clientId = jsonResponse['clientId']
+      projectInitiationDate=jsonResponse['projectInitiationDate']
+      email_from = settings.EMAIL_HOST_USER
       file_serializer = FileSerializer(data=request.data)
       if file_serializer.is_valid():
+          clientEmail = getattr(list(getClientFromClientId(clientId))[0], 'email')
+          subject = 'Message from ' + influencerUsername + " for the project started on " + projectInitiationDate + ' on Collabere'
+          msg = EmailMultiAlternatives(subject, 'Please find the below file ', email_from, [clientEmail])
+          file=request.FILES['file']
+          msg.attach(file.name, file.file.getvalue(), mimetypes.guess_type(file.name)[0])
+          msg.send()
+
           return Response(file_serializer.data, status=status.HTTP_201_CREATED)
       else:
           return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)     

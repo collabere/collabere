@@ -44,10 +44,14 @@ class ChatBox extends Component {
   handleFileUpload = () => {
     this.setState({ isSpinnerVisible: true });
     const { file } = this.state;
+    const { influencerUsername, clientId, projectInitiationDate } = this.props;
     var formData = new FormData();
     formData.append("file", file[0]);
+    formData.append("influencerUsername", influencerUsername);
+    formData.append("clientId", clientId);
+    formData.append("projectInitiationDate", projectInitiationDate);
     axios
-      .post("/messages/imageUpload", formData, {
+      .post("http://localhost:8000/messages/file_upload", formData, {
         headers: {
           Authorization: sessionStorage.getItem("token")
         }
