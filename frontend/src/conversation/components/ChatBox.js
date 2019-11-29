@@ -35,8 +35,14 @@ class ChatBox extends Component {
     this.props.onSend(this.state.text);
   }
 
-  notify = () => {
+  notifyOnSuccess = () => {
     toast.success("File sent successfully to the client", {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  };
+
+  notifyOnFailure = () => {
+    toast.error("Something went wrong,file could not be sent", {
       position: toast.POSITION.TOP_RIGHT
     });
   };
@@ -58,8 +64,11 @@ class ChatBox extends Component {
       })
       .then(() => {
         this.setState({ isSpinnerVisible: false });
-        this.notify();
+        this.notifyOnSuccess();
         this.setState({ isFileSendDialogueOpen: false });
+      })
+      .catch(() => {
+        this.notifyOnFailure();
       });
   };
 
@@ -73,6 +82,7 @@ class ChatBox extends Component {
 
   handleDialogueClose = () => {
     this.setState({ isFileSendDialogueOpen: false });
+    this.setState({ isSpinnerVisible: false });
   };
 
   render() {
