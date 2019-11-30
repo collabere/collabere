@@ -45,7 +45,7 @@ def login(request):
         token.save()
 
     #return Response({'token': token.key})
-    response_data = {'token': token.key}
+    response_data = {'token': token.key,'username': user.username}
     return HttpResponse(json.dumps(response_data), content_type="application/json")
                     
     
