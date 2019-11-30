@@ -45,7 +45,7 @@ class ConversationScreen extends React.Component {
       },
       headers: {
         "content-type": "application/json",
-        Authorization: sessionStorage.getItem("token")
+        Authorization: localStorage.getItem("token")
       }
     }).then(response => {
       console.log(response);
@@ -70,14 +70,14 @@ class ConversationScreen extends React.Component {
       match: { params }
     } = this.props;
     const authHeaders = {
-      headers: { Authorization: sessionStorage.getItem("token") }
+      headers: { Authorization: localStorage.getItem("token") }
     };
     axios
       .get(`/messages/chat_messages`, {
         params: {
           projectInitiationDate: params.projectInitiationDate
         },
-        headers: { Authorization: sessionStorage.getItem("token") }
+        headers: { Authorization: localStorage.getItem("token") }
       })
       .then(res => {
         console.log(res.data);
@@ -97,7 +97,7 @@ class ConversationScreen extends React.Component {
         params: {
           projectInitiationDate: params.projectInitiationDate
         },
-        headers: { Authorization: sessionStorage.getItem("token") }
+        headers: { Authorization: localStorage.getItem("token") }
       })
       .then(res => {
         this.fetchMessages();
