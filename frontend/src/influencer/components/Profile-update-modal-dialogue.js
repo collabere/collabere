@@ -35,7 +35,7 @@ class UpdateModal extends React.Component {
       data: this.constructRequiredObject(this.state.updateData),
       headers: {
         "content-type": "application/json",
-        Authorization: sessionStorage.getItem("token")
+        Authorization: localStorage.getItem("token")
       }
     })
       .then(response => {

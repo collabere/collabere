@@ -106,7 +106,7 @@ export default function VideoList({ influencerUsername, links }) {
       data: constructObjectToPost(),
       headers: {
         "content-type": "application/json",
-        Authorization: sessionStorage.getItem("token")
+        Authorization: localStorage.getItem("token")
       }
     })
       .then(response => {
@@ -120,7 +120,7 @@ export default function VideoList({ influencerUsername, links }) {
 
   return (
     <div>
-      {sessionStorage.getItem("token") && (
+      {localStorage.getItem("token") && (
         <Button
           style={{ float: "right" }}
           color="secondary"
@@ -150,7 +150,7 @@ export default function VideoList({ influencerUsername, links }) {
               <p style={{ fontSize: "1.5rem", paddingLeft: "1rem" }}>
                 {urlTitleMap[item.link]}
               </p>
-              {sessionStorage.getItem("token") && (
+              {localStorage.getItem("token") && (
                 <Checkbox
                   checked={item.checked}
                   value="dd"

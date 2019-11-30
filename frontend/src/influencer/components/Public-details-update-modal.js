@@ -42,7 +42,7 @@ class UpdatePublicProfileModal extends React.Component {
           username: this.props.influencerUsername
         },
         headers: {
-          Authorization: sessionStorage.getItem("token")
+          Authorization: localStorage.getItem("token")
         }
       })
       .then(res => {

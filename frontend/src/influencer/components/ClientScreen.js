@@ -44,7 +44,7 @@ class ClientScreen extends React.Component {
     axios
       .get(
         `/project/byInfluencerUserName/${params.influencerUsername}`,
-        { headers: { Authorization: sessionStorage.getItem("token") } }
+        { headers: { Authorization: localStorage.getItem("token") } }
       )
       .then(res => {
         console.log(res);
