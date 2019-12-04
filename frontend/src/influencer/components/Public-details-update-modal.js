@@ -8,7 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogActions";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import TextField from "@material-ui/core/TextField";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -31,7 +31,8 @@ class UpdatePublicProfileModal extends React.Component {
       existingLinks: [],
       existingReferrals: [],
       currentLink: "",
-      currentReferral: ""
+      currentReferral: "",
+      changesInLists: false
     };
     this.handleUpdatePublicProfile = this.handleUpdatePublicProfile.bind(this);
   }
@@ -65,7 +66,7 @@ class UpdatePublicProfileModal extends React.Component {
       data: this.constructRequiredObject(),
       headers: {
         "content-type": "application/json",
-        Authorization: sessionStorage.getItem("token")
+        Authorization: localStorage.getItem("token")
       }
     })
       .then(response => {
@@ -128,7 +129,8 @@ class UpdatePublicProfileModal extends React.Component {
   handleVideoLinkAdd = () => {
     var joined = this.state.existingLinks.concat(this.state.currentLink);
     this.setState({
-      existingLinks: joined
+      existingLinks: joined,
+      changesInLists: true
     });
   };
 
@@ -137,12 +139,13 @@ class UpdatePublicProfileModal extends React.Component {
       this.state.currentReferral
     );
     this.setState({
-      existingReferrals: joined
+      existingReferrals: joined,
+      changesInLists: true
     });
   };
 
   render() {
-    const { spinnerVisible } = this.state;
+    const { spinnerVisible, changesInLists } = this.state;
     return (
       <div>
         <MaterialUiLibrary.Button type="primary" onClick={this.showModal}>
@@ -153,6 +156,9 @@ class UpdatePublicProfileModal extends React.Component {
           visible={this.state.visible}
           onOk={this.handleUpdatePublicProfile}
           onCancel={this.handleCancel}
+          okButtonProps={
+            !changesInLists ? { style: { display: "none" } } : null
+          }
         >
           <Form>
             <div style={{ width: "20rem" }}>
@@ -180,6 +186,7 @@ class UpdatePublicProfileModal extends React.Component {
                     size="small"
                     color="secondary"
                     aria-label="add"
+                    disabled={!this.state.currentLink}
                     onClick={this.handleVideoLinkAdd}
                   >
                     <AddIcon />
@@ -213,6 +220,7 @@ class UpdatePublicProfileModal extends React.Component {
                     size="small"
                     color="secondary"
                     aria-label="add"
+                    disabled={!this.state.currentReferral}
                     onClick={this.handleReferralAdd}
                   >
                     <AddIcon />
@@ -221,7 +229,7 @@ class UpdatePublicProfileModal extends React.Component {
               </ExpansionPanel>
             </div>
           </Form>
-          {spinnerVisible ? <CircularProgress /> : null}
+          {spinnerVisible ? <LinearProgress /> : null}
         </Modal>
         <Dialog
           open={this.state.successModalVisible}
