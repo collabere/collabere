@@ -5,7 +5,7 @@ export default function PrivacyPolicy() {
   return (
     <Fragment>
       <HomeNavBar />
-      <div style={{ margin: "3rem" }}>
+      <div style={{ margin: "6rem" }}>
         <p style={{ fontSize: "3rem" }}>
           <center>
             <strong>Privacy Policy</strong>

@@ -5,7 +5,7 @@ export default function TermsAndConditions() {
   return (
     <Fragment>
       <HomeNavBar />
-      <div style={{ margin: "3rem" }}>
+      <div style={{ margin: "6rem" }}>
         <p style={{ fontSize: "3rem" }}>
           <center>
             <strong>Terms and conditions</strong>
