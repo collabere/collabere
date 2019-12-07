@@ -34,7 +34,7 @@ export default class FooterComp extends React.Component {
             icon={<Class />}
           />
         </Link>
-        <Link to="terms-conditions" style={{ textDecoration: "none" }}>
+        <Link to="privacy-policy" style={{ textDecoration: "none" }}>
           <BottomNavigationAction
             label="Privacy Policy"
             value="Privacy Policy"
