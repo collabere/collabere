@@ -1,5 +1,6 @@
 import json
 import mimetypes
+import os
 from datetime import datetime
 
 from django.core.mail import EmailMultiAlternatives
@@ -27,12 +28,10 @@ def sendeEmailAsMessage(subject, message, clientEmail):
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [clientEmail]
     print(clientEmail)
-    send_mail(subject, message, email_from, recipient_list)
-
+    send_mail(subject, message, email_from, recipient_list )
 
 class FileUploadView(APIView):
     parser_class = (FileUploadParser,)
-
     def post(self, request, *args, **kwargs):
         jsonResponse = request.data
         influencerUsername = jsonResponse['influencerUsername']
@@ -46,10 +45,13 @@ class FileUploadView(APIView):
             subject = 'File from ' + influencerUsername + " for the project started on " + projectInitiationDate + ' on Collabere'
             msg = EmailMultiAlternatives(subject, 'Please find the below file ', email_from, [clientEmail])
             file = request.FILES['file']
-            uploadToAwsBucket(file)
+            open(file.name, 'wb+').write(file.read())
+            fileObject = open(file.name, 'r')
+            uploadToAwsBucket(fileObject)
+            os.remove(file.name)
             msg.attach(file.name, file.file.getvalue(), mimetypes.guess_type(file.name)[0])
             msg.send()
-            fileUrl=settings.FILE_URL_PREFIX+file.name
+            fileUrl = settings.FILE_URL_PREFIX + file.name
             message = saveMessages(influencerUsername, getClientIdByClientEmailId(clientEmail), timestamp,
                                    fileUrl, False, projectInitiationDate)
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
