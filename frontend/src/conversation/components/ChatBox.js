@@ -17,6 +17,8 @@ import "react-toastify/dist/ReactToastify.css";
 require("../styles/ConversationScreen.css");
 toast.configure();
 
+const FILE_UPLOAD_PREFIX="https://torquerf1.s3.ap-south-1.amazonaws.com/"
+
 class ChatBox extends Component {
   state = {
     text: "",
@@ -47,6 +49,10 @@ class ChatBox extends Component {
     });
   };
 
+  handleFileUrlAddToMessages = (urlString) =>{
+    this.props.onSend(urlString)
+  }
+
   handleFileUpload = () => {
     this.setState({ isSpinnerVisible: true });
     const { file } = this.state;
@@ -66,6 +72,7 @@ class ChatBox extends Component {
         this.setState({ isSpinnerVisible: false });
         this.notifyOnSuccess();
         this.setState({ isFileSendDialogueOpen: false });
+        this.handleFileUrlAddToMessages(FILE_UPLOAD_PREFIX.concat(file[0].name))
       })
       .catch(() => {
         this.notifyOnFailure();
