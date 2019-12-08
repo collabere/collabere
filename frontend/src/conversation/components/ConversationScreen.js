@@ -6,12 +6,9 @@ import SideNavMenu from "../../influencer/components/Side-nav-menu.js";
 import { local, dev } from "../../config/envConfig";
 import { Navbar, FormControl, Nav, Form } from "react-bootstrap";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import CircularProgress from '@material-ui/core/CircularProgress';
 import InboxNavbar from "../../influencer/components/Navbar";
 
-
 require("../styles/ConversationScreen.css");
-
 
 class ConversationScreen extends React.Component {
   constructor(props) {
@@ -105,7 +102,7 @@ class ConversationScreen extends React.Component {
   };
 
   render() {
-     const {
+    const {
       match: { params }
     } = this.props;
     return (
@@ -114,12 +111,16 @@ class ConversationScreen extends React.Component {
           influencerUsername={this.props.match.params.influencerUsername}
           showSearchBar={false}
         />
-        <div className="App" style={{ maxWidth: "100%", margin: "auto", marginTop: '4rem' }}>
-        {this.state.messagesLoadingFlag ? (<LinearProgress />):null}
+        <div
+          className="App"
+          style={{ maxWidth: "100%", margin: "auto", marginTop: "4rem" }}
+        >
+          {this.state.messagesLoadingFlag ? <LinearProgress /> : null}
 
           <Messages messages={this.state.messages} />
-           <ChatBox
+          <ChatBox
             onSend={this.sendHandler}
+            appendMessage={this.addMessage}
             influencerUsername={params.influencerUsername}
             clientId={params.clientId}
             projectInitiationDate={params.projectInitiationDate}

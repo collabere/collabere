@@ -50,7 +50,7 @@ class ChatBox extends Component {
   };
 
   handleFileUrlAddToMessages = (urlString) =>{
-    this.props.onSend(urlString)
+    this.props.appendMessage(urlString)
   }
 
   handleFileUpload = () => {
@@ -69,10 +69,10 @@ class ChatBox extends Component {
         }
       })
       .then(() => {
+        this.handleFileUrlAddToMessages(FILE_UPLOAD_PREFIX.concat(file[0].name))
         this.setState({ isSpinnerVisible: false });
         this.notifyOnSuccess();
         this.setState({ isFileSendDialogueOpen: false });
-        this.handleFileUrlAddToMessages(FILE_UPLOAD_PREFIX.concat(file[0].name))
       })
       .catch(() => {
         this.notifyOnFailure();
