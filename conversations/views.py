@@ -37,6 +37,7 @@ class FileUploadView(APIView):
         jsonResponse = request.data
         influencerUsername = jsonResponse['influencerUsername']
         clientId = jsonResponse['clientId']
+        timestamp = datetime.now()
         projectInitiationDate = jsonResponse['projectInitiationDate']
         email_from = settings.EMAIL_HOST_USER
         file_serializer = FileSerializer(data=request.data)
@@ -48,6 +49,9 @@ class FileUploadView(APIView):
             uploadToAwsBucket(file)
             msg.attach(file.name, file.file.getvalue(), mimetypes.guess_type(file.name)[0])
             msg.send()
+            fileUrl=settings.FILE_URL_PREFIX+file.name
+            message = saveMessages(influencerUsername, getClientIdByClientEmailId(clientEmail), timestamp,
+                                   fileUrl, False, projectInitiationDate)
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
