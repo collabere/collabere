@@ -42,7 +42,7 @@ class ProjectCard extends React.Component {
       .concat(this.props.dateStarted);
     return (
       <div style={{ width: "100%" }}>
-        <Card style={{ backgroundColor: "#D8BFD8" }}>
+        <Card style={{ backgroundColor: "#D8BFD8", border: ".4rem solid red" }}>
           <CardActionArea
             style={{ textDecoration: "none" }}
             component={Link}
