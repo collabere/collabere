@@ -2,11 +2,10 @@ import React from "react";
 import axios from "axios";
 import Messages from "./Messages.js";
 import ChatBox from "./ChatBox.js";
-import SideNavMenu from "../../influencer/components/Side-nav-menu.js";
 import { local, dev } from "../../config/envConfig";
-import { Navbar, FormControl, Nav, Form } from "react-bootstrap";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import InboxNavbar from "../../influencer/components/Navbar";
+import { Spin } from "antd";
 
 require("../styles/ConversationScreen.css");
 
@@ -66,9 +65,6 @@ class ConversationScreen extends React.Component {
     const {
       match: { params }
     } = this.props;
-    const authHeaders = {
-      headers: { Authorization: localStorage.getItem("token") }
-    };
     axios
       .get(`/messages/chat_messages`, {
         params: {
@@ -96,7 +92,7 @@ class ConversationScreen extends React.Component {
         },
         headers: { Authorization: localStorage.getItem("token") }
       })
-      .then(res => {
+      .then(() => {
         this.fetchMessages();
       });
   };
@@ -111,6 +107,7 @@ class ConversationScreen extends React.Component {
           influencerUsername={this.props.match.params.influencerUsername}
           showSearchBar={false}
         />
+
         <div
           className="App"
           style={{ maxWidth: "100%", margin: "auto", marginTop: "4rem" }}
@@ -118,6 +115,7 @@ class ConversationScreen extends React.Component {
           {this.state.messagesLoadingFlag ? <LinearProgress /> : null}
 
           <Messages messages={this.state.messages} />
+          {this.state.isLoading ? <Spin size="large" /> : null}
           <ChatBox
             onSend={this.sendHandler}
             appendMessage={this.addMessage}
