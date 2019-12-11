@@ -52,8 +52,8 @@ class FileUploadView(APIView):
             msg.attach(file.name, file.file.getvalue(), mimetypes.guess_type(file.name)[0])
             msg.send()
             fileUrl = settings.FILE_URL_PREFIX + file.name
-            message = saveMessages(influencerUsername, getClientIdByClientEmailId(clientEmail), timestamp,
-                                   fileUrl, False, projectInitiationDate)
+            saveMessages(influencerUsername, getClientIdByClientEmailId(clientEmail), timestamp,
+                                   fileUrl, True, projectInitiationDate)
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -63,8 +63,6 @@ class FileUploadView(APIView):
 def getAllMessagesByInfluencerUsernameAndClientId(request):
     influencer_username = request.GET.get('influencer_username')
     client_id = request.GET.get('client_id')
-    print(influencer_username)
-    print(client_id)
     messages = getMessagesByInfluencerusernameAndClientId(influencer_username, client_id)
     return Response(MessageSerializer(messages, many=True).data)
 
@@ -78,7 +76,6 @@ def getAll(request):
 @api_view(['GET'])
 def getMessagesPertainingToAProject(request):
     messages = getMessagesByProjectInitiationDate(request.GET.get("projectInitiationDate"))
-    print(messages)
     return Response(MessageSerializer(messages, many=True).data)
 
 

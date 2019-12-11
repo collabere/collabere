@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 require("../styles/ConversationScreen.css");
 toast.configure();
 
-const FILE_UPLOAD_PREFIX="https://torquerf1.s3.ap-south-1.amazonaws.com/"
+const FILE_UPLOAD_PREFIX = "https://torquerf1.s3.ap-south-1.amazonaws.com/";
 
 class ChatBox extends Component {
   state = {
@@ -49,9 +49,21 @@ class ChatBox extends Component {
     });
   };
 
-  handleFileUrlAddToMessages = (urlString) =>{
-    this.props.appendMessage(urlString)
-  }
+  handleFileUrlAddToMessages = urlString => {
+    const {
+      influencerUsername,
+      projectInitiationDate,
+      clientId,
+      appendMessage
+    } = this.props;
+    const messageObejct = {};
+    messageObejct["message"] = urlString;
+    messageObejct["influencerUsername"] = influencerUsername;
+    messageObejct["projectInitiationDate"] = projectInitiationDate;
+    messageObejct["fromInfluencer"] = true;
+    messageObejct["clientId"] = parseInt(clientId);
+    appendMessage(messageObejct);
+  };
 
   handleFileUpload = () => {
     this.setState({ isSpinnerVisible: true });
@@ -69,7 +81,9 @@ class ChatBox extends Component {
         }
       })
       .then(() => {
-        this.handleFileUrlAddToMessages(FILE_UPLOAD_PREFIX.concat(file[0].name))
+        this.handleFileUrlAddToMessages(
+          FILE_UPLOAD_PREFIX.concat(file[0].name)
+        );
         this.setState({ isSpinnerVisible: false });
         this.notifyOnSuccess();
         this.setState({ isFileSendDialogueOpen: false });
