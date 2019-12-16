@@ -31,7 +31,7 @@ class ConversationScreen extends React.Component {
     } = this.props;
     axios({
       method: "post",
-      url: `http://localhost:8000/messages/insert_message/`,
+      url: `/messages/insert_message/`,
       data: {
         influencerUsername: params.influencerUsername,
         clientId: params.clientId,
@@ -66,7 +66,7 @@ class ConversationScreen extends React.Component {
       match: { params }
     } = this.props;
     axios
-      .get(`http://localhost:8000/messages/chat_messages`, {
+      .get(`/messages/chat_messages`, {
         params: {
           projectInitiationDate: params.projectInitiationDate
         },
@@ -86,7 +86,7 @@ class ConversationScreen extends React.Component {
       match: { params }
     } = this.props;
     axios
-      .get(`http://localhost:8000/messages/insert_client_reply`, {
+      .get(`/messages/insert_client_reply`, {
         params: {
           projectInitiationDate: params.projectInitiationDate
         },
