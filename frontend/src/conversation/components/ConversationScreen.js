@@ -108,14 +108,10 @@ class ConversationScreen extends React.Component {
           showSearchBar={false}
         />
 
-        <div
-          className="App"
-          style={{ maxWidth: "100%", margin: "auto", marginTop: "4rem" }}
-        >
-          {this.state.messagesLoadingFlag ? <LinearProgress /> : null}
-
+        <div className="App" style={{ maxWidth: "100%", margin: "auto" }}>
           <Messages messages={this.state.messages} />
           {this.state.isLoading ? <Spin size="large" /> : null}
+          {this.state.messagesLoadingFlag ? <Spin size="large" /> : null}
           <ChatBox
             onSend={this.sendHandler}
             appendMessage={this.addMessage}
