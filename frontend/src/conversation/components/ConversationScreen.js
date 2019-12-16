@@ -31,7 +31,7 @@ class ConversationScreen extends React.Component {
     } = this.props;
     axios({
       method: "post",
-      url: `/messages/insert_message/`,
+      url: `http://localhost:8000/messages/insert_message/`,
       data: {
         influencerUsername: params.influencerUsername,
         clientId: params.clientId,
@@ -66,7 +66,7 @@ class ConversationScreen extends React.Component {
       match: { params }
     } = this.props;
     axios
-      .get(`/messages/chat_messages`, {
+      .get(`http://localhost:8000/messages/chat_messages`, {
         params: {
           projectInitiationDate: params.projectInitiationDate
         },
@@ -86,7 +86,7 @@ class ConversationScreen extends React.Component {
       match: { params }
     } = this.props;
     axios
-      .get(`/messages/insert_client_reply`, {
+      .get(`http://localhost:8000/messages/insert_client_reply`, {
         params: {
           projectInitiationDate: params.projectInitiationDate
         },
@@ -108,14 +108,10 @@ class ConversationScreen extends React.Component {
           showSearchBar={false}
         />
 
-        <div
-          className="App"
-          style={{ maxWidth: "100%", margin: "auto", marginTop: "4rem" }}
-        >
-          {this.state.messagesLoadingFlag ? <LinearProgress /> : null}
-
+        <div className="App" style={{ maxWidth: "100%", margin: "auto" }}>
           <Messages messages={this.state.messages} />
           {this.state.isLoading ? <Spin size="large" /> : null}
+          {this.state.messagesLoadingFlag ? <Spin size="large" /> : null}
           <ChatBox
             onSend={this.sendHandler}
             appendMessage={this.addMessage}
