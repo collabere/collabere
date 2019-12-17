@@ -10,11 +10,11 @@ import ProjectCreationScreen from "../../project/components/ProjectCreationScree
 import VideoList from "./VideoList";
 import axios from "axios";
 import ReferalLinkList from "./ReferalLinkList";
-import HomeNavBar from "../../homepage/components/Navbar"
+import HomeNavBar from "../../homepage/components/Navbar";
+import Avatar from "react-avatar";
 
 export default function InfluencerProfileScreen(props) {
   useEffect(() => {
-    
     axios
       .get(`/influencer/get_public_details`, {
         params: {
@@ -45,8 +45,31 @@ export default function InfluencerProfileScreen(props) {
         margin: "1px auto 5% auto"
       }}
     >
-      <HomeNavBar/>
-      <div style={{ backgroundColor: "#7e0015", height: "12rem" }}></div>
+      <HomeNavBar />
+      <div style={{ backgroundColor: "#7e0015", height: "17rem" }}>
+        <div>
+          <Avatar
+            style={{
+              display: "block",
+              marginRight: "auto",
+              marginLeft: "auto",
+              paddingTop: "6rem"
+            }}
+            name={props.match.params.influencerUsername}
+            round
+          />
+        </div>
+        <p
+          style={{
+            textAlign: "center",
+            paddingTop: "6.5rem",
+            fontSize: "1rem",
+            color: "white"
+          }}
+        >
+          {props.match.params.influencerUsername}
+        </p>
+      </div>
 
       <Paper style={{ flexGrow: "1" }}>
         <Tabs
@@ -61,11 +84,7 @@ export default function InfluencerProfileScreen(props) {
           <Tab icon={<PlayArrowIcon />} />
         </Tabs>
       </Paper>
-      {value === 0 && (
-        <ProjectCreationScreen
-          influencerUsername={username}
-        />
-      )}
+      {value === 0 && <ProjectCreationScreen influencerUsername={username} />}
       {value === 2 && (
         <VideoList influencerUsername={username} links={data.videoLink} />
       )}
