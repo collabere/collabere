@@ -2,14 +2,12 @@ import React from "react";
 import axios from "axios";
 import Messages from "./Messages.js";
 import ChatBox from "./ChatBox.js";
-import SideNavMenu from "../../influencer/components/Side-nav-menu.js";
 import { local, dev } from "../../config/envConfig";
-import { Navbar, FormControl, Nav, Form } from "react-bootstrap";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import InboxNavbar from "../../influencer/components/Navbar";
+import { Spin } from "antd";
 
 require("../styles/ConversationScreen.css");
-
 
 class ConversationScreen extends React.Component {
   constructor(props) {
@@ -43,7 +41,7 @@ class ConversationScreen extends React.Component {
       },
       headers: {
         "content-type": "application/json",
-        Authorization: sessionStorage.getItem("token")
+        Authorization: localStorage.getItem("token")
       }
     }).then(response => {
       console.log(response);
@@ -67,15 +65,12 @@ class ConversationScreen extends React.Component {
     const {
       match: { params }
     } = this.props;
-    const authHeaders = {
-      headers: { Authorization: sessionStorage.getItem("token") }
-    };
     axios
       .get(`/messages/chat_messages`, {
         params: {
           projectInitiationDate: params.projectInitiationDate
         },
-        headers: { Authorization: sessionStorage.getItem("token") }
+        headers: { Authorization: localStorage.getItem("token") }
       })
       .then(res => {
         console.log(res.data);
@@ -95,29 +90,35 @@ class ConversationScreen extends React.Component {
         params: {
           projectInitiationDate: params.projectInitiationDate
         },
-        headers: { Authorization: sessionStorage.getItem("token") }
+        headers: { Authorization: localStorage.getItem("token") }
       })
-      .then(res => {
+      .then(() => {
         this.fetchMessages();
       });
   };
 
   render() {
+    const {
+      match: { params }
+    } = this.props;
     return (
       <div>
-        <Navbar expand="lg" style={{ backgroundColor: "#7e0015" }}>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-        <div className="App" style={{ maxWidth: "100%", margin: "auto" }}>
-        {this.state.messagesLoadingFlag ? (<LinearProgress />):null}
+        <InboxNavbar
+          influencerUsername={this.props.match.params.influencerUsername}
+          showSearchBar={false}
+        />
 
+        <div className="App" style={{ maxWidth: "100%", margin: "auto" }}>
           <Messages messages={this.state.messages} />
-          <ChatBox onSend={this.sendHandler} />
+          {this.state.isLoading ? <Spin size="large" /> : null}
+          {this.state.messagesLoadingFlag ? <Spin size="large" /> : null}
+          <ChatBox
+            onSend={this.sendHandler}
+            appendMessage={this.addMessage}
+            influencerUsername={params.influencerUsername}
+            clientId={params.clientId}
+            projectInitiationDate={params.projectInitiationDate}
+          />
         </div>
       </div>
     );

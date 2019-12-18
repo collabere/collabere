@@ -150,7 +150,7 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 #all-auth registraion settings
@@ -280,3 +280,8 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'collabere.outbox1@gmail.com'
 EMAIL_HOST_PASSWORD = 'Collabere@2019'
 SITE_ID = 1
+
+AWS_ACCESS_KEY='AKIAITY2SEBHBCPUL7PQ'
+AWS_SECRET_KEY='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'
+S3_BUCKET_NAME='torquerf1'
+FILE_URL_PREFIX='https://torquerf1.s3.ap-south-1.amazonaws.com/'

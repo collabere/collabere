@@ -11,6 +11,15 @@ from rest_framework.status import (
 )
 from rest_framework.response import Response
 import requests
+from django.utils import timezone
+
+
+import datetime
+from django.utils.timezone import utc
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from django.http import HttpResponse
+import json
 
 
 @csrf_exempt
@@ -26,10 +35,20 @@ def login(request):
     if not user:
         return Response({'error': 'Invalid Credentials'},
                         status=HTTP_404_NOT_FOUND)
-    token, _ = Token.objects.get_or_create(user=user)
-    return Response({'token': token.key,
-                     'username':username},
-                    status=HTTP_200_OK)
+    token, created =  Token.objects.get_or_create(user=user)
+
+    utc_now = timezone.now()
+    if not created and token.created < utc_now - datetime.timedelta(hours=24):
+        token.delete()
+        token = Token.objects.create(user=user)
+        token.created = datetime.datetime.utcnow()
+        token.save()
+
+    #return Response({'token': token.key})
+    response_data = {'token': token.key,'username': user.username}
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+                    
+    
 
 @csrf_exempt
 @api_view(["GET"])

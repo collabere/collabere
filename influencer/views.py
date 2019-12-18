@@ -197,17 +197,21 @@ def changePasswordInboundUsername(request, format=None):
 def sendEmailToResetPassword(request):
     jsonResponse = json.loads(request.body.decode('utf-8'))
     influencerEmail = jsonResponse[INFLUENCER_EMAIL]
-    influencer = getInfluencerFromInfluencerEmail(influencerEmail)
-    influencerUsername = getattr(influencer[0], 'username')
-    associatedDjangoUsername = getattr(influencer[0], 'user')
-    user = User.objects.get(username=associatedDjangoUsername)
-    token, _ = Token.objects.get_or_create(user=user)
-    subject = EMAIL_SUBJECT
-    message = EMAIL_MESSAGE_STRING + " " + COLLABERE_PASSWORD_RESET_URL + influencerUsername + SLASH + str(token)
-    email_from = settings.EMAIL_HOST_USER
-    recipient_list = [influencerEmail]
-    send_mail(subject, message, email_from, recipient_list)
-    return Response(status=status.HTTP_200_OK)
+    try:
+        influencer = getInfluencerFromInfluencerEmail(influencerEmail)
+        influencerUsername = getattr(influencer[0], 'username')
+        associatedDjangoUsername = getattr(influencer[0], 'user')
+        user = User.objects.get(username=associatedDjangoUsername)
+        token, _ = Token.objects.get_or_create(user=user)
+        subject = EMAIL_SUBJECT
+        message = EMAIL_MESSAGE_STRING + " " + COLLABERE_PASSWORD_RESET_URL + influencerUsername + SLASH + str(token)
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [influencerEmail]
+        send_mail(subject, message, email_from, recipient_list)
+        return Response(status=status.HTTP_200_OK)
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class LogoutUserAPIView(APIView):

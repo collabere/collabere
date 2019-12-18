@@ -52,8 +52,8 @@ class ClientMapping(models.Model):
     clientId = models.BigIntegerField()
 
 class InfluencerPublicProfileDetails(models.Model):
-    referralLink= models.CharField(max_length=500)
-    videoLink = models.CharField(max_length= 500)
+    referralLink= models.CharField(max_length=500, null=True)
+    videoLink = models.CharField(max_length= 500, null=True)
     influencer = models.ForeignKey(Influencer, on_delete=models.CASCADE)
 
 

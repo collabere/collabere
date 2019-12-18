@@ -2,16 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Icon from '@material-ui/core/Icon';
-
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import { Input } from "antd";
 
 import { Link } from "react-router-dom";
-
 
 const styles = {
   list: {
@@ -21,6 +19,8 @@ const styles = {
     width: "auto"
   }
 };
+
+const Search = Input.Search;
 
 class SideNavMenu extends React.Component {
   state = {
@@ -33,13 +33,27 @@ class SideNavMenu extends React.Component {
     });
   };
 
+  handleSideNavSearchByProjectName = event => {
+    this.props.handleSearchByProjectName(event);
+  };
+
   render() {
     const { classes } = this.props;
 
     const sideList = (
       <div className={classes.list}>
         <List>
-          <Link to="/clients/">
+          {this.props.showSearchBarField &&
+          <ListItem button key="Metrics">
+          <Search
+            placeholder="Search Client"
+            style={{ width: 300 }}
+            onChange={this.handleSideNavSearchByProjectName}
+          />{" "}
+        </ListItem>
+       }
+
+        <Link to={`/clients/${this.props.influencerUsername}`} style={{textDecoration: 'none'}}>
             <ListItem button key="Inbox">
               <ListItemText primary="Inbox" />
             </ListItem>
@@ -59,18 +73,20 @@ class SideNavMenu extends React.Component {
 
     return (
       <div>
-        <Button onClick={this.toggleDrawer("left", true)}><Icon>menu</Icon></Button>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          onClick={this.toggleDrawer("left", true)}
+        >
+          <MenuIcon />
+        </IconButton>
 
         <Drawer
           open={this.state.left}
           onClose={this.toggleDrawer("left", false)}
         >
-          <div
-            tabIndex={0}
-            role="button"
-            onClick={this.toggleDrawer("left", false)}
-            onKeyDown={this.toggleDrawer("left", false)}
-          >
+          <div tabIndex={0} role="button">
             {sideList}
           </div>
         </Drawer>

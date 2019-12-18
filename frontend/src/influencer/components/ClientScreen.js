@@ -1,25 +1,21 @@
 import React from "react";
 import axios from "axios";
-import { Navbar, FormControl, Nav, Form } from "react-bootstrap";
-import Button from "@material-ui/core/Button";
-import * as MaterialUiLibrary from "@material-ui/core";
-import * as Antd from "antd";
-
-import { List, Avatar, Card } from "antd";
-
+import { List } from "antd";
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { message, Spin } from "antd";
 
-import { Link } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroller";
-import { Menu, Dropdown, Input } from "antd";
 
-import UpdateModal from "./Profile-update-modal-dialogue";
-import { IconButton, Icon } from "@material-ui/core";
-import SideNavMenu from "./Side-nav-menu";
 import { local, dev } from "../../config/envConfig";
 import ProjectCard from "./ProjectDetailCard";
-
-const Search = Input.Search;
+import InboxNavbar from "./Navbar";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 class ClientScreen extends React.Component {
   constructor(props) {
@@ -30,7 +26,8 @@ class ClientScreen extends React.Component {
       hasMore: true,
       updatModalOpen: false,
       colour: "#FFFFFF",
-      currentListItem: ""
+      currentListItem: "",
+      sortOptionValue: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSortAplphabetically = this.handleSortAplphabetically.bind(this);
@@ -43,9 +40,12 @@ class ClientScreen extends React.Component {
     const {
       match: { params }
     } = this.props;
-    const authHeaders= { 'headers': { 'Authorization': sessionStorage.getItem('token') } }  
+
     axios
-      .get(`/project/byInfluencerUserName/${params.influencerUsername}`, authHeaders)
+      .get(
+        `/project/byInfluencerUserName/${params.influencerUsername}`,
+        { headers: { Authorization: localStorage.getItem("token") } }
+      )
       .then(res => {
         console.log(res);
         this.setState({
@@ -69,6 +69,7 @@ class ClientScreen extends React.Component {
     }
   };
   componentDidMount() {
+    console.log(sessionStorage.getItem("token"));
     this.fetchArticles();
   }
 
@@ -86,14 +87,14 @@ class ClientScreen extends React.Component {
     this.setState({ updatModalOpen: true });
   };
 
-  handleChange(e) {
+  handleChange(value) {
     let currentList = [];
     let newList = [];
-    if (e.target.value !== "") {
+    if (value !== "") {
       currentList = this.state.clients;
       newList = currentList.filter(client => {
         const clientNameLoweCase = client.clientName.toLowerCase();
-        const filter = e.target.value.toLowerCase();
+        const filter = value.toLowerCase();
         return clientNameLoweCase.includes(filter);
       });
     } else {
@@ -137,55 +138,66 @@ class ClientScreen extends React.Component {
   };
 
   handleLogout() {
-    sessionStorage.removeItem('token')
+    sessionStorage.removeItem("token");
   }
-  render() {
-    const menu = (
-      <Menu>
-        <Menu.Item>
-          <UpdateModal influencerUsername={this.props.match.params.influencerUsername}  />
-        </Menu.Item>
-        <Menu.Item>
-         <Link style={{textDecoration: 'none'}} to='/'> <Button color="primary" onClick={this.handleLogout}>Logout</Button></Link>
-        </Menu.Item>
-      </Menu>
-    );
 
+  handleChangeOfSortOption = event => {
+    this.setState({ sortOptionValue: event.target.value }, function() {
+      if (this.state.sortOptionValue === "alphabetical") {
+        this.handleSortAplphabetically();
+      } else if(this.state.sortOptionValue === "date") {
+        this.handleSortByStartingDates();
+      }else {
+        this.fetchArticles()
+      }
+    });
+  };
+
+  render() {
     return (
       <div>
-        <Navbar expand="lg" style={{ backgroundColor: "#7e0015" }}>
-          <SideNavMenu
-            influencerUsername={this.props.match.params.influencerUsername}
-          />
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-            </Nav>
-            <Form inline>
-              <Search
-                placeholder="Search Client"
-                onChange={this.handleChange}
-                style={{ width: 200 }}
-              />
-              <Dropdown overlay={menu} placement="topLeft">
-                <Button color="#000000">
-                  <Icon>settings</Icon>
-                </Button>
-              </Dropdown>
-            </Form>
-          </Navbar.Collapse>
-        </Navbar>
+        <InboxNavbar
+          influencerUsername={this.props.match.params.influencerUsername}
+          handleSearch={this.handleChange}
+          showSearchBar={true}
+        />
         <div style={{ maxWidth: "80%", margin: "auto" }}>
-          <Antd.Button onClick={this.handleSortAplphabetically}>
-            Sort Alphabetically
-          </Antd.Button>
-          <Antd.Button onClick={this.handleSortByStartingDates}>
-            Sort By Starting Date
-          </Antd.Button>
-          <Antd.Button onClick={this.handleSortAplphabetically}>
-            Sort By Stuff
-          </Antd.Button>
+          <ExpansionPanel style={{ paddingTop: "4rem" }}>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography style={{ color: "#7e0015", textAlign: "center" }}>
+                SORT OPTIONS
+              </Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <RadioGroup
+                value={this.state.sortOptionValue}
+                onChange={this.handleChangeOfSortOption}
+              >
+                <FormControlLabel
+                  value="alphabetical"
+                  control={<Radio color="primary" />}
+                  label="Sort Alphabetically"
+                  labelPlacement="end"
+                />
+                <FormControlLabel
+                  value="date"
+                  control={<Radio color="primary" />}
+                  label="Sort By Starting Dates"
+                  labelPlacement="end"
+                />
+                <FormControlLabel
+                  value="reset"
+                  control={<Radio color="primary" />}
+                  label="Reset"
+                  labelPlacement="end"
+                />
+              </RadioGroup>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
           <hr />
 
           <InfiniteScroll
@@ -219,6 +231,8 @@ class ClientScreen extends React.Component {
                       }
                     />
                   </List.Item>
+                  {/* </a>
+                  </Link> */}
                 </div>
               )}
             >
