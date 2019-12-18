@@ -4,3 +4,5 @@ node_modules
 .idea
 */__pycache__/*
 db.sqlite3
+frontend/static/*
+home/*

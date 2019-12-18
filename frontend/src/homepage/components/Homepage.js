@@ -106,10 +106,6 @@ export default function HomePage(props) {
                 dark={false}
                 id="section3"
               />
-              {/* <AboutUsSection
-                dark={false}
-                id="section4"
-              /> */}
             </Box>
           </Container>
           <ScrollTop {...props}>

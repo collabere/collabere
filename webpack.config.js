@@ -36,22 +36,21 @@ output: {
         test: /\.svg$/,
         loader: 'svg-inline-loader'
       },
-{
-    test: /\.(jpg|png|gif|svg|pdf|ico)$/,
-    use: [
-        {
-            loader: 'url-loader',
-            options: {
-                name: '[path][name]-[hash:8].[ext]'
+      {
+        test: /\.(jpg|png|gif|svg|pdf|ico)$/,
+        use: [
+            {
+                loader: 'url-loader',
+                options: {
+                    name: '[path][name]-[hash:8].[ext]'
+                },
             },
-        },
-    ]
-},
+        ]
+      },
     ]
   },
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },
   watch: true
-
 };
