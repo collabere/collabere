@@ -30,7 +30,12 @@ class ClientScreen extends React.Component {
       sortOptionValue: ""
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleSortAplphabetically = this.handleSortAplphabetically.bind(this);
+    this.handleSortAplphabeticallyAscending = this.handleSortAplphabeticallyAscending.bind(
+      this
+    );
+    this.handleSortAplphabeticallyDescending = this.handleSortAplphabeticallyDescending.bind(
+      this
+    );
     this.handleSortByStartingDates = this.handleSortByStartingDates.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.url = process.env.NODE_ENV === undefined ? local.url : dev.url;
@@ -44,7 +49,9 @@ class ClientScreen extends React.Component {
     axios
       .get(
         `/project/byInfluencerUserName/${params.influencerUsername}`,
-        { headers: { Authorization: localStorage.getItem("token") } }
+        {
+          headers: { Authorization: localStorage.getItem("token") }
+        }
       )
       .then(res => {
         console.log(res);
@@ -105,12 +112,24 @@ class ClientScreen extends React.Component {
     });
   }
 
-  handleSortAplphabetically() {
+  handleSortAplphabeticallyAscending() {
     let sortedList = this.state.clients;
     sortedList.sort(function(a, b) {
       var textA = a.clientName.toUpperCase();
       var textB = b.clientName.toUpperCase();
       return textA < textB ? -1 : textA > textB ? 1 : 0;
+    });
+    this.setState({
+      clients: sortedList
+    });
+  }
+
+  handleSortAplphabeticallyDescending() {
+    let sortedList = this.state.clients;
+    sortedList.sort(function(a, b) {
+      var textA = a.clientName.toUpperCase();
+      var textB = b.clientName.toUpperCase();
+      return textA > textB ? -1 : textA < textB ? 1 : 0;
     });
     this.setState({
       clients: sortedList
@@ -143,12 +162,14 @@ class ClientScreen extends React.Component {
 
   handleChangeOfSortOption = event => {
     this.setState({ sortOptionValue: event.target.value }, function() {
-      if (this.state.sortOptionValue === "alphabetical") {
-        this.handleSortAplphabetically();
-      } else if(this.state.sortOptionValue === "date") {
+      if (this.state.sortOptionValue === "alphabetical_ascending") {
+        this.handleSortAplphabeticallyAscending();
+      } else if (this.state.sortOptionValue === "date") {
         this.handleSortByStartingDates();
-      }else {
-        this.fetchArticles()
+      } else if (this.state.sortOptionValue === "alphabetical_descnding") {
+        this.handleSortAplphabeticallyDescending();
+      } else {
+        this.fetchArticles();
       }
     });
   };
@@ -178,9 +199,15 @@ class ClientScreen extends React.Component {
                 onChange={this.handleChangeOfSortOption}
               >
                 <FormControlLabel
-                  value="alphabetical"
+                  value="alphabetical_ascending"
                   control={<Radio color="primary" />}
-                  label="Sort Alphabetically"
+                  label="Sort Alphabetically(A-Z)"
+                  labelPlacement="end"
+                />
+                <FormControlLabel
+                  value="alphabetical_descnding"
+                  control={<Radio color="primary" />}
+                  label="Sort Alphabetically(Z-A)"
                   labelPlacement="end"
                 />
                 <FormControlLabel
