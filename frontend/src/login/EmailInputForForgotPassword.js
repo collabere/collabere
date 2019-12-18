@@ -12,8 +12,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
 import HomeNavBar from "../homepage/components/Navbar";
-import LinearProgress from '@material-ui/core/LinearProgress';
-
+import LinearProgress from "@material-ui/core/LinearProgress";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 class EmailInputForReset extends React.Component {
   constructor(props) {
@@ -29,8 +30,14 @@ class EmailInputForReset extends React.Component {
     this.handleSuccessModalClose = this.handleSuccessModalClose.bind(this);
   }
 
+  notifyOnFailure = () => {
+    toast.error("Email not registered in system", {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  };
+
   handleSend() {
-    this.setState({loadingFlag: true})
+    this.setState({ loadingFlag: true });
     axios({
       method: "put",
       url: `/influencer/auth/send_email_to_reset_password/`,
@@ -40,10 +47,15 @@ class EmailInputForReset extends React.Component {
       headers: {
         "content-type": "application/json"
       }
-    }).then(response => {
-      this.setState({loadingFlag: false})
-      this.handleSuccessModalOpen();
-    });
+    })
+      .then(response => {
+        this.setState({ loadingFlag: false });
+        this.handleSuccessModalOpen();
+      })
+      .catch(() => {
+        this.setState({ loadingFlag: false });
+        this.notifyOnFailure();
+      });
   }
 
   handleSuccessModalOpen() {
@@ -69,7 +81,7 @@ class EmailInputForReset extends React.Component {
         }}
       >
         <HomeNavBar />
-        <Card style={{ backgroundColor: "#D8BFD8", marginTop: '4rem' }}>
+        <Card style={{ backgroundColor: "#D8BFD8", marginTop: "4rem" }}>
           <CardContent>
             <Form className="form">
               <Col>
@@ -96,8 +108,7 @@ class EmailInputForReset extends React.Component {
             </Form>
           </CardContent>
         </Card>
-        {this.state.loadingFlag &&<LinearProgress />}
-
+        {this.state.loadingFlag && <LinearProgress />}
 
         <Dialog
           open={this.state.successModalOpen}
