@@ -92,7 +92,7 @@ export default class HomeNavBar extends Component {
           <MaterialUiLibrary.AppBar position="fixed" style={appBarStyle}>
             <MaterialUiLibrary.Toolbar style={toolbarStyle}>
               <MaterialUiLibrary.Typography variant="h6" color="inherit" style={typographyStyle}>
-                <img src={collabere} onClick="#"/>
+              <_Link style={{textDecoration: 'none'}} to='/'><img src={collabere}/></_Link>
               </MaterialUiLibrary.Typography>
               {/* <MaterialUiLibrary.Button color="inherit">Influencers</MaterialUiLibrary.Button>
               <MaterialUiLibrary.Button color="inherit">Brands</MaterialUiLibrary.Button>

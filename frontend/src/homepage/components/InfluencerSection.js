@@ -21,7 +21,7 @@ const useStyles = makeStyles({
   },
   leftAlign: {
     textAlign: 'left',
-    width: 400,
+    width: '50%',
   },
   rightAlign: {
     textAlign: 'right',
@@ -45,7 +45,7 @@ export default function InfluencerSection({ dark, id }) {
   }
 
   const leftPaddingStyle = {
-    paddingLeft: 780,
+    paddingLeft: '50%',
   }
   return (
     <div>
