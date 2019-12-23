@@ -28,7 +28,7 @@ export default function HowItWorksSection({ dark, id }) {
           allow='autoplay; encrypted-media'
           allowFullScreen
           title='video'
-          width='600'
+          width='60%'
           height='400'
         />
       </Card>

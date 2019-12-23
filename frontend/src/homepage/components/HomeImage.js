@@ -69,6 +69,7 @@ import LoginModal from "../../login/loginModal";
     imageTitle: {
       position: 'relative',
       padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${theme.spacing(1) + 6}px`,
+      fontSize: 'x-large'
     },
     imageMarked: {
       height: 3,
@@ -105,7 +106,7 @@ export default function HomeImage(props) {
         const handleOpen = () => {
             setOpen(true);
           };
-        
+
           const handleClose = () => {
             setOpen(false);
           };

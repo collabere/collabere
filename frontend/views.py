@@ -7,3 +7,4 @@ def index(request):
 def home(request):
     print(request)
     return render(request, 'HomePage')
+    
