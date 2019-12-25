@@ -42,11 +42,15 @@ export default class FooterComp extends React.Component {
             icon={<PolicyIcon />}
           />
         </Link>
+        <Link to="pricing" style={{ textDecoration: "none" }}>
         <BottomNavigationAction
           label="Pricing"
           value="Pricing"
+          showLabel={true}
           icon={<MonetizationOnIcon />}
         />
+        </Link>
+
       </BottomNavigation>
     );
   }
