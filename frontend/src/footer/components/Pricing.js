@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
     <Fragment>
       <HomeNavBar />
       <div
-        style={{ background: "#9577cb", padding: "2rem", marginTop: "2rem" }}
+        style={{ background: "#9577cb", padding: "2rem", marginTop: "3rem" }}
       >
         <Row gutter={16}>
           <Col span={8}>
