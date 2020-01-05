@@ -66,13 +66,13 @@ class LoginModal extends React.Component {
     }
 
     const cardStyle = {
-      height: '400px',
-      width: '500px',
+      height: '100%',
+      width: '100%',
     }
 
     const divStyle ={
-      height: '350px',
-      width: '500px',
+      height: '70%',
+      width: '50%',
       textAlign: '-webkit-left',
     }
 

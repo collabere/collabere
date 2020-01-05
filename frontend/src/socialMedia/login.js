@@ -95,8 +95,8 @@ class Login extends React.Component {
 
     render() {
         const divStyle = {
-            paddingTop: '20px',
-            paddingBottom: '20px',
+            paddingTop: '10%',
+            paddingBottom: '10%',
         };
 
         let content = !!this.state.isAuthenticated ?
