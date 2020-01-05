@@ -1,14 +1,17 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import HomeNavBar from "../../homepage/components/Navbar";
 
 export default function TermsAndConditions() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <Fragment>
       <HomeNavBar />
       <div style={{ margin: "5rem" }}>
         <p style={{ fontSize: "3rem" }}>
           <center>
-            <strong>Terms and conditions</strong>
+            <strong>Terms and condit ions</strong>
           </center>
         </p>
         <h3>Welcome to Collabere!</h3>
