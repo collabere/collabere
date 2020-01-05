@@ -11,7 +11,7 @@ export default function TermsAndConditions() {
       <div style={{ margin: "5rem" }}>
         <p style={{ fontSize: "3rem" }}>
           <center>
-            <strong>Terms and condit ions</strong>
+            <strong>Terms and conditions</strong>
           </center>
         </p>
         <h3>Welcome to Collabere!</h3>
