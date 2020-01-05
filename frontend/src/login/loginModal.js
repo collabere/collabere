@@ -10,9 +10,8 @@ import {
 } from "reactstrap";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
-import Login from '../socialMedia/login';
+import Login from "../socialMedia/login";
 import * as MaterialUiLibrary from "@material-ui/core";
-
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -27,7 +26,7 @@ class LoginModal extends React.Component {
   }
 
   handleRegister() {
-    console.log('axios called register.s')
+    console.log("axios called register.s");
   }
 
   handleLogin() {
@@ -44,8 +43,8 @@ class LoginModal extends React.Component {
     }).then(response => {
       const { token, username } = response.data;
       if (token) {
-        const authToken='Token '+ token;
-        localStorage.setItem('token', authToken)
+        const authToken = "Token " + token;
+        localStorage.setItem("token", authToken);
         axios.defaults.headers.common["Authorization"] = authToken;
         this.setState({ authenticatedUsername: username });
       } else {
@@ -65,54 +64,52 @@ class LoginModal extends React.Component {
       return <Redirect to={`/clients/${this.state.username}`} />;
     }
 
-    const cardStyle = {
-      height: '400px',
-      width: '500px',
-    }
-
-    const divStyle ={
-      height: '350px',
-      width: '500px',
-      textAlign: '-webkit-left',
-    }
-
     return (
-      <div style={divStyle}>
-        <MaterialUiLibrary.Card style={cardStyle}>
-          <MaterialUiLibrary.Container>
-            <MaterialUiLibrary.CardHeader
-              title="Login"
+      <div>
+        <Form className="form">
+          <FormGroup>
+            <Label>User Name</Label>
+            <Input
+              type="text"
+              name="username"
+              id="exampleEmail"
+              placeholder="myemail@email.com"
+              onChange={this.handleChangeOfInputFields}
             />
-            <MaterialUiLibrary.CardContent>
-              <Form className="form">
-                  <FormGroup>
-                    <Label>User Name</Label>
-                    <Input
-                      type="text"
-                      name="username"
-                      id="exampleEmail"
-                      placeholder="myemail@email.com"
-                      onChange={this.handleChangeOfInputFields}
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="examplePassword">Password</Label>
-                    <Input
-                      type="password"
-                      name="password"
-                      id="examplePassword"
-                      placeholder="********"
-                      onChange={this.handleChangeOfInputFields}
-                    />
-                  </FormGroup>
-                <MaterialUiLibrary.Button variant="contained" color="primary" onClick={this.handleLogin}>Login</MaterialUiLibrary.Button>
-                <Link style={{textDecoration: 'none'}} to='/register'> <MaterialUiLibrary.Button  color="secondary">Sign Up</MaterialUiLibrary.Button></Link>
-                <Link style={{textDecoration: 'none'}} to='/forgot-password'> <MaterialUiLibrary.Button  color="secondary">Forgot Password?</MaterialUiLibrary.Button></Link>
-                <Login/>
-              </Form>
-            </MaterialUiLibrary.CardContent>
-          </MaterialUiLibrary.Container>
-        </MaterialUiLibrary.Card>
+          </FormGroup>
+          <FormGroup>
+            <Label for="examplePassword">Password</Label>
+            <Input
+              type="password"
+              name="password"
+              id="examplePassword"
+              placeholder="********"
+              onChange={this.handleChangeOfInputFields}
+            />
+          </FormGroup>
+          <MaterialUiLibrary.Button
+            variant="contained"
+            color="primary"
+            onClick={this.handleLogin}
+          >
+            Login
+          </MaterialUiLibrary.Button>
+          <Link style={{ textDecoration: "none" }} to="/register">
+            {" "}
+            <MaterialUiLibrary.Button color="secondary">
+              Sign Up
+            </MaterialUiLibrary.Button>
+          </Link>
+          <Link style={{ textDecoration: "none" }} to="/forgot-password">
+            {" "}
+            <MaterialUiLibrary.Button color="secondary">
+              Forgot Password?
+            </MaterialUiLibrary.Button>
+          </Link>
+        </Form>
+        <div style={{ paddingTop: "2rem" }}>
+          <Login />
+        </div>
       </div>
     );
   }
