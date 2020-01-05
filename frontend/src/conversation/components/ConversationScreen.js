@@ -6,8 +6,10 @@ import { local, dev } from "../../config/envConfig";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import InboxNavbar from "../../influencer/components/Navbar";
 import { Spin } from "antd";
+import { toast } from "react-toastify";
 
 require("../styles/ConversationScreen.css");
+toast.configure();
 
 class ConversationScreen extends React.Component {
   constructor(props) {
@@ -18,6 +20,18 @@ class ConversationScreen extends React.Component {
     messages: [],
     isLoading: false,
     messagesLoadingFlag: true
+  };
+
+  notifyOnSuccess = () => {
+    toast.success("Message sent successfully to the client", {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  };
+
+  notifyOnFailure = () => {
+    toast.error("Unable to send message to the client", {
+      position: toast.POSITION.TOP_RIGHT
+    });
   };
 
   componentDidMount() {
@@ -43,15 +57,20 @@ class ConversationScreen extends React.Component {
         "content-type": "application/json",
         Authorization: localStorage.getItem("token")
       }
-    }).then(response => {
-      console.log(response);
-      const messageObject = {
-        message
-      };
-      messageObject.fromInfluencer = true;
-      this.addMessage(messageObject);
-      this.setState({ isLoading: false });
-    });
+    })
+      .then(response => {
+        console.log(response);
+        const messageObject = {
+          message
+        };
+        messageObject.fromInfluencer = true;
+        this.addMessage(messageObject);
+        this.setState({ isLoading: false });
+        this.notifyOnSuccess();
+      })
+      .catch(error => {
+        this.notifyOnFailure();
+      });
   };
 
   addMessage = message => {
