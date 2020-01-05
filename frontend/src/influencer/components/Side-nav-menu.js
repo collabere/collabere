@@ -67,6 +67,11 @@ class SideNavMenu extends React.Component {
           <ListItem button key="Help">
             <ListItemText primary="Help" />
           </ListItem>
+           <Link to="/pricing" style={{ textDecoration: "none" }}>
+            <ListItem button key="About Us">
+              <ListItemText primary="Pricing" />
+            </ListItem>
+          </Link>{" "}
         </List>
       </div>
     );

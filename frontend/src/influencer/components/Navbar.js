@@ -11,6 +11,8 @@ import UpdatePublicProfileModal from "./Public-details-update-modal";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import SideNavMenu from "./Side-nav-menu";
+import PaymentModal from "../../payment/components/PaymentModal";
+
 
 class InboxNavbar extends Component {
   constructor(props) {
@@ -66,6 +68,9 @@ class InboxNavbar extends Component {
           >
             <Button color="primary">See your public profile</Button>{" "}
           </Link>
+        </Menu.Item>
+         <Menu.Item>
+          <PaymentModal influencerUsername={influencerUsername} />
         </Menu.Item>
 
         <Menu.Item>
