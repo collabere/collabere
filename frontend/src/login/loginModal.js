@@ -13,7 +13,6 @@ import axios from "axios";
 import Login from "../socialMedia/login";
 import * as MaterialUiLibrary from "@material-ui/core";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import { truncate } from "fs";
 
 class LoginModal extends React.Component {
   constructor(props) {
