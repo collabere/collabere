@@ -12,6 +12,8 @@ import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import Login from "../socialMedia/login";
 import * as MaterialUiLibrary from "@material-ui/core";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import { truncate } from "fs";
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -19,7 +21,9 @@ class LoginModal extends React.Component {
     this.state = {
       username: "",
       password: "",
-      authenticatedUsername: null
+      authenticatedUsername: null,
+      progress: false,
+      invalidText: false
     };
     this.handleChangeOfInputFields = this.handleChangeOfInputFields.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
@@ -30,6 +34,7 @@ class LoginModal extends React.Component {
   }
 
   handleLogin() {
+    this.setState({ progress: true });
     axios({
       method: "post",
       url: `/api/login`,
@@ -40,17 +45,23 @@ class LoginModal extends React.Component {
       headers: {
         "content-type": "application/json"
       }
-    }).then(response => {
-      const { token, username } = response.data;
-      if (token) {
-        const authToken = "Token " + token;
-        localStorage.setItem("token", authToken);
-        axios.defaults.headers.common["Authorization"] = authToken;
-        this.setState({ authenticatedUsername: username });
-      } else {
-        axios.defaults.headers.common["Authorization"] = null;
-      }
-    });
+    })
+      .then(response => {
+        const { token, username } = response.data;
+        if (token) {
+          const authToken = "Token " + token;
+          localStorage.setItem("token", authToken);
+          axios.defaults.headers.common["Authorization"] = authToken;
+          this.setState({ progress: false });
+          this.setState({ authenticatedUsername: username });
+        } else {
+          axios.defaults.headers.common["Authorization"] = null;
+          this.setState({ invalidText: true });
+        }
+      })
+      .catch(() => {
+        this.setState({ invalidText: true, progress: false });
+      });
   }
 
   handleChangeOfInputFields(event) {
@@ -63,6 +74,7 @@ class LoginModal extends React.Component {
     if (authenticatedUsername) {
       return <Redirect to={`/clients/${this.state.username}`} />;
     }
+    const { invalidText, progress } = this.state;
 
     return (
       <div>
@@ -87,6 +99,11 @@ class LoginModal extends React.Component {
               onChange={this.handleChangeOfInputFields}
             />
           </FormGroup>
+          {invalidText && (
+            <p style={{ color: "red" }}>
+              Above entered credentials are incorrect!
+            </p>
+          )}
           <MaterialUiLibrary.Button
             variant="contained"
             color="primary"
@@ -109,6 +126,7 @@ class LoginModal extends React.Component {
         </Form>
         <div style={{ paddingTop: "2rem" }}>
           <Login />
+          {progress && <LinearProgress />}
         </div>
       </div>
     );
