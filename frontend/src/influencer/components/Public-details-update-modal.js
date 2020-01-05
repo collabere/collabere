@@ -186,7 +186,7 @@ class UpdatePublicProfileModal extends React.Component {
                           allowfullscreen
                         ></iframe>
                       }
-                      <h5>{item}</h5>
+                      <h6>{item}</h6>
                     </ListItem>
                   );
                 })}
