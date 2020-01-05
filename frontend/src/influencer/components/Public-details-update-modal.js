@@ -20,6 +20,17 @@ import AddIcon from "@material-ui/icons/Add";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 
+function getId(url) {
+  var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  var match = url.match(regExp);
+
+  if (match && match[2].length == 11) {
+    return match[2];
+  } else {
+    return "error";
+  }
+}
+
 class UpdatePublicProfileModal extends React.Component {
   constructor(props) {
     super(props);
@@ -164,7 +175,20 @@ class UpdatePublicProfileModal extends React.Component {
             <div style={{ width: "20rem" }}>
               <List>
                 {this.state.existingLinks.map(function(item) {
-                  return <ListItem key={item}>{item}</ListItem>;
+                  return (
+                    <ListItem key={item}>
+                      {
+                        <iframe
+                          src={"//www.youtube.com/embed/" + getId(item)}
+                          frameborder="0"
+                          width="100"
+                          height="100"
+                          allowfullscreen
+                        ></iframe>
+                      }
+                      <h5>{item}</h5>
+                    </ListItem>
+                  );
                 })}
               </List>
               <ExpansionPanel>
