@@ -1,7 +1,7 @@
 from django.db.transaction import atomic
 from django.contrib.auth.models import User
 
-from influencer.models import Influencer, ClientMapping, InfluencerPublicProfileDetails
+from influencer.models import Influencer, ClientMapping, InfluencerPublicProfileDetails, InstagramAuthModel
 from client import  service
 
 def getAllClientOfAnInfluencer(influencerUsername):
@@ -46,3 +46,12 @@ def changePassword(username , newPassword):
      user.set_password(newPassword)
      user.save()
 
+def checkInstaramUserIdPresence(userId):
+    try:
+      instagramAuthModel= InstagramAuthModel.objects.get(instagramUserId=userId)
+      return True
+    except InstagramAuthModel.DoesNotExist:
+      return False
+
+def getInfluecerFromInstagramUserId(userId):
+    return InstagramAuthModel.objects.get(instagramUserId=userId).influencer

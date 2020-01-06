@@ -58,4 +58,6 @@ class InfluencerPublicProfileDetails(models.Model):
     videoLink = models.CharField(max_length= 500, blank=True, null=True)
     influencer = models.ForeignKey(Influencer, on_delete=models.CASCADE)
 
-
+class InstagramAuthModel(models.Model):
+    instagramUserId= models.BigIntegerField()
+    influencer = models.ForeignKey(Influencer, on_delete=models.CASCADE)
