@@ -22,7 +22,7 @@ from .service import getMessagesByInfluencerusernameAndClientId, getAllMessages,
     getMessagesByProjectInitiationDateForClientSide
 
 
-def sendeEmailAsMessage(subject, message, clientEmail):
+def sendEmailAsMessage(subject, message, clientEmail):
     subject = subject
     message = message
     email_from = settings.EMAIL_HOST_USER
@@ -105,8 +105,11 @@ def insertMessages(request):
     if messages is not None:
         clientEmail = getattr(list(getClientFromClientId(clientId))[0], 'email')
         subject = 'Message from ' + influencerUsername + " for the project started on " + projectInitiationDate + ' on Collabere'
-        sendeEmailAsMessage(subject, message, clientEmail)
-        return Response(True, status=status.HTTP_200_OK)
+        try:
+            sendEmailAsMessage(subject, message, clientEmail)
+            return Response(True, status=status.HTTP_200_OK)
+        except:
+            return Response(False, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response(False, status=status.HTTP_400_BAD_REQUEST)
 

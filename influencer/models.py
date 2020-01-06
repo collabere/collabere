@@ -5,6 +5,8 @@ from django.conf import  settings
 from django.db.models import PROTECT, OneToOneField, QuerySet, Model
 from django.db.transaction import atomic
 from django.contrib.postgres.fields import ArrayField
+from enum import Enum
+
 
 
 
@@ -52,8 +54,10 @@ class ClientMapping(models.Model):
     clientId = models.BigIntegerField()
 
 class InfluencerPublicProfileDetails(models.Model):
-    referralLink= models.CharField(max_length=500, null=True)
-    videoLink = models.CharField(max_length= 500, null=True)
+    referralLink= models.CharField(max_length=500, blank=True, null=True)
+    videoLink = models.CharField(max_length= 500, blank=True, null=True)
     influencer = models.ForeignKey(Influencer, on_delete=models.CASCADE)
 
-
+class InstagramAuthModel(models.Model):
+    instagramUserId= models.BigIntegerField()
+    influencer = models.ForeignKey(Influencer, on_delete=models.CASCADE)
