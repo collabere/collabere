@@ -1,6 +1,7 @@
 import React from "react";
 import { Link as _Link } from "react-router-dom";
-import { local, dev } from '../config/envConfig';
+import { local, dev } from "../config/envConfig";
+import Button from "@material-ui/core/Button";
 
 import {
   Col,
@@ -8,7 +9,6 @@ import {
   FormGroup,
   Label,
   Input,
-  Button,
   FormFeedback,
   Modal,
   ModalHeader,
@@ -17,11 +17,12 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import LoginModal from "../login/loginModal";
+import Card from "@material-ui/core/Card";
+import HomeNavBar from "../homepage/components/Navbar";
 
 function checkPasswordComplexity(pwd) {
   var regularExpression = /^(?=.*[a-zA-Z])(?=.*[0-9]).+$/;
   var valid = regularExpression.test(pwd);
-  console.log(pwd, valid);
   return valid;
 }
 
@@ -41,7 +42,7 @@ class RegisterModal extends React.Component {
       passwordSecond: "",
       successModal: false,
       loginScreenOpen: false,
-      usernameValidFlag: "",
+      usernameValidFlag: ""
     };
     this.handleChangeOfInputFields = this.handleChangeOfInputFields.bind(this);
     this.handleChangeOfInputName = this.handleChangeOfInputName.bind(this);
@@ -51,7 +52,7 @@ class RegisterModal extends React.Component {
     this.closeLoginModal = this.closeLoginModal.bind(this);
     this.validateUsername = this.validateUsername.bind(this);
     this.handleCredentialSubmit = this.handleCredentialSubmit.bind(this);
-    this.url = (process.env.NODE_ENV === undefined) ? local.url : dev.url;
+    this.url = process.env.NODE_ENV === undefined ? local.url : dev.url;
   }
 
   handleCredentialSubmit() {
@@ -85,7 +86,7 @@ class RegisterModal extends React.Component {
 
   validateUsername(username) {
     axios
-      .get(`/influencer/username`, {
+      .get(`http:localhost:8000/influencer/username`, {
         params: { username: username }
       })
       .then(res => {
@@ -112,7 +113,6 @@ class RegisterModal extends React.Component {
   }
 
   handleSubmit() {
-
     this.setState({
       successModal: true
     });
@@ -125,185 +125,208 @@ class RegisterModal extends React.Component {
   closeLoginModal() {
     this.setState({ loginScreenOpen: false });
   }
-  note;
+  returnDisabledFlag = () => {
+    const { passwordFirst, passwordSecond, username, name, dob } = this.state;
+    const passwordValidFlag = checkPasswordComplexity(passwordFirst);
+    const passwordMatchFlag = passwordFirst === passwordSecond;
+    const validFlag =
+      username && passwordMatchFlag && passwordValidFlag && name && dob;
+    return validFlag;
+  };
   render() {
     return (
       <div
         style={{
-          maxWidth: "70%",
-          border: "1px solid green",
+          maxWidth: "50%",
           padding: "2px",
-          margin: "5% auto 5% auto",
+          margin: "5% auto 5% auto"
         }}
       >
-        <Form
-          className="form"
-          style={{ marginTop: "20px", marginBottom: "20px" }}
-        >
-          <Col>
-            <FormGroup>
-              <Label>Username</Label>
-              <Input
-                type="text"
-                name="username"
-                id="username"
-                onChange={this.handleChangeOfInputName}
-                valid={!this.state.usernameValidFlag && this.state.username !== ''}
-                invalid={this.state.usernameValidFlag}
-              />
-              <FormFeedback invalid>
-               The user name {this.state.username} is already registered ,please use another one.
-              </FormFeedback>
-              <FormFeedback valid>
-               Yayyy! the username {this.state.username} is available.
-              </FormFeedback>
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label>Name</Label>
-              <Input
-                type="text"
-                name="name"
-                id="firstName"
-                onChange={this.handleChangeOfInputFields}
-              />
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label>Gender</Label>
-              <Input
-                type="select"
-                name="gender"
-                id="exampleSelect"
-                onChange={this.handleChangeOfInputFields}
+        <HomeNavBar />
+        <Card style={{ backgroundColor: "#E6E6FA" }}>
+          <Form
+            className="form"
+            style={{ marginTop: "20px", marginBottom: "20px" }}
+          >
+            <Col>
+              <FormGroup>
+                <Label>Username</Label>
+                <Input
+                  type="text"
+                  name="username"
+                  id="username"
+                  onChange={this.handleChangeOfInputName}
+                  valid={
+                    !this.state.usernameValidFlag && this.state.username !== ""
+                  }
+                  invalid={this.state.usernameValidFlag}
+                />
+                <FormFeedback invalid>
+                  The user name {this.state.username} is already registered
+                  ,please use another one.
+                </FormFeedback>
+                <FormFeedback valid>
+                  Yayyy! the username {this.state.username} is available.
+                </FormFeedback>
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label>Name</Label>
+                <Input
+                  type="text"
+                  name="name"
+                  id="firstName"
+                  onChange={this.handleChangeOfInputFields}
+                />
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label>Gender</Label>
+                <Input
+                  type="select"
+                  name="gender"
+                  id="exampleSelect"
+                  onChange={this.handleChangeOfInputFields}
+                >
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Would Not Like To Reveal</option>
+                </Input>
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label>Industry</Label>
+                <Input
+                  type="select"
+                  name="industry"
+                  id="exampleSelect"
+                  onChange={this.handleChangeOfInputFields}
+                >
+                  <option>Fashion</option>
+                  <option>Photography</option>
+                  <option>Food</option>
+                  <option>Travel</option>
+                  <option>Blogging</option>
+                  <option>Vlogging</option>
+                  <option>Poetry</option>
+                  <option>Others</option>
+                </Input>
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label>Email</Label>
+                <Input
+                  type="email"
+                  name="email"
+                  id="email"
+                  onChange={this.handleChangeOfInputFields}
+                />
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label for="exampleDate">Date</Label>
+                <Input
+                  type="date"
+                  name="dob"
+                  id="exampleDate"
+                  placeholder="date placeholder"
+                  onChange={this.handleChangeOfInputFields}
+                />
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label>City</Label>
+                <Input
+                  type="text"
+                  name="city"
+                  id="firstName"
+                  onChange={this.handleChangeOfInputFields}
+                />
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label>Country</Label>
+                <Input
+                  type="text"
+                  name="country"
+                  id="firstName"
+                  onChange={this.handleChangeOfInputFields}
+                />
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label for="examplePassword">Password</Label>
+                <Input
+                  type="password"
+                  name="passwordFirst"
+                  id="examplePassword1"
+                  placeholder="********"
+                  valid={checkPasswordComplexity(this.state.passwordFirst)}
+                  invalid={
+                    !checkPasswordComplexity(this.state.passwordFirst) &&
+                    this.state.passwordFirst !== ""
+                  }
+                  onChange={this.handleChangeOfInputFields}
+                />
+                <FormFeedback invalid>
+                  Password should contain atleast each of character, number and
+                  symbol
+                </FormFeedback>
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label for="examplePassword">Re-enter Password</Label>
+                <Input
+                  type="password"
+                  name="passwordSecond"
+                  id="examplePassword2"
+                  placeholder="********"
+                  onChange={this.handleChangeOfInputFields}
+                  valid={
+                    this.state.passwordFirst === this.state.passwordSecond &&
+                    this.state.passwordFirst !== ""
+                  }
+                  invalid={
+                    this.state.passwordSecond !== this.state.passwordFirst
+                  }
+                />
+                <FormFeedback invalid>Passwords do not match</FormFeedback>
+              </FormGroup>
+            </Col>
+            <Col>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.handleCredentialSubmit}
+                disabled={!this.returnDisabledFlag()}
               >
-                <option>Male</option>
-                <option>Female</option>
-                <option>Would Not Like To Reveal</option>
-              </Input>
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label>Industry</Label>
-              <Input
-                type="select"
-                name="industry"
-                id="exampleSelect"
-                onChange={this.handleChangeOfInputFields}
-              >
-                <option>Fashion</option>
-                <option>Photography</option>
-                <option>Food</option>
-                <option>Travel</option>
-                <option>Blogging</option>
-                <option>Vlogging</option>
-                <option>Poetry</option>
-                <option>Others</option>
-              </Input>
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label>Email</Label>
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                onChange={this.handleChangeOfInputFields}
-              />
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label for="exampleDate">Date</Label>
-              <Input
-                type="date"
-                name="dob"
-                id="exampleDate"
-                placeholder="date placeholder"
-                onChange={this.handleChangeOfInputName}
-              />
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label>City</Label>
-              <Input
-                type="text"
-                name="city"
-                id="firstName"
-                onChange={this.handleChangeOfInputFields}
-              />
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label>Country</Label>
-              <Input
-                type="text"
-                name="country"
-                id="firstName"
-                onChange={this.handleChangeOfInputFields}
-              />
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label for="examplePassword">Password</Label>
-              <Input
-                type="password"
-                name="passwordFirst"
-                id="examplePassword1"
-                placeholder="********"
-                valid={checkPasswordComplexity(this.state.passwordFirst)}
-                invalid={
-                  !checkPasswordComplexity(this.state.passwordFirst) &&
-                  this.state.passwordFirst !== ""
-                }
-                onChange={this.handleChangeOfInputFields}
-              />
-              <FormFeedback invalid>
-                Password should contain atleast each of character, number and
-                symbol
-              </FormFeedback>
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Label for="examplePassword">Re-enter Password</Label>
-              <Input
-                type="password"
-                name="passwordSecond"
-                id="examplePassword2"
-                placeholder="********"
-                onChange={this.handleChangeOfInputFields}
-                valid={
-                  this.state.passwordFirst === this.state.passwordSecond &&
-                  this.state.passwordFirst !== ""
-                }
-                invalid={this.state.passwordSecond !== this.state.passwordFirst}
-              />
-              <FormFeedback invalid>Passwords do not match</FormFeedback>
-            </FormGroup>
-          </Col>
-          <Col>
-            <Button color="primary" onClick={this.handleCredentialSubmit}>
-              Submit
-            </Button>
-            <_Link to="/">
-              {" "}
-              <Button color="secondary">Cancel</Button>
-            </_Link>
-          </Col>
-        </Form>
+                Submit
+              </Button>
+              <_Link to="/" style={{ textDecoration: "none" }}>
+                {" "}
+                <Button color="secondary">Cancel</Button>
+              </_Link>
+            </Col>
+          </Form>
+        </Card>
         <Modal isOpen={this.state.successModal}>
           <ModalHeader>Success!</ModalHeader>
           <ModalBody>Yayy! You have registered successfully</ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.openLoginModal}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={this.openLoginModal}
+            >
               Take me to Login!
             </Button>
             <Button color="secondary" onClick={this.toggleModal}>
