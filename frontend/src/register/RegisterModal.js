@@ -55,6 +55,10 @@ class RegisterModal extends React.Component {
     this.url = process.env.NODE_ENV === undefined ? local.url : dev.url;
   }
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   handleCredentialSubmit() {
     axios({
       method: "post",
@@ -86,7 +90,7 @@ class RegisterModal extends React.Component {
 
   validateUsername(username) {
     axios
-      .get(`http:localhost:8000/influencer/username`, {
+      .get(`/influencer/username`, {
         params: { username: username }
       })
       .then(res => {
@@ -137,17 +141,20 @@ class RegisterModal extends React.Component {
     return (
       <div
         style={{
-          maxWidth: "50%",
+          maxWidth: "70%",
           padding: "2px",
           margin: "5% auto 5% auto"
         }}
       >
         <HomeNavBar />
-        <Card style={{ backgroundColor: "#E6E6FA" }}>
-          <Form
-            className="form"
-            style={{ marginTop: "20px", marginBottom: "20px" }}
-          >
+        <Card
+          style={{
+            backgroundColor: "#E6E6FA",
+            marginTop: "40",
+            marginBottom: "10px"
+          }}
+        >
+          <Form className="form">
             <Col>
               <FormGroup>
                 <Label>Username</Label>
