@@ -150,7 +150,7 @@ class RegisterModal extends React.Component {
         <Card
           style={{
             backgroundColor: "#E6E6FA",
-            marginTop: "40",
+            marginTop: "60px",
             marginBottom: "10px"
           }}
         >
