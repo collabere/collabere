@@ -60,12 +60,12 @@ def login(request):
 @api_view(["GET"])
 @permission_classes((AllowAny,))
 def redirect(request):
-    code = request.GET.get('code');
+    code = request.GET.get('code')
     data = {
         "client_id": "49f4a71ef28b448a864a7519a197ba0c",
         "client_secret": "db912bb77fd5472895e8e097191bb1a7",
         "grant_type": "authorization_code",
-        "redirect_uri": "http://localhost:8000/api/social_redirect",
+        "redirect_uri": "http://collabere.com/api/social_redirect",
         "code": code
     }
     r = requests.post(url="https://api.instagram.com/oauth/access_token", data=data)
@@ -89,16 +89,16 @@ def redirect(request):
         randomPasswordString = ''.join(
             random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(10))
         user_data["username"] = response['user']['username']
-        user_data["password"] =randomPasswordString
+        user_data["password"] = randomPasswordString
         serializer = CreateUserSerializer(data=user_data)
         if serializer.is_valid():
             serializer.save()
-        influencer=Influencer()
-        influencer.user=User.objects.get(username= response['user']['username'])
-        influencer.username= response['user']['username']
-        influencer.sourceOfOnBoard= INSTAGRAM
+        influencer = Influencer()
+        influencer.user = User.objects.get(username= response['user']['username'])
+        influencer.username = response['user']['username']
+        influencer.sourceOfOnBoard = INSTAGRAM
         influencer.save()
         instagramAuthModel = InstagramAuthModel.objects.create(instagramUserId=response['user']['id'], influencer=influencer)
         token, _ = Token.objects.get_or_create(user=influencer.user)
-        response_data = {'token': token.key,'username': user.username}
+        response_data = {'token': token.key,'username': influencer.username}
     return HttpResponseRedirect("/clients/"+response['user']['username'])
