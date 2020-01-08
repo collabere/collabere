@@ -52,5 +52,5 @@ output: {
   resolve: {
     extensions: ['*', '.js', '.jsx']
   },
-  // watch: true
+  watch: true
 };
