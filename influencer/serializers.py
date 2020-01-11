@@ -11,9 +11,10 @@ class InfluencerPublicProfileDetailsSerializer(ModelSerializer):
         fields = (
             'referralLink',
             'videoLink',
+            'profilePicUrl'
         )
-        extra_kwargs = {'referralLink': {'required': False},'videoLink': {'required': False}}
-
+        extra_kwargs = {'referralLink': {'required': False}, 'videoLink': {'required': False},
+                        'profilePicUrl': {'required': False}}
 
 
 class ClientMappingSerializer(serializers.Serializer):
@@ -45,7 +46,7 @@ class InfluencerSerializer(serializers.ModelSerializer):
     gender = serializers.CharField(max_length=10, required=False)
     city = serializers.CharField(max_length=50, required=False)
     country = serializers.CharField(max_length=50, required=False)
-    followerCount = serializers.IntegerField( required=False)
+    followerCount = serializers.IntegerField(required=False)
     followingCount = serializers.IntegerField(required=False)
     dpUrl = serializers.URLField(required=False)
     industry = serializers.CharField(max_length=50, required=False)
@@ -82,7 +83,8 @@ class InfluencerSerializer(serializers.ModelSerializer):
             'dpUrl',
             'industry'
         )
-      
+
+
 class CreateUserSerializer(serializers.ModelSerializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True,
