@@ -20,7 +20,15 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import * as MaterialUiLibrary from "@material-ui/core";
-import TextField from '@material-ui/core/TextField';
+import TextField from "@material-ui/core/TextField";
+
+function validateEmail(emailField) {
+  var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  if (emailField !== "" && reg.test(emailField) === false) {
+    return false;
+  }
+  return true;
+}
 
 class ProjectCreationScreen extends React.Component {
   constructor(props) {
@@ -81,7 +89,7 @@ class ProjectCreationScreen extends React.Component {
     this.handleClosingOfProjectSuccessModal = this.handleClosingOfProjectSuccessModal.bind(
       this
     );
-    this.handleChangeOfClientEmail = this.handleChangeOfClientEmail.bind(this); 
+    this.handleChangeOfClientEmail = this.handleChangeOfClientEmail.bind(this);
   }
 
   componentDidMount() {
@@ -140,12 +148,12 @@ class ProjectCreationScreen extends React.Component {
     event.preventDefault();
     this.setState({ [event.target.name]: event.target.value });
   }
-  
+
   handleChangeOfClientEmail(event) {
     event.preventDefault();
     this.setState({ [event.target.id]: event.target.value });
   }
-  
+
   handleClosingOfEmailPrompt() {
     this.setState({ emailExistPromptOpen: false });
   }
@@ -219,6 +227,8 @@ class ProjectCreationScreen extends React.Component {
   }
 
   render() {
+    const { email } = this.state;
+
     return (
       <div
         style={{
@@ -227,10 +237,7 @@ class ProjectCreationScreen extends React.Component {
           margin: "1% auto 1% auto"
         }}
       >
-        <Form
-          className="form"
-          style={{ marginTop: "20px", marginBottom: "20px" }}
-        >
+        <Form className="form" style={{ marginTop: "20px" }}>
           <Col>
             <FormGroup>
               <TextField
@@ -245,14 +252,19 @@ class ProjectCreationScreen extends React.Component {
                 }}
               />
             </FormGroup>
+            {!validateEmail(email) && (
+              <p style={{ color: "red" }}>
+                Please enter a valid email address!
+              </p>
+            )}
             <Button
               color="primary"
               onClick={() => this.handleClientEmailSubmit(this.state.email)}
+              disabled={!validateEmail(email)}
             >
               Get Started!
             </Button>
           </Col>
-         
         </Form>
         <Modal isOpen={this.state.openClientInfoModal}>
           <ModalHeader>Register As Client</ModalHeader>
