@@ -59,7 +59,7 @@ export default function InfluencerProfileScreen(props) {
               marginLeft: "auto",
               paddingTop: "6rem"
             }}
-            name={props.match.params.influencerUsername}
+            src={data.profilePicUrl}
             round
           />
         </div>
@@ -99,7 +99,7 @@ export default function InfluencerProfileScreen(props) {
         />
       )}
 
-      <AppBar
+      {/* <AppBar
         position="fixed"
         color="red"
         style={{ top: "auto", botton: "0", backgroundColor: "#d3d3d3" }}
@@ -109,7 +109,7 @@ export default function InfluencerProfileScreen(props) {
             <SocialIcon url="http://instagram.com" />
           </IconButton>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
     </div>
   );
 }
