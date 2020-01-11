@@ -15,7 +15,7 @@ from django.utils import timezone
 
 from influencer.service import checkInstaramUserIdPresence, getInfluecerFromInstagramUserId
 from influencer.serializers import CreateUserSerializer
-from influencer.models import Influencer, InstagramAuthModel
+from influencer.models import Influencer, InstagramAuthModel, InfluencerPublicProfileDetails
 from influencer.applicationConstants import INSTAGRAM
 
 from django.contrib.auth.models import User
@@ -70,6 +70,7 @@ def redirect(request):
     }
     r = requests.post(url="https://api.instagram.com/oauth/access_token", data=data)
     response = r.json()
+    print(response)
     instagramUserId = response['user']['id']
     doesInstagramIdExistFlag = checkInstaramUserIdPresence(instagramUserId)
     response_data = {}
@@ -99,6 +100,7 @@ def redirect(request):
         influencer.sourceOfOnBoard = INSTAGRAM
         influencer.save()
         instagramAuthModel = InstagramAuthModel.objects.create(instagramUserId=response['user']['id'], influencer=influencer)
+        InfluencerPublicProfileDetails.objects.create(influencer=influencer, profilePicUrl=response['user']['profile_picture'])
         token, _ = Token.objects.get_or_create(user=influencer.user)
         response_data = {'token': token.key,'username': influencer.username}
     return HttpResponseRedirect("/clients/"+response['user']['username'])
