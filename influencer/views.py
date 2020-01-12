@@ -238,7 +238,7 @@ class ProfilePictureUploadView(APIView):
             fileObject = open(file.name, 'r')
             uploadToAwsProfilePicBucket(fileObject)
             os.remove(file.name)
-            fileUrl = settings.FILE_URL_PREFIX + file.name
+            fileUrl = settings.PROFILE_PIC_FILE_URL_PREFIX + file.name
             try:
                 influencerPublicDetails = getInfluencerPublicProfileDetailsFromInfuencerUsername(influencerUsername)
                 influencerPublicDetails.profilePicUrl = fileUrl
