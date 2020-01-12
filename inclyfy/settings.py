@@ -283,3 +283,4 @@ S3_BUCKET_NAME='torquerf1'
 S3_PROFILE_PIC_BUCKET_NAME='collabere-profile-pic'
 
 FILE_URL_PREFIX='https://torquerf1.s3.ap-south-1.amazonaws.com/'
+PROFILE_PIC_FILE_URL_PREFIX='https://collabere-profile-pic.s3.ap-south-1.amazonaws.com/'
