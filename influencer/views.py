@@ -28,7 +28,7 @@ from rest_framework.permissions import AllowAny
 from influencer.applicationConstants import *
 from rest_framework.parsers import FileUploadParser
 import os
-from conversations.utils import uploadToAwsBucket
+from conversations.utils import uploadToAwsProfilePicBucket
 from django.http import JsonResponse
 
 # Create your views here.
@@ -236,7 +236,7 @@ class ProfilePictureUploadView(APIView):
         try:
             open(file.name, 'wb+').write(file.read())
             fileObject = open(file.name, 'r')
-            uploadToAwsBucket(fileObject)
+            uploadToAwsProfilePicBucket(fileObject)
             os.remove(file.name)
             fileUrl = settings.FILE_URL_PREFIX + file.name
             try:
