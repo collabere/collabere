@@ -19,6 +19,9 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import { toast } from "react-toastify";
+
+toast.configure();
 
 function getId(url) {
   var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -43,7 +46,10 @@ class UpdatePublicProfileModal extends React.Component {
       existingReferrals: [],
       currentLink: "",
       currentReferral: "",
-      changesInLists: false
+      changesInLists: false,
+      file: "",
+      loading: false,
+      imageUrl: null
     };
     this.handleUpdatePublicProfile = this.handleUpdatePublicProfile.bind(this);
   }
@@ -68,6 +74,18 @@ class UpdatePublicProfileModal extends React.Component {
         });
       });
   }
+
+  notifyOnSuccess = () => {
+    toast.success("Profile Pic is set successfully", {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  };
+
+  notifyOnFailure = () => {
+    toast.error("Something went wrong,image could not be set", {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  };
 
   handleUpdatePublicProfile() {
     this.setState({ spinnerVisible: true });
@@ -155,6 +173,28 @@ class UpdatePublicProfileModal extends React.Component {
     });
   };
 
+  uploadImage(event) {
+    this.setState({ file: event.target.files, loading: true }, () => {
+      const { file } = this.state;
+      const { influencerUsername } = this.props;
+      var formData = new FormData();
+      formData.append("file", file[0]);
+      formData.append("influencerUsername", influencerUsername);
+      axios
+        .post("/influencer/update_profile_pic", formData)
+        .then(response => {
+          this.setState({
+            imageUrl: response.data.profilePicUrl,
+            loading: false
+          });
+          this.notifyOnSuccess();
+        })
+        .catch(() => {
+          this.notifyOnFailure();
+        });
+    });
+  }
+
   render() {
     const { spinnerVisible, changesInLists } = this.state;
     return (
@@ -171,7 +211,22 @@ class UpdatePublicProfileModal extends React.Component {
             !changesInLists ? { style: { display: "none" } } : null
           }
         >
-          <Form>
+          <p style={{ color: "purple" }}>Upload your picture here:</p>
+          <input
+            display="none"
+            type="file"
+            name="docx"
+            onChange={this.uploadImage.bind(this)}
+          />
+          {!this.state.imageUrl ? null : (
+            <img
+              src={this.state.imageUrl}
+              alt="avatar"
+              style={{ width: "100%" }}
+            />
+          )}
+
+          <Form style={{ paddingTop: "3rem" }}>
             <div style={{ width: "20rem" }}>
               <List>
                 {this.state.existingLinks.map(function(item) {
@@ -254,6 +309,7 @@ class UpdatePublicProfileModal extends React.Component {
             </div>
           </Form>
           {spinnerVisible ? <LinearProgress /> : null}
+          {this.state.loading ? <LinearProgress /> : null}
         </Modal>
         <Dialog
           open={this.state.successModalVisible}
