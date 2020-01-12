@@ -280,4 +280,5 @@ SITE_ID = 1
 AWS_ACCESS_KEY='AKIAITY2SEBHBCPUL7PQ'
 AWS_SECRET_KEY='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'
 S3_BUCKET_NAME='torquerf1'
+S3_PROFILE_PIC_BUCKET_NAME='collabere-profile-pic'
 FILE_URL_PREFIX='https://torquerf1.s3.ap-south-1.amazonaws.com/'
