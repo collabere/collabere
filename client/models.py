@@ -15,6 +15,7 @@ class Client(models.Model):
     designation = models.CharField(max_length=50, default=None, blank=True, null=True)
     companyURL = models.URLField(default=None, blank=True, null=True)
     industry = models.CharField(max_length=50, default=None, blank=True, null=True)
+    updatePassPhrase= models.CharField(max_length=50, default=None,blank=True, null=True)
 
 class HomePageIntroEmail(models.Model):
     email=models.CharField(max_length=100)
