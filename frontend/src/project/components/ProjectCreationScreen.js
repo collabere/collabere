@@ -1,26 +1,21 @@
 import React from "react";
 import { local, dev } from "../../config/envConfig";
-import {
-  Col,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  Button,
-  FormFeedback,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
-} from "reactstrap";
+import { Col, Form, FormGroup, Button } from "reactstrap";
 import axios from "axios";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import * as MaterialUiLibrary from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
+import { Modal as AntdModal } from "antd";
+import { Collapse, Icon } from "antd";
+import {
+  Form as AntdForm,
+  Input as AntdInput,
+  Button as AntdButton
+} from "antd";
+import { toast } from "react-toastify";
+import { Spin } from "antd";
+
+toast.configure();
+
+const { Panel } = Collapse;
 
 function validateEmail(emailField) {
   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -29,6 +24,13 @@ function validateEmail(emailField) {
   }
   return true;
 }
+
+const customPanelStyle = {
+  background: "#f7f7f7",
+  borderRadius: 4,
+  marginBottom: 24,
+  border: 0
+};
 
 class ProjectCreationScreen extends React.Component {
   constructor(props) {
@@ -43,53 +45,26 @@ class ProjectCreationScreen extends React.Component {
       designation: "",
       companyUrl: "",
       phoneNumber: "",
-      emailValidFlag: false,
-      emailExistPromptOpen: false,
-      openClientInfoModal: false,
-      openProjectInfoModal: false,
+      emailValidFlag: null,
       minBudget: "",
       maxBudget: "",
       introText: "",
-      projectSaveSuccess: false,
-      influencerUsername: ""
+      influencerUsername: "",
+      passPhrase: null,
+      clientRevisitFlag: null,
+      modalOpenFlag: false,
+      clientUpdateProgress: false,
+      projectCreateProgress: false
     };
     this.handleChangeOfInputFields = this.handleChangeOfInputFields.bind(this);
     this.validateClientEmail = this.validateClientEmail.bind(this);
     this.url = process.env.NODE_ENV === undefined ? local.url : dev.url;
-    this.handleClosingOfEmailPrompt = this.handleClosingOfEmailPrompt.bind(
-      this
-    );
-    this.handleOpeningOfEmailPrompt = this.handleOpeningOfEmailPrompt.bind(
-      this
-    );
-    this.handleOpeningOfClientInfoModal = this.handleOpeningOfClientInfoModal.bind(
-      this
-    );
-    this.handleClosingOfClientInfoModal = this.handleClosingOfClientInfoModal.bind(
-      this
-    );
-    this.handleRegisterThroughEmailPrompt = this.handleRegisterThroughEmailPrompt.bind(
-      this
-    );
-    this.handleOpeningOfProjectInfoModal = this.handleOpeningOfProjectInfoModal.bind(
-      this
-    );
-    this.handleClosingOfProjectInfoModal = this.handleClosingOfProjectInfoModal.bind(
-      this
-    );
-    this.handleProjectInfoModalThroughClientInfoModal = this.handleProjectInfoModalThroughClientInfoModal.bind(
-      this
-    );
+
     this.handleSavingOfProjectDetails = this.handleSavingOfProjectDetails.bind(
       this
     );
-    this.handleOpeningOfProjectSuccessModal = this.handleOpeningOfProjectSuccessModal.bind(
-      this
-    );
-    this.handleClosingOfProjectSuccessModal = this.handleClosingOfProjectSuccessModal.bind(
-      this
-    );
     this.handleChangeOfClientEmail = this.handleChangeOfClientEmail.bind(this);
+    this.handleCredentialSubmit = this.handleCredentialSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -97,7 +72,26 @@ class ProjectCreationScreen extends React.Component {
     this.setState({ influencerUsername: influencerUsername });
   }
 
+  notifyOnSuccessOnProjectCreation = () => {
+    toast.success("Project created successfully!", {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  };
+
+  notifyOnSuccessOnClientDetails = () => {
+    toast.success("Details saved successfully!", {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  };
+
+  notifyOnFailure = () => {
+    toast.error("There was some problem in the operation!", {
+      position: toast.POSITION.TOP_RIGHT
+    });
+  };
+
   handleCredentialSubmit() {
+    this.setState({ clientUpdateProgress: true });
     axios({
       method: "put",
       url: `/client/put`,
@@ -118,17 +112,17 @@ class ProjectCreationScreen extends React.Component {
       }
     })
       .then(response => {
-        this.setState({ successModal: true });
-        console.log(response);
+        this.setState({ emailValidFlag: true, clientUpdateProgress: false });
+        this.notifyOnSuccessOnClientDetails();
       })
       .catch(function(error) {
-        console.log(error);
+        this.setState({ clientUpdateProgress: false });
+        this.notifyOnFailure();
       });
   }
 
   handleClientEmailSubmit(email) {
     this.validateClientEmail(email);
-    this.handleOpeningOfEmailPrompt();
   }
 
   validateClientEmail(email) {
@@ -139,7 +133,8 @@ class ProjectCreationScreen extends React.Component {
       .then(res => {
         console.log(res.data);
         this.setState({
-          emailValidFlag: res.data
+          clientRevisitFlag: res.data,
+          modalOpenFlag: true
         });
       });
   }
@@ -154,55 +149,39 @@ class ProjectCreationScreen extends React.Component {
     this.setState({ [event.target.id]: event.target.value });
   }
 
-  handleClosingOfEmailPrompt() {
-    this.setState({ emailExistPromptOpen: false });
-  }
+  handleChangeOfClientPassPhrase = event => {
+    event.preventDefault();
+    this.setState({ [event.target.id]: event.target.value });
+  };
 
-  handleOpeningOfClientInfoModal() {
-    this.setState({ openClientInfoModal: true });
-  }
+  handleModalClose = () => {
+    this.setState({ modalOpenFlag: false });
+  };
 
-  handleClosingOfClientInfoModal() {
-    this.setState({ openClientInfoModal: false });
-  }
-
-  handleOpeningOfProjectInfoModal() {
-    this.setState({ openProjectInfoModal: true });
-  }
-
-  handleClosingOfProjectInfoModal() {
-    this.setState({ openProjectInfoModal: false });
-  }
-
-  handleProjectInfoModalThroughClientInfoModal() {
-    this.handleCredentialSubmit();
-    this.handleOpeningOfProjectInfoModal();
-    this.handleClosingOfClientInfoModal();
-  }
-
-  handleRegisterThroughEmailPrompt() {
-    if (this.state.emailValidFlag) {
-      this.handleOpeningOfProjectInfoModal();
-    } else {
-      this.handleOpeningOfClientInfoModal();
-    }
-    this.handleClosingOfEmailPrompt();
-  }
-
-  handleOpeningOfEmailPrompt() {
-    this.setState({ emailExistPromptOpen: true });
-  }
-
-  handleClosingOfProjectSuccessModal() {
-    this.setState({ projectSaveSuccess: false });
-    this.handleClosingOfProjectInfoModal();
-  }
-
-  handleOpeningOfProjectSuccessModal() {
-    this.setState({ projectSaveSuccess: true });
-  }
+  handleEmailAndPassPhraseSubmit = () => {
+    axios({
+      method: "post",
+      url: `/client/validate_update_pass_phrase`,
+      data: {
+        email: this.state.email,
+        updatePassPhrase: this.state.passPhrase
+      },
+      headers: {
+        "content-type": "application/json"
+      }
+    })
+      .then(response => {
+        this.setState({ emailValidFlag: true, modalOpenFlag: true });
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
 
   handleSavingOfProjectDetails() {
+    this.setState({ projectCreateProgress: true });
+
     axios({
       method: "put",
       url: `/project/put`,
@@ -218,16 +197,18 @@ class ProjectCreationScreen extends React.Component {
       }
     })
       .then(response => {
-        this.handleOpeningOfProjectSuccessModal();
-        console.log(response);
+        this.notifyOnSuccessOnProjectCreation();
+        this.setState({ projectCreateProgress: false });
       })
       .catch(function(error) {
-        console.log(error);
+        this.setState({ projectCreateProgress: false });
+        this.notifyOnFailure();
       });
   }
 
   render() {
     const { email } = this.state;
+    const { emailValidFlag, clientRevisitFlag } = this.state;
 
     return (
       <div
@@ -237,7 +218,7 @@ class ProjectCreationScreen extends React.Component {
           margin: "1% auto 1% auto"
         }}
       >
-        <Form className="form" style={{ marginTop: "20px" }}>
+        <Form className="form">
           <Col>
             <FormGroup>
               <TextField
@@ -257,217 +238,186 @@ class ProjectCreationScreen extends React.Component {
                 Please enter a valid email address!
               </p>
             )}
-            <Button
-              color="primary"
-              onClick={() => this.handleClientEmailSubmit(this.state.email)}
-              disabled={!validateEmail(email)}
-            >
-              Get Started!
-            </Button>
+            {clientRevisitFlag === true && (
+              <TextField
+                id="passPhrase"
+                placeholder="Enter your pass phrase here"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                onChange={this.handleChangeOfClientPassPhrase}
+                InputLabelProps={{
+                  shrink: true
+                }}
+              />
+            )}
+
+            {clientRevisitFlag === true && (
+              <p style={{ color: "red" }}>
+                This mail is already registered ,please enter the pass phrase
+                recived on mail to continue
+              </p>
+            )}
+            {clientRevisitFlag === true ? (
+              <Button
+                color="primary"
+                onClick={this.handleEmailAndPassPhraseSubmit}
+                disabled={!validateEmail(email)}
+              >
+                Submit
+              </Button>
+            ) : (
+              <Button
+                color="primary"
+                onClick={() => this.handleClientEmailSubmit(this.state.email)}
+                disabled={!validateEmail(email)}
+              >
+                Get Started!
+              </Button>
+            )}
           </Col>
         </Form>
-        <Modal isOpen={this.state.openClientInfoModal}>
-          <ModalHeader>Register As Client</ModalHeader>
-          <ModalBody>
-            <Col>
-              <FormGroup>
-                <Label>Name</Label>
-                <Input
-                  type="text"
-                  name="name"
-                  id="name"
-                  onChange={this.handleChangeOfInputFields}
-                />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup>
-                <Label>City</Label>
-                <Input
-                  type="text"
-                  name="city"
-                  id="city"
-                  onChange={this.handleChangeOfInputFields}
-                />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup>
-                <Label>Country</Label>
-                <Input
-                  type="text"
-                  name="country"
-                  id="country"
-                  onChange={this.handleChangeOfInputFields}
-                />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup>
-                <Label>Company Name</Label>
-                <Input
-                  type="text"
-                  name="companyName"
-                  id="companyName"
-                  onChange={this.handleChangeOfInputFields}
-                />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup>
-                <Label>Phone Number</Label>
-                <Input
-                  type="text"
-                  name="industry"
-                  id="industry"
-                  onChange={this.handleChangeOfInputFields}
-                />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup>
-                <Label>Designation</Label>
-                <Input
-                  type="text"
-                  name="designation"
-                  id="designation"
-                  onChange={this.handleChangeOfInputFields}
-                />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup>
-                <Label>Company Url</Label>
-                <Input
-                  type="text"
-                  name="companyUrl"
-                  id="companyUrl"
-                  onChange={this.handleChangeOfInputFields}
-                />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup>
-                <Label>Industry</Label>
-                <Input
-                  type="text"
-                  name="phoneNumber"
-                  id="phoneNumber"
-                  onChange={this.handleChangeOfInputFields}
-                />
-              </FormGroup>
-            </Col>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              color="secondary"
-              onClick={this.handleClosingOfClientInfoModal}
-            >
-              Cancel
-            </Button>
-            <Button
-              color="primary"
-              onClick={this.handleProjectInfoModalThroughClientInfoModal}
-            >
-              {" "}
-              Save Details and Continue to Project
-            </Button>{" "}
-          </ModalFooter>
-        </Modal>
-        <Modal isOpen={this.state.openProjectInfoModal}>
-          <ModalHeader>Fill Up Project Details</ModalHeader>
-          <ModalBody>
-            <Col>
-              <FormGroup>
-                <Label>Minimum Budget</Label>
-                <Input
-                  type="text"
-                  name="minBudget"
-                  id="minBudget"
-                  onChange={this.handleChangeOfInputFields}
-                />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup>
-                <Label>Maximum Budget</Label>
-                <Input
-                  type="text"
-                  name="maxBudget"
-                  id="maxBudget"
-                  onChange={this.handleChangeOfInputFields}
-                />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup>
-                <Label>Introduction Text</Label>
-                <Input
-                  type="text"
-                  name="introText"
-                  id="introText"
-                  onChange={this.handleChangeOfInputFields}
-                />
-              </FormGroup>
-            </Col>
-          </ModalBody>
-          <ModalFooter>
-            <Button
-              color="secondary"
-              onClick={this.handleClosingOfProjectInfoModal}
-            >
-              Cancel
-            </Button>
-            <Button color="primary" onClick={this.handleSavingOfProjectDetails}>
-              {" "}
-              Save
-            </Button>{" "}
-          </ModalFooter>
-        </Modal>
-        <Dialog
-          open={this.state.emailExistPromptOpen}
-          onClose={this.handleClosingOfEmailPrompt}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
+
+        <AntdModal
+          title="Project and Client"
+          visible={
+            this.state.modalOpenFlag &&
+            (this.state.clientRevisitFlag === false ||
+              this.state.emailValidFlag === true)
+          }
+          onCancel={this.handleModalClose}
+          okButtonProps={{ style: { display: "none" } }}
         >
-          <DialogTitle id="alert-dialog-title">{"Status"}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              {this.state.emailValidFlag
-                ? "Awesome you are already onboarded go ahead with creating project"
-                : "You are currently not registered with us please fill up some basic details to continue project creation."}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <MaterialUiLibrary.Button
-              onClick={this.handleClosingOfEmailPrompt}
-              color="primary"
-            >
-              Cancel
-            </MaterialUiLibrary.Button>
-            <MaterialUiLibrary.Button
-              onClick={this.handleRegisterThroughEmailPrompt}
-              color="primary"
-              autoFocus
-            >
-              {this.state.emailValidFlag
-                ? "Create Project"
-                : "Register As Client"}
-            </MaterialUiLibrary.Button>
-          </DialogActions>
-        </Dialog>
-        <Modal isOpen={this.state.projectSaveSuccess}>
-          <ModalHeader>Success!</ModalHeader>
-          <ModalBody>Yayy! The Project has been saved successfully</ModalBody>
-          <ModalFooter>
-            <Button
-              color="secondary"
-              onClick={this.handleClosingOfProjectSuccessModal}
-            >
-              Cancel
-            </Button>
-          </ModalFooter>
-        </Modal>
+          <Collapse
+            bordered={false}
+            expandIcon={({ isActive }) => (
+              <Icon type="caret-right" rotate={isActive ? 90 : 0} />
+            )}
+          >
+            <Panel header="Update Details" key="2" style={customPanelStyle}>
+              <AntdForm layout="inline">
+                <AntdForm.Item>
+                  <AntdInput
+                    placeholder="Name"
+                    type="text"
+                    name="name"
+                    id="name"
+                    onChange={this.handleChangeOfInputFields}
+                  />
+                </AntdForm.Item>
+                <AntdForm.Item>
+                  <AntdInput
+                    placeholder="City"
+                    type="text"
+                    name="city"
+                    id="city"
+                    onChange={this.handleChangeOfInputFields}
+                  />
+                </AntdForm.Item>
+                <AntdForm.Item>
+                  <AntdInput
+                    placeholder="Country"
+                    type="text"
+                    name="country"
+                    id="country"
+                    onChange={this.handleChangeOfInputFields}
+                  />
+                </AntdForm.Item>
+                <AntdForm.Item>
+                  <AntdInput
+                    placeholder="Company Name"
+                    type="text"
+                    name="companyName"
+                    id="companyName"
+                    onChange={this.handleChangeOfInputFields}
+                  />
+                </AntdForm.Item>
+                <AntdForm.Item>
+                  <AntdInput
+                    placeholder="Industry"
+                    type="text"
+                    name="industry"
+                    id="industry"
+                    onChange={this.handleChangeOfInputFields}
+                  />
+                </AntdForm.Item>
+                <AntdForm.Item>
+                  <AntdInput
+                    placeholder="Designation"
+                    type="text"
+                    name="designation"
+                    id="designation"
+                    onChange={this.handleChangeOfInputFields}
+                  />
+                </AntdForm.Item>
+                <AntdForm.Item>
+                  <AntdInput
+                    placeholder="Company Website Link"
+                    type="text"
+                    name="companyUrl"
+                    id="companyUrl"
+                    onChange={this.handleChangeOfInputFields}
+                  />
+                </AntdForm.Item>
+                <AntdForm.Item>
+                  <AntdInput
+                    placeholder="Phone Number"
+                    type="text"
+                    name="phoneNumber"
+                    id="phoneNumber"
+                    onChange={this.handleChangeOfInputFields}
+                  />
+                </AntdForm.Item>
+                <AntdForm.Item>
+                  <AntdButton onClick={this.handleCredentialSubmit}>
+                    Submit
+                  </AntdButton>
+                </AntdForm.Item>
+              </AntdForm>
+              {this.state.clientUpdateProgress && <Spin />}
+            </Panel>
+
+            {emailValidFlag && (
+              <Panel header="Create Project" key="1" style={customPanelStyle}>
+                <AntdForm layout="inline">
+                  <AntdForm.Item>
+                    <AntdInput
+                      placeholder="Minimum Budget"
+                      type="text"
+                      name="minBudget"
+                      id="minBudget"
+                      onChange={this.handleChangeOfInputFields}
+                    />
+                  </AntdForm.Item>
+                  <AntdForm.Item>
+                    <AntdInput
+                      placeholder="Maximum Budget"
+                      type="text"
+                      name="maxBudget"
+                      id="maxBudget"
+                      onChange={this.handleChangeOfInputFields}
+                    />
+                  </AntdForm.Item>
+                  <AntdForm.Item>
+                    <AntdInput
+                      placeholder="Intrduction Text"
+                      type="text"
+                      name="introText"
+                      id="introText"
+                      onChange={this.handleChangeOfInputFields}
+                    />
+                  </AntdForm.Item>
+                  <AntdForm.Item>
+                    <AntdButton onClick={this.handleSavingOfProjectDetails}>
+                      Submit
+                    </AntdButton>
+                  </AntdForm.Item>
+                </AntdForm>
+                {this.state.projectCreateProgress && <Spin />}
+              </Panel>
+            )}
+          </Collapse>
+        </AntdModal>
       </div>
     );
   }

@@ -9,6 +9,5 @@ urlpatterns = [
     url(r'all_emails$', getAllHomePageIntroEmails),
     url(r'byClientEmail/(\w+)$', getClientByEmail),
     url(r'clientEmail', checkExistenceOfClient, name='check_client_email_existence'),
-    url(r'^test$', ValidatePassPhrase.as_view(), name='validate_update_pass_phrase'),
-
+    url(r'^validate_update_pass_phrase$', ValidatePassPhrase.as_view(), name='validate_update_pass_phrase'),
 ]
