@@ -19,10 +19,18 @@ const { Panel } = Collapse;
 
 function validateEmail(emailField) {
   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-  if (emailField !== "" && reg.test(emailField) === false) {
+  if (emailField === "") {
     return false;
   }
-  return true;
+  return reg.test(emailField);
+}
+
+function validatePhoneNumber(phoneNumber) {
+  var regex = /^[0]?[789]\d{9}$/;
+  if (phoneNumber === "") {
+    return true;
+  }
+  return regex.test(phoneNumber);
 }
 
 const customPanelStyle = {
@@ -64,7 +72,8 @@ class ProjectCreationScreen extends React.Component {
       this
     );
     this.handleChangeOfClientEmail = this.handleChangeOfClientEmail.bind(this);
-    this.handleCredentialSubmit = this.handleCredentialSubmit.bind(this);
+    this.handleCredentialSubmit = this.handleClientSave.bind(this);
+    this.handleClientUpdate = this.handleClientUpdate.bind(this);
   }
 
   componentDidMount() {
@@ -90,11 +99,11 @@ class ProjectCreationScreen extends React.Component {
     });
   };
 
-  handleCredentialSubmit() {
+  handleClientSave() {
     this.setState({ clientUpdateProgress: true });
     axios({
-      method: "put",
-      url: `/client/put`,
+      method: "post",
+      url: `/client/insert_client`,
       data: {
         name: this.state.name,
         email: this.state.email,
@@ -113,6 +122,48 @@ class ProjectCreationScreen extends React.Component {
     })
       .then(response => {
         this.setState({ emailValidFlag: true, clientUpdateProgress: false });
+        this.notifyOnSuccessOnClientDetails();
+      })
+      .catch(function(error) {
+        this.setState({ clientUpdateProgress: false });
+        this.notifyOnFailure();
+      });
+  }
+
+  handleClientUpdate() {
+    this.setState({ clientUpdateProgress: true });
+    let initialData = {
+      name: this.state.name,
+      email: this.state.email,
+      companyName: this.state.companyName,
+      designation: this.state.designation,
+      companyUrl: this.state.companyUrl,
+      city: this.state.city,
+      country: this.state.country,
+      industry: this.state.industry,
+      phoneNumber: this.state.phoneNumber,
+      influencerUsername: this.state.influencerUsername
+    };
+    let preparedArray = Object.entries(initialData)
+      .filter(([name, value]) => value !== null)
+      .filter(([name, value]) => value !== "")
+      .map(([name, value]) => ({ name, value }));
+
+    var preparedData = {};
+    for (var i = 0; i < preparedArray.length; i++) {
+      preparedData[preparedArray[i].name] = preparedArray[i].value;
+    }
+
+    axios({
+      method: "put",
+      url: `/client/update_client`,
+      data: preparedData,
+      headers: {
+        "content-type": "application/json"
+      }
+    })
+      .then(() => {
+        this.setState({ clientUpdateProgress: false });
         this.notifyOnSuccessOnClientDetails();
       })
       .catch(function(error) {
@@ -208,7 +259,7 @@ class ProjectCreationScreen extends React.Component {
 
   render() {
     const { email } = this.state;
-    const { emailValidFlag, clientRevisitFlag } = this.state;
+    const { emailValidFlag, clientRevisitFlag, phoneNumber } = this.state;
 
     return (
       <div
@@ -368,8 +419,18 @@ class ProjectCreationScreen extends React.Component {
                     onChange={this.handleChangeOfInputFields}
                   />
                 </AntdForm.Item>
+                {!validatePhoneNumber(phoneNumber) && (
+                  <p style={{ color: "red" }}>Enter a valid phone number!</p>
+                )}
                 <AntdForm.Item>
-                  <AntdButton onClick={this.handleCredentialSubmit}>
+                  <AntdButton
+                    onClick={
+                      clientRevisitFlag
+                        ? this.handleClientUpdate
+                        : this.handleClientSave
+                    }
+                    disabled={!validatePhoneNumber(phoneNumber)}
+                  >
                     Submit
                   </AntdButton>
                 </AntdForm.Item>
