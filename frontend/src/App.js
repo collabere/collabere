@@ -20,7 +20,7 @@ class App extends Component {
         return (
             <Router>
                 <Route exact path="/" component={HomePage}></Route>
-                <Route path="/clients/:influencerUsername" component={ClientScreen} />
+                <Route path="/clients/:influencerUsername/:token" component={ClientScreen} />
                 <Route exact path="/messages/:influencerUsername/:clientId/:projectInitiationDate" component={ConversationScreen} />
                 <Route exact path="/home" component={HomePage} />
                 <Route path="/register" component={RegisterModal}></Route>
