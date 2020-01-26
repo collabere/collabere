@@ -57,6 +57,7 @@ class InfluencerPublicProfileDetails(models.Model):
     referralLink= models.CharField(max_length=500, blank=True, null=True)
     videoLink = models.CharField(max_length= 500, blank=True, null=True)
     influencer = models.ForeignKey(Influencer, on_delete=models.CASCADE)
+    profilePicUrl = models.URLField(default=None, blank=True, null=True)
 
 class InstagramAuthModel(models.Model):
     instagramUserId= models.BigIntegerField()

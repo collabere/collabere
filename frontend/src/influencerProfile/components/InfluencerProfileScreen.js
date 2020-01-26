@@ -12,6 +12,10 @@ import axios from "axios";
 import ReferalLinkList from "./ReferalLinkList";
 import HomeNavBar from "../../homepage/components/Navbar";
 import Avatar from "react-avatar";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import { SocialIcon } from "react-social-icons";
 
 export default function InfluencerProfileScreen(props) {
   useEffect(() => {
@@ -57,7 +61,7 @@ export default function InfluencerProfileScreen(props) {
               marginLeft: "auto",
               paddingTop: "6rem"
             }}
-            name={props.match.params.influencerUsername}
+            src={data.profilePicUrl}
             round
           />
         </div>
@@ -90,8 +94,24 @@ export default function InfluencerProfileScreen(props) {
       {value === 2 && (
         <VideoList influencerUsername={username} links={data.videoLink} />
       )}
-      {value === 1 && <ReferalLinkList influencerUsername={username}
-          referrals={data.referralLink} />}
+      {value === 1 && (
+        <ReferalLinkList
+          influencerUsername={username}
+          referrals={data.referralLink}
+        />
+      )}
+
+      {/* <AppBar
+        position="fixed"
+        color="red"
+        style={{ top: "auto", botton: "0", backgroundColor: "#d3d3d3" }}
+      >
+        <Toolbar>
+          <IconButton>
+            <SocialIcon url="http://instagram.com" />
+          </IconButton>
+        </Toolbar>
+      </AppBar> */}
     </div>
   );
 }

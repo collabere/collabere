@@ -15,7 +15,7 @@ from django.utils import timezone
 
 from influencer.service import checkInstaramUserIdPresence, getInfluecerFromInstagramUserId
 from influencer.serializers import CreateUserSerializer
-from influencer.models import Influencer, InstagramAuthModel
+from influencer.models import Influencer, InstagramAuthModel, InfluencerPublicProfileDetails
 from influencer.applicationConstants import INSTAGRAM
 
 from django.contrib.auth.models import User
@@ -97,6 +97,7 @@ def redirectSocial(request):
         influencer.sourceOfOnBoard = INSTAGRAM
         influencer.save()
         instagramAuthModel = InstagramAuthModel.objects.create(instagramUserId=response['user']['id'], influencer=influencer)
+        InfluencerPublicProfileDetails.objects.create(influencer=influencer, profilePicUrl=response['user']['profile_picture'])
         token, _ = Token.objects.get_or_create(user=influencer.user)
         # print(token)
         response_data = {'token': token.key,'username': influencer.username}

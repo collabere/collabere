@@ -20,12 +20,16 @@ from django.contrib.auth import get_user_model
 from .service import getAllClientOfAnInfluencer, validateUsername, getInfluencerFromInfluencerUsername, \
     deleteInfluencerUsingInfluencerId, influencer_signup, changePassword, getInfluencerFromInfluencerEmail, \
     getInfluencerPublicProfileDetailsFromInfuencerUsername
-from .utils import handleEmptyAbsentKey ,getCustomObjectFromQuerrySet
+from .utils import handleEmptyAbsentKey, getCustomObjectFromQuerrySet
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.permissions import AllowAny
 from influencer.applicationConstants import *
+from rest_framework.parsers import FileUploadParser
+import os
+from conversations.utils import uploadToAwsProfilePicBucket
+from django.http import JsonResponse
 
 # Create your views here.
 _logger = logging.getLogger(__name__)
@@ -62,7 +66,6 @@ def updateInfluencerPublicDetails(request):
     influencerUsername = data['username']
     try:
         influencerPublicDetails = getInfluencerPublicProfileDetailsFromInfuencerUsername(influencerUsername)
-        print(influencerPublicDetails)
     except InfluencerPublicProfileDetails.DoesNotExist:
         influencer = getCustomObjectFromQuerrySet(getInfluencerFromInfluencerUsername(influencerUsername))
         influencerPublicDetails = InfluencerPublicProfileDetails()
@@ -84,6 +87,7 @@ def getInfluencerWithEmail(request):
     influencerEmail = request.GET.get('email')
     influencer = getInfluencerFromInfluencerEmail(influencerEmail)
     return Response(InfluencerSerializer(influencer, many=True).data)
+
 
 @api_view(['GET'])
 @authentication_classes([])
@@ -213,7 +217,6 @@ def sendEmailToResetPassword(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-
 class LogoutUserAPIView(APIView):
     queryset = get_user_model().objects.all()
 
@@ -221,3 +224,33 @@ class LogoutUserAPIView(APIView):
         # simply delete the token to force a login
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
+
+
+class ProfilePictureUploadView(APIView):
+    parser_class = (FileUploadParser,)
+
+    def post(self, request, *args, **kwargs):
+        jsonResponse =  request.data
+        file = request.FILES['file']
+        influencerUsername = jsonResponse[INFLUENCER_USERNAME]
+        try:
+            open(file.name, 'wb+').write(file.read())
+            fileObject = open(file.name, 'r')
+            uploadToAwsProfilePicBucket(fileObject)
+            os.remove(file.name)
+            fileUrl = settings.PROFILE_PIC_FILE_URL_PREFIX + file.name
+            try:
+                influencerPublicDetails = getInfluencerPublicProfileDetailsFromInfuencerUsername(influencerUsername)
+                influencerPublicDetails.profilePicUrl = fileUrl
+                influencerPublicDetails.save()
+            except InfluencerPublicProfileDetails.DoesNotExist:
+                influencer = getCustomObjectFromQuerrySet(getInfluencerFromInfluencerUsername(influencerUsername))
+                influencerPublicDetails = InfluencerPublicProfileDetails()
+                influencerPublicDetails.influencer = influencer
+                influencerPublicDetails.profilePicUrl = fileUrl
+                influencerPublicDetails.save()
+
+            return JsonResponse({'profilePicUrl': fileUrl, 'influencerUsername': influencerUsername},
+                                status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
