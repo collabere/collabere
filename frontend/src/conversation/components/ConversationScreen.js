@@ -55,7 +55,7 @@ class ConversationScreen extends React.Component {
       },
       headers: {
         "content-type": "application/json",
-        Authorization: localStorage.getItem("token")
+        Authorization: `Token ${localStorage.getItem("token")}`
       }
     })
       .then(response => {
@@ -89,7 +89,7 @@ class ConversationScreen extends React.Component {
         params: {
           projectInitiationDate: params.projectInitiationDate
         },
-        headers: { Authorization: localStorage.getItem("token") }
+        headers: { Authorization: `Token ${localStorage.getItem("token")}` }
       })
       .then(res => {
         console.log(res.data);
@@ -109,7 +109,7 @@ class ConversationScreen extends React.Component {
         params: {
           projectInitiationDate: params.projectInitiationDate
         },
-        headers: { Authorization: localStorage.getItem("token") }
+        headers: { Authorization: `Token ${localStorage.getItem("token")}` }
       })
       .then(() => {
         this.fetchMessages();

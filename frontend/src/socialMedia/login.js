@@ -10,7 +10,6 @@ class Login extends React.Component {
   }
 
   instagramResponse = response => {
-    console.log(response);
     const data = {
       client_id: "49f4a71ef28b448a864a7519a197ba0c",
       client_secret: "db912bb77fd5472895e8e097191bb1a7",

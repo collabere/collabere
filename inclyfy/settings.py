@@ -38,7 +38,7 @@ SECRET_KEY = 'bmjli76vwfe!6=1cr#w67n6v%r170!n726wf^rnls4+wwtv-^6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.collabere.com', 'collabere.com', 'ec2-13-232-88-209.ap-south-1.compute.amazonaws.com', '13.232.88.209']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'www.collabere.com', 'collabere.com', 'ec2-13-232-88-209.ap-south-1.compute.amazonaws.com', 'ip-172-31-0-111.ap-south-1.compute.internal', '13.232.88.209']
 
 
 # Application definition
@@ -60,14 +60,14 @@ INSTALLED_APPS = [
     'frontend',
     'webpack_loader',
     'project',
-    'knox',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.instagram',
-    'allauth.socialaccount.providers.github',
+    # 'knox',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.facebook',
+    # 'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.instagram',
+    # 'allauth.socialaccount.providers.github',
     'rest_framework.authtoken',
 ]
 
@@ -81,6 +81,7 @@ WEBPACK_LOADER = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -150,29 +151,29 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 #all-auth registraion settings
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400 # 1 day. This does ot prevent admin login frombeing brut forced.
-ACCOUNT_LOGOUT_REDIRECT_URL ='/accounts/login/' #or any other page
-LOGIN_REDIRECT_URL = '/accounts/email/' # redirects to profile page by default
-ACCOUNT_PRESERVE_USERNAME_CASING = False # reduces the delays in iexact lookups
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
-ACCOUNT_UNIQUE_EMAIL=True
-ACCOUNT_USERNAME_MIN_LENGTH = 5
-ACCOUNT_USERNAME_REQUIRED =True
-ACCOUNT_USERNAME_VALIDATORS = None
+# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS =1
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+# ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400 # 1 day. This does ot prevent admin login frombeing brut forced.
+# ACCOUNT_LOGOUT_REDIRECT_URL ='/accounts/login/' #or any other page
+# LOGIN_REDIRECT_URL = '/accounts/email/' # redirects to profile page by default
+# ACCOUNT_PRESERVE_USERNAME_CASING = False # reduces the delays in iexact lookups
+# ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+# ACCOUNT_UNIQUE_EMAIL=True
+# ACCOUNT_USERNAME_MIN_LENGTH = 5
+# ACCOUNT_USERNAME_REQUIRED =True
+# ACCOUNT_USERNAME_VALIDATORS = None
 
 #Account adapters
-ACCOUNT_ADAPTER = 'allauthdemo.adapter.CustomProcessAdapter'
+# ACCOUNT_ADAPTER = 'allauthdemo.adapter.CustomProcessAdapter'
 
-#Account Signup
-ACCOUNT_FORMS = {'signup': 'allauthdemo.forms.SignupForm',}
+# #Account Signup
+# ACCOUNT_FORMS = {'signup': 'allauthdemo.forms.SignupForm',}
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    # 'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 ROOT_URLCONF = 'inclyfy.urls'

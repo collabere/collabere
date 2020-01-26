@@ -16,6 +16,7 @@ import InboxNavbar from "./Navbar";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import * as qs from 'query-string';
 
 class ClientScreen extends React.Component {
   constructor(props) {
@@ -45,12 +46,15 @@ class ClientScreen extends React.Component {
     const {
       match: { params }
     } = this.props;
-
+    
+    // const search = new URLSearchParams(this.props.location.search);
+    // console.log("*******************", qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).code);
+    localStorage.setItem("token", params.token);
     axios
       .get(
         `/project/byInfluencerUserName/${params.influencerUsername}`,
         {
-          headers: { Authorization: localStorage.getItem("token") }
+          headers: { Authorization: `Token ${params.token}` }//localStorage.getItem("token") }
         }
       )
       .then(res => {
@@ -58,6 +62,8 @@ class ClientScreen extends React.Component {
         this.setState({
           clients: res.data
         });
+      }).catch((err) => {
+        console.log("Error occurred...", err);
       });
   };
 
@@ -77,6 +83,8 @@ class ClientScreen extends React.Component {
   };
   componentDidMount() {
     console.log(sessionStorage.getItem("token"));
+    console.log("Component mount done.....");
+    
     this.fetchArticles();
   }
 

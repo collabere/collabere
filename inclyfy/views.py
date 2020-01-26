@@ -24,6 +24,7 @@ from django.utils.timezone import utc
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from django.http import HttpResponse
+from django.shortcuts import redirect
 import json
 import random
 import string
@@ -59,7 +60,7 @@ def login(request):
 @csrf_exempt
 @api_view(["GET"])
 @permission_classes((AllowAny,))
-def redirect(request):
+def redirectSocial(request):
     code = request.GET.get('code')
     data = {
         "client_id": "49f4a71ef28b448a864a7519a197ba0c",
@@ -79,12 +80,8 @@ def redirect(request):
         user = influencer.user
         username = influencer.username
         token, _ = Token.objects.get_or_create(user=user)
+        print(token)
         response_data = {'token': token.key,'username': user.username}
-    # check username exists in db or not
-
-    # if Not exist create django USer and redirect to login
-    # 
-    # else refer login view fun by fetching user details
     else:
         user_data = {}
         randomPasswordString = ''.join(
@@ -102,5 +99,8 @@ def redirect(request):
         instagramAuthModel = InstagramAuthModel.objects.create(instagramUserId=response['user']['id'], influencer=influencer)
         InfluencerPublicProfileDetails.objects.create(influencer=influencer, profilePicUrl=response['user']['profile_picture'])
         token, _ = Token.objects.get_or_create(user=influencer.user)
+        # print(token)
         response_data = {'token': token.key,'username': influencer.username}
-    return HttpResponseRedirect("/clients/"+response['user']['username'])
+    redirect_response = HttpResponseRedirect("/clients/"+response['user']['username']+"/"+response_data['token'])
+    redirect_response['X-Auth-Token'] = response_data['token']
+    return redirect_response
