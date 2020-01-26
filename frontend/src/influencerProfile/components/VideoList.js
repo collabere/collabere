@@ -106,7 +106,7 @@ export default function VideoList({ influencerUsername, links }) {
       data: constructObjectToPost(),
       headers: {
         "content-type": "application/json",
-        Authorization: localStorage.getItem("token")
+        Authorization: `Token ${localStorage.getItem("token")}`
       }
     })
       .then(response => {

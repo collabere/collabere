@@ -180,7 +180,7 @@ export default function HomeImage(props) {
           okButtonProps={{ style: { display: "none" } }}
           onCancel={handleClose}
         >
-          <LoginModal />
+          <LoginModal isBard/>
         </Modal>
       </div>
     </div>

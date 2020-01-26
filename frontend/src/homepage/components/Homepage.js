@@ -110,7 +110,7 @@ export default function HomePage(props) {
           </Container>
           <ScrollTop {...props}>
             <Fab color="secondary" size="small" aria-label="scroll back to top">
-              <KeyboardArrowUpIcon />
+              <KeyboardArrowUpIcon/>
             </Fab>
           </ScrollTop>
           <FooterComp/>

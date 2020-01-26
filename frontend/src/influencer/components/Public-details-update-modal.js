@@ -60,7 +60,7 @@ class UpdatePublicProfileModal extends React.Component {
           username: this.props.influencerUsername
         },
         headers: {
-          Authorization: localStorage.getItem("token")
+          Authorization: `Token ${localStorage.getItem("token")}`
         }
       })
       .then(res => {
@@ -95,7 +95,7 @@ class UpdatePublicProfileModal extends React.Component {
       data: this.constructRequiredObject(),
       headers: {
         "content-type": "application/json",
-        Authorization: localStorage.getItem("token")
+        Authorization: `Token ${localStorage.getItem("token")}`
       }
     })
       .then(response => {

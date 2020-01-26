@@ -77,7 +77,7 @@ class ChatBox extends Component {
     axios
       .post("/messages/file_upload", formData, {
         headers: {
-          Authorization: localStorage.getItem("token")
+          Authorization: `Token ${localStorage.getItem("token")}`
         }
       })
       .then(() => {
