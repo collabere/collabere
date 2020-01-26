@@ -74,6 +74,7 @@ class ProjectCreationScreen extends React.Component {
     this.handleChangeOfClientEmail = this.handleChangeOfClientEmail.bind(this);
     this.handleCredentialSubmit = this.handleClientSave.bind(this);
     this.handleClientUpdate = this.handleClientUpdate.bind(this);
+    this.handleClientSave = this.handleClientSave.bind(this);
   }
 
   componentDidMount() {
