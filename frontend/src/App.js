@@ -30,7 +30,6 @@ class App extends Component {
                 <Route path="/forgot-password" component={EmailInputForReset}></Route>
                 <Route path="/change-password/:influencerUsername/:token" component={ForgotPasswordComponent}></Route>
                 <Route path="/profile/:influencerUsername" component={InfluencerProfileScreen}></Route>
-
             </Router>
         );
     }

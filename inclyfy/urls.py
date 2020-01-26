@@ -19,6 +19,7 @@ from django.urls import include, path, re_path
 from django.views.generic import TemplateView
 from .views import login, redirectSocial
 
+from rest_framework.authtoken import views as rest_framework_views
 
 # from rest_framework_jwt.views import obtain_jwt_token
 
@@ -35,4 +36,5 @@ urlpatterns = [
     url(r'^client/',include('client.urls')),
     url(r'^project/',include('project.urls')),
     url(r'^', TemplateView.as_view(template_name="index.html")),
+    url(r'^get_auth_token/$', rest_framework_views.obtain_auth_token, name='get_auth_token')
 ]
