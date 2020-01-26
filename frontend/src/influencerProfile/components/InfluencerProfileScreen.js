@@ -25,7 +25,7 @@ export default function InfluencerProfileScreen(props) {
           username: props.match.params.influencerUsername
         },
         headers: {
-          Authorization: localStorage.getItem("token")
+          Authorization: `Token ${localStorage.getItem("token")}`
         }
       })
       .then(res => {
