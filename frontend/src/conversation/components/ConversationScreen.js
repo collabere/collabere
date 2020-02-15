@@ -104,22 +104,16 @@ class ConversationScreen extends React.Component {
     const {
       match: { params }
     } = this.props;
-
-    if (localStorage.getItem(params.projectInitiationDate)) {
-      this.fetchMessages();
-    } else {
-      axios
-        .get(`/messages/insert_client_reply`, {
-          params: {
-            projectInitiationDate: params.projectInitiationDate
-          },
-          headers: { Authorization: `Token ${localStorage.getItem("token")}` }
-        })
-        .then(response => {
-          localStorage.setItem(params.projectInitiationDate, response.data);
-          this.fetchMessages();
-        });
-    }
+    axios
+      .get(`/messages/insert_client_reply`, {
+        params: {
+          projectInitiationDate: params.projectInitiationDate
+        },
+        headers: { Authorization: `Token ${localStorage.getItem("token")}` }
+      })
+      .then(() => {
+        this.fetchMessages();
+      });
   };
 
   render() {
