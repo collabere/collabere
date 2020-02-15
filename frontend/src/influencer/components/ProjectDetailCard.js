@@ -42,7 +42,12 @@ class ProjectCard extends React.Component {
       .concat(this.props.dateStarted);
     return (
       <div style={{ width: "100%" }}>
-        <Card style={{ backgroundColor: "#D8BFD8", border: ".4rem solid red" }}>
+        <Card
+          style={{
+            backgroundColor: "#fbd9d3",
+            border: ".07rem solid red"
+          }}
+        >
           <CardActionArea
             style={{ textDecoration: "none" }}
             component={Link}
@@ -50,14 +55,18 @@ class ProjectCard extends React.Component {
           >
             <CardContent>
               <Typography gutterBottom variant="h5" component="h2">
-                {this.props.clientName}
+                <h2 style={{ fontFamily: "Comic Sans" }}>
+                  {this.props.clientName}
+                </h2>
               </Typography>
               <Typography
-                style={{ color: "#4B0082", fontSize: "2rem" }}
+                style={{ color: "#4B0082" }}
                 variant="body2"
                 component="h2"
               >
-                Latest Text: {this.props.latestText}
+                <h3 style={{ fontFamily: "Comic Sans" }}>
+                  {this.props.latestText}
+                </h3>
               </Typography>
               <Typography
                 style={{ color: "#4B0082" }}
@@ -65,8 +74,9 @@ class ProjectCard extends React.Component {
                 color="#4B0082"
                 component="p"
               >
-                Project Starting Date:{" "}
-                {this.parseDate(this.props.dateStarted.toString())}
+                <p style={{ fontFamily: "Comic Sans" }}>
+                  {this.parseDate(this.props.dateStarted.toString())}
+                </p>
               </Typography>
             </CardContent>
           </CardActionArea>
