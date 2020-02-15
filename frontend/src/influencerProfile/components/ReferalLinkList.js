@@ -87,7 +87,7 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
 
   const listItems = items.map(item => {
     return (
-      <ListItem button>
+      <ListItem button onClick={() => window.open(item.link, "_blank")}>
         <ListItemIcon>
           <ArrowRightIcon />
         </ListItemIcon>
