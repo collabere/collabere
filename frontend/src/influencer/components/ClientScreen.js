@@ -46,7 +46,7 @@ class ClientScreen extends React.Component {
     const {
       match: { params }
     } = this.props;
-    
+
     // const search = new URLSearchParams(this.props.location.search);
     // console.log("*******************", qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).code);
     localStorage.setItem("token", params.token);
@@ -69,7 +69,7 @@ class ClientScreen extends React.Component {
 
   handleInfiniteOnLoad = () => {
     let data = this.state.clients;
-    this.setState(
+    this.setState({
       loading: true
     });
     if (data.length > 14) {
@@ -84,7 +84,7 @@ class ClientScreen extends React.Component {
   componentDidMount() {
     console.log(sessionStorage.getItem("token"));
     console.log("Component mount done.....");
-    
+
     this.fetchArticles();
   }
 
