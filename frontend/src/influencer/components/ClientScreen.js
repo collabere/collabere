@@ -69,7 +69,7 @@ class ClientScreen extends React.Component {
 
   handleInfiniteOnLoad = () => {
     let data = this.state.clients;
-    this.setState({
+    this.setState(
       loading: true
     });
     if (data.length > 14) {
@@ -261,6 +261,7 @@ class ClientScreen extends React.Component {
                       minBudget={item.minBudget}
                       maxBudget={item.maxBudget}
                       clientId={item.clientId}
+                      latestText={item.latestText}
                       influencerUsername={
                         this.props.match.params.influencerUsername
                       }
