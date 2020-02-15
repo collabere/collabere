@@ -10,6 +10,7 @@ class ProjectSerializer(ModelSerializer):
             'minBudget',
             'maxBudget',
             'introText',
+            'latestText',
             'projectInitiationDate',
             'influencerUserName',
             'offeredBudget'

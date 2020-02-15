@@ -26,12 +26,12 @@ class ProjectCard extends React.Component {
     this.setState({ popoverOpen: true });
   };
 
-  parseDate = (serverDateString) => {
-    var array=serverDateString.split('T');
-    var date=array[0];
+  parseDate = serverDateString => {
+    var array = serverDateString.split("T");
+    var date = array[0];
     var time = array[1].split(".")[0];
-    return date.concat(" at ").concat(time)
-  }
+    return date.concat(" at ").concat(time);
+  };
 
   render() {
     const pathToNavigate = "/messages/"
@@ -53,19 +53,20 @@ class ProjectCard extends React.Component {
                 {this.props.clientName}
               </Typography>
               <Typography
+                style={{ color: "#4B0082", fontSize: "2rem" }}
+                variant="body2"
+                component="h2"
+              >
+                Latest Text: {this.props.latestText}
+              </Typography>
+              <Typography
                 style={{ color: "#4B0082" }}
                 variant="body2"
                 color="#4B0082"
                 component="p"
               >
-                Project Starting Date: {this.parseDate(this.props.dateStarted.toString())}
-              </Typography>
-              <Typography
-                style={{ color: "#4B0082" }}
-                variant="body2"
-                component="p"
-              >
-                Latest Text: {this.props.introText}
+                Project Starting Date:{" "}
+                {this.parseDate(this.props.dateStarted.toString())}
               </Typography>
             </CardContent>
           </CardActionArea>

@@ -32,5 +32,7 @@ def deleteAllMessagesBasedOnResponderAndReciverId(reciverId, responderId):
 @atomic
 def saveMessages(influencerUsername, clientId, timestamp, message, fromInfluencer, projectInitiationDate):
     projectObject = list(getProjectByProjectInitiationDate(projectInitiationDate))[0]
+    projectObject.latestText=message
+    projectObject.save()
     messages = Messages.objects.create_message_object(influencerUsername, clientId, timestamp, message, fromInfluencer,projectObject)
     return messages
