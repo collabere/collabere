@@ -113,7 +113,7 @@ class ConversationScreen extends React.Component {
           params: {
             projectInitiationDate: params.projectInitiationDate
           },
-          headers: { Authorization: localStorage.getItem("token") }
+          headers: { Authorization: `Token ${localStorage.getItem("token")}` }
         })
         .then(response => {
           localStorage.setItem(params.projectInitiationDate, response.data);
