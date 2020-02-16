@@ -98,9 +98,12 @@ export default class HomeNavBar extends Component {
               <MaterialUiLibrary.Typography variant="h6" color="inherit" style={typographyStyle}>
               <_Link style={{textDecoration: 'none'}} to='/'><img src={collabere}/></_Link>
               </MaterialUiLibrary.Typography>
+              {localStorage.getItem("token") != null ?(
               <MaterialUiLibrary.Button variant="contained" color="secondary" style={buttonColor}>
-                Inbox
+                <Link to={`/clients/${this.props.username}/${localStorage.getItem("token")}`}>Inbox</Link>
               </MaterialUiLibrary.Button>
+              ) : <div>Welcome Guest</div>
+              }
             </MaterialUiLibrary.Toolbar>
           </MaterialUiLibrary.AppBar>
       </div>
