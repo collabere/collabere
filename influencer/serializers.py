@@ -6,12 +6,14 @@ from django.contrib.auth import get_user_model
 
 
 class InfluencerPublicProfileDetailsSerializer(ModelSerializer):
+    influencerName = serializers.CharField(source='influencer.name')
     class Meta:
         model = InfluencerPublicProfileDetails
         fields = (
             'referralLink',
             'videoLink',
-            'profilePicUrl'
+            'profilePicUrl',
+            'influencerName'
         )
         extra_kwargs = {'referralLink': {'required': False}, 'videoLink': {'required': False},
                         'profilePicUrl': {'required': False}}
