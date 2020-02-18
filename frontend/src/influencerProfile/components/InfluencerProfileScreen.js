@@ -85,7 +85,7 @@ export default function InfluencerProfileScreen(props) {
               fontFamily: "Comic Sans"
             }}
           >
-            Name: {data.influencerName}
+            {data.influencerName}
           </p>
         </div>
       </div>
