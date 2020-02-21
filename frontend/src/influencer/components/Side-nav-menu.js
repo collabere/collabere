@@ -17,6 +17,9 @@ const styles = {
   },
   fullList: {
     width: "auto"
+  },
+  paper: {
+    backgroundImage: "linear-gradient(to top, rgba(255,0,0,0), rgba(126,0,21))"
   }
 };
 
@@ -43,33 +46,32 @@ class SideNavMenu extends React.Component {
     const sideList = (
       <div className={classes.list}>
         <List>
-          {this.props.showSearchBarField &&
-          <ListItem button key="Metrics">
-          <Search
-            placeholder="Search Client"
-            style={{ width: 300 }}
-            onChange={this.handleSideNavSearchByProjectName}
-          />{" "}
-        </ListItem>
-       }
-
-        <Link to={`/clients/${this.props.influencerUsername}`} style={{textDecoration: 'none'}}>
+          {this.props.showSearchBarField && (
+            <ListItem button key="Metrics">
+              <Search
+                placeholder="Search Client"
+                style={{ width: 300 }}
+                onChange={this.handleSideNavSearchByProjectName}
+              />{" "}
+            </ListItem>
+          )}
+          <Link
+            to={`/clients/${this.props.influencerUsername}`}
+            style={{ textDecoration: "none" }}
+          >
             <ListItem button key="Inbox">
-              <ListItemText primary="Inbox" />
+              <ListItemText style={{ color: "white" }} primary="Inbox" />
             </ListItem>
           </Link>
           <ListItem button key="Metrics">
-            <ListItemText primary="Metrics" />
+            <ListItemText style={{ color: "white" }} primary="Metrics" />
           </ListItem>
           <ListItem button key="About Us">
-            <ListItemText primary="About Us" />
+            <ListItemText style={{ color: "white" }} primary="About Us" />
           </ListItem>
-          <ListItem button key="Help">
-            <ListItemText primary="Help" />
-          </ListItem>
-           <Link to="/pricing" style={{ textDecoration: "none" }}>
+          <Link to="/pricing" style={{ textDecoration: "none" }}>
             <ListItem button key="About Us">
-              <ListItemText primary="Pricing" />
+              <ListItemText style={{ color: "white" }} primary="Pricing" />
             </ListItem>
           </Link>{" "}
         </List>
@@ -90,6 +92,7 @@ class SideNavMenu extends React.Component {
         <Drawer
           open={this.state.left}
           onClose={this.toggleDrawer("left", false)}
+          classes={{ paper: classes.paper }}
         >
           <div tabIndex={0} role="button">
             {sideList}

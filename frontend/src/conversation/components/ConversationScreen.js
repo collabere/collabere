@@ -121,7 +121,7 @@ class ConversationScreen extends React.Component {
       match: { params }
     } = this.props;
     return (
-      <div>
+      <div style={{ overflow: "hidden" }}>
         <InboxNavbar
           influencerUsername={this.props.match.params.influencerUsername}
           showSearchBar={false}
