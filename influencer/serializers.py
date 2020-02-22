@@ -7,6 +7,7 @@ from django.contrib.auth import get_user_model
 
 class InfluencerPublicProfileDetailsSerializer(ModelSerializer):
     influencerName = serializers.CharField(source='influencer.name')
+
     class Meta:
         model = InfluencerPublicProfileDetails
         fields = (
@@ -16,7 +17,7 @@ class InfluencerPublicProfileDetailsSerializer(ModelSerializer):
             'influencerName'
         )
         extra_kwargs = {'referralLink': {'required': False}, 'videoLink': {'required': False},
-                        'profilePicUrl': {'required': False}}
+                        'profilePicUrl': {'required': False}, 'influencerName': {'required': False}}
 
 
 class ClientMappingSerializer(serializers.Serializer):
