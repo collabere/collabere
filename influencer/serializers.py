@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 
 
 class InfluencerPublicProfileDetailsSerializer(ModelSerializer):
-    influencerName = serializers.CharField(source='influencer.name')
+    influencerName = serializers.CharField(source='influencer.name', required=False)
 
     class Meta:
         model = InfluencerPublicProfileDetails
