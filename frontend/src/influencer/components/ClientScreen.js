@@ -16,7 +16,25 @@ import InboxNavbar from "./Navbar";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Button from "@material-ui/core/Button";
+import { toast } from "react-toastify";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+toast.configure();
 
+function getPossitiveFields(map) {
+  let count = 0;
+
+  Object.keys(map).forEach(function(key) {
+    if (map[key] === true) {
+      count = count + 1;
+    }
+  });
+  return count;
+}
 class ClientScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -27,7 +45,9 @@ class ClientScreen extends React.Component {
       updatModalOpen: false,
       colour: "#FFFFFF",
       currentListItem: "",
-      sortOptionValue: ""
+      sortOptionValue: "",
+      checkBoxStateMap: null,
+      deletePromptOpen: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSortAplphabeticallyAscending = this.handleSortAplphabeticallyAscending.bind(
@@ -55,9 +75,19 @@ class ClientScreen extends React.Component {
       })
       .then(res => {
         console.log(res);
-        this.setState({
-          clients: res.data
-        });
+        this.setState(
+          {
+            clients: res.data
+          },
+          function() {
+            let checkBoxMap = {};
+            this.state.clients.forEach(element => {
+              checkBoxMap[element.projectInitiationDate] = false;
+            });
+            this.setState({ checkBoxStateMap: checkBoxMap });
+            console.log(checkBoxMap);
+          }
+        );
       })
       .catch(err => {
         console.log("Error occurred...", err);
@@ -81,6 +111,14 @@ class ClientScreen extends React.Component {
   componentDidMount() {
     this.fetchArticles();
   }
+
+  modifyCheckBoxStateMap = (dateStarted, checked) => {
+    let initailMap = this.state.checkBoxStateMap;
+    initailMap[dateStarted] = checked;
+    this.setState(prevState => ({
+      checkBoxStateMap: initailMap
+    }));
+  };
 
   handleClickConversationsButton = () => {
     this.props.history.push("/messages");
@@ -127,7 +165,6 @@ class ClientScreen extends React.Component {
   }
 
   removeProjectFromProjectList = dateStarted => {
-    debugger;
     this.setState(prevState => ({
       clients: prevState.clients.filter(function(object) {
         return object.projectInitiationDate !== dateStarted;
@@ -159,6 +196,46 @@ class ClientScreen extends React.Component {
     });
   }
 
+  handleBulkDelete = () => {
+    let promiseArray = [];
+    let dateStartedArray = [];
+
+    const { checkBoxStateMap } = this.state;
+    let token = localStorage.getItem("token");
+    Object.keys(checkBoxStateMap).forEach(function(key) {
+      if (checkBoxStateMap[key] === true) {
+        let config = {
+          params: {
+            project_initiation_date: key
+          },
+          headers: {
+            Authorization: `Token ${token}`
+          }
+        };
+        promiseArray.push(axios.get("/project/delete_project", config));
+        dateStartedArray.push(key);
+      }
+    });
+    Promise.all(promiseArray)
+      .then(() => {
+        this.setState(prevState => ({
+          clients: prevState.clients.filter(function(object) {
+            return !dateStartedArray.includes(object.projectInitiationDate);
+          })
+        }));
+        this.setState({ deletePromptOpen: false });
+
+        toast.success("Projects removed successfully!", {
+          position: toast.POSITION.TOP_RIGHT
+        });
+      })
+      .catch(() => {
+        toast.error("Operation failed, try again later", {
+          position: toast.POSITION.TOP_RIGHT
+        });
+      });
+  };
+
   onHover = date => {
     this.setState({ currentListItem: date });
   };
@@ -186,6 +263,7 @@ class ClientScreen extends React.Component {
   };
 
   render() {
+    const { checkBoxStateMap, deletePromptOpen } = this.state;
     return (
       <div>
         <InboxNavbar
@@ -238,6 +316,16 @@ class ClientScreen extends React.Component {
           </ExpansionPanel>
           <hr />
 
+          {checkBoxStateMap && getPossitiveFields(checkBoxStateMap) >= 2 ? (
+            <Button
+              size="small"
+              color="secondary"
+              onClick={() => this.setState({ deletePromptOpen: true })}
+            >
+              Delete All Projects
+            </Button>
+          ) : null}
+
           <InfiniteScroll
             initialLoad={false}
             pageStart={0}
@@ -269,6 +357,7 @@ class ClientScreen extends React.Component {
                         this.props.match.params.influencerUsername
                       }
                       removeProjectFromList={this.removeProjectFromProjectList}
+                      markProject={this.modifyCheckBoxStateMap}
                     />
                   </List.Item>
                   {/* </a>
@@ -286,6 +375,36 @@ class ClientScreen extends React.Component {
         </div>
         <hr />
         <div className="demo-infinite-container" />
+
+        <Dialog
+          open={deletePromptOpen}
+          onClose={() => this.setState({ deletePromptOpen: false })}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{"Delete Projects"}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Do you realy want to delete the selected projects? This will
+              delete the underlying messages as well!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => this.setState({ deletePromptOpen: false })}
+              color="primary"
+            >
+              Cancel
+            </Button>
+            <Button
+              size="small"
+              color="secondary"
+              onClick={this.handleBulkDelete}
+            >
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

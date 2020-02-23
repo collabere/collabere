@@ -17,7 +17,8 @@ class ProjectCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      popoverOpen: false
+      popoverOpen: false,
+      checked: false
     };
   }
 
@@ -27,6 +28,12 @@ class ProjectCard extends React.Component {
 
   handlePopoverOpen = () => {
     this.setState({ popoverOpen: true });
+  };
+
+  handleChange = event => {
+    const { markProject } = this.props;
+    this.setState({ checked: event.target.checked });
+    markProject(event.target.value, event.target.checked);
   };
 
   handleProjectDelete = () => {
@@ -111,18 +118,14 @@ class ProjectCard extends React.Component {
           </CardActionArea>
           <CardActions>
             <Checkbox
-              //   checked={state.checkedA}
-              //   onChange={handleChange("checkedA")}
-              //   value="checkedA"
+              checked={this.state.checked}
+              onChange={this.handleChange}
+              value={this.props.dateStarted}
               inputProps={{
                 "aria-label": "primary checkbox"
               }}
             />
 
-            <ProjectBudgetInfoModal
-              minBudget={this.props.minBudget}
-              maxBudget={this.props.maxBudget}
-            />
             <Popconfirm
               placement="topRight"
               title="Are you sure you want to delete this project?"
@@ -134,6 +137,11 @@ class ProjectCard extends React.Component {
                 Delete{" "}
               </Button>
             </Popconfirm>
+
+            <ProjectBudgetInfoModal
+              minBudget={this.props.minBudget}
+              maxBudget={this.props.maxBudget}
+            />
           </CardActions>
         </Card>
       </div>
