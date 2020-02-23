@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
@@ -7,8 +8,10 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Checkbox from "@material-ui/core/Checkbox";
 import ProjectBudgetInfoModal from "./ProjectBudgetInfoModal";
-import ButtonBase from "@material-ui/core/ButtonBase";
 import { Link } from "react-router-dom";
+import { Popconfirm, message } from "antd";
+import { toast } from "react-toastify";
+toast.configure();
 
 class ProjectCard extends React.Component {
   constructor(props) {
@@ -24,6 +27,32 @@ class ProjectCard extends React.Component {
 
   handlePopoverOpen = () => {
     this.setState({ popoverOpen: true });
+  };
+
+  handleProjectDelete = () => {
+    const { dateStarted, removeProjectFromList } = this.props;
+    let token = localStorage.getItem("token");
+    let config = {
+      params: {
+        project_initiation_date: dateStarted
+      },
+      headers: {
+        Authorization: `Token ${token}`
+      }
+    };
+    axios
+      .get("/project/delete_project", config)
+      .then(() => {
+        toast.success("Project removed successfully!", {
+          position: toast.POSITION.TOP_RIGHT
+        });
+        removeProjectFromList(dateStarted);
+      })
+      .catch(() => {
+        toast.error("Unable to remove project ,try again later!", {
+          position: toast.POSITION.TOP_RIGHT
+        });
+      });
   };
 
   parseDate = serverDateString => {
@@ -94,9 +123,17 @@ class ProjectCard extends React.Component {
               minBudget={this.props.minBudget}
               maxBudget={this.props.maxBudget}
             />
-            <Button size="small" color="secondary">
-              Delete{" "}
-            </Button>
+            <Popconfirm
+              placement="topRight"
+              title="Are you sure you want to delete this project?"
+              onConfirm={this.handleProjectDelete}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button size="small" color="secondary">
+                Delete{" "}
+              </Button>
+            </Popconfirm>
           </CardActions>
         </Card>
       </div>
