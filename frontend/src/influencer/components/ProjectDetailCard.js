@@ -128,7 +128,7 @@ class ProjectCard extends React.Component {
 
             <Popconfirm
               placement="topRight"
-              title="Are you sure you want to delete this project?"
+              title="Are you sure you want to delete this project? This will delete the messages as well for this project"
               onConfirm={this.handleProjectDelete}
               okText="Yes"
               cancelText="No"
