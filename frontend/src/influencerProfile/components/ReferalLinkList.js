@@ -29,7 +29,7 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
   const [items, modifyItems] = React.useState(
     getReferralListObjects(referrals)
   );
-  const [succesModalVisible, setSuccessModalVisible] = React.useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState(false);
 
   const handleChange = item => event => {
     var newItems = [];
@@ -62,10 +62,6 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
     return obj;
   };
 
-  const handleSuccessModalClose = () => {
-    setSuccessModalVisible(false);
-    window.location.reload();
-  };
   const handleDeleteButtonClick = () => {
     axios({
       method: "put",
@@ -76,12 +72,19 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
         Authorization: localStorage.getItem("token")
       }
     })
-      .then(response => {
-        console.log(response);
-        setSuccessModalVisible(true);
+      .then(() => {
+        toast.success("Links removed successfully!", {
+          position: toast.POSITION.TOP_RIGHT
+        });
+        window.location.reload();
       })
-      .catch(function(error) {
-        console.log(error);
+      .catch(function() {
+        toast.success(
+          "There was some problem removing the Links ,please try again later!",
+          {
+            position: toast.POSITION.TOP_RIGHT
+          }
+        );
       });
   };
 
@@ -112,7 +115,7 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
         <Button
           style={{ float: "right" }}
           color="secondary"
-          onClick={handleDeleteButtonClick}
+          onClick={() => setConfirmDeleteOpen(true)}
           disabled={
             items.length === items.filter(item => item.checked === false).length
           }
@@ -128,20 +131,25 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
       )}
 
       <Dialog
-        open={succesModalVisible}
-        onClose={handleSuccessModalClose}
+        open={confirmDeleteOpen}
+        onClose={() => setConfirmDeleteOpen(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Success"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Selected Referrals have been removed successfully
-          </DialogContentText>
-        </DialogContent>
+        <DialogTitle id="alert-dialog-title">
+          {"Confirm Delete Links"}
+        </DialogTitle>
+
         <DialogActions>
-          <Button onClick={handleSuccessModalClose} color="primary">
-            OK
+          <Button onClick={handleDeleteButtonClick} color="primary">
+            Delete
+          </Button>
+          <Button
+            onClick={() => setConfirmDeleteOpen(false)}
+            color="primary"
+            autoFocus
+          >
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
