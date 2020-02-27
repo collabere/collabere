@@ -8,6 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogActions";
+toast.configure();
 
 function getId(url) {
   var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
@@ -35,8 +36,8 @@ function getVideoListObjects(links) {
 }
 export default function VideoList({ influencerUsername, links }) {
   const [items, modifyItems] = React.useState(getVideoListObjects(links));
-  const [succesModalVisible, setSuccessModalVisible] = React.useState(false);
   const [urlTitleMap, setUrlTitleMap] = React.useState({});
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState(false);
 
   useEffect(() => {
     async function processMapWithTitle() {
@@ -95,10 +96,6 @@ export default function VideoList({ influencerUsername, links }) {
     return obj;
   };
 
-  const handleSuccessModalClose = () => {
-    setSuccessModalVisible(false);
-    window.location.reload();
-  };
   const handleDeleteButtonClick = () => {
     axios({
       method: "put",
@@ -109,12 +106,19 @@ export default function VideoList({ influencerUsername, links }) {
         Authorization: `Token ${localStorage.getItem("token")}`
       }
     })
-      .then(response => {
-        console.log(response);
-        setSuccessModalVisible(true);
+      .then(() => {
+        toast.success("Videos removed successfully!", {
+          position: toast.POSITION.TOP_RIGHT
+        });
+        window.location.reload();
       })
-      .catch(function(error) {
-        console.log(error);
+      .catch(function() {
+        toast.success(
+          "There was some problem removing the videos ,please try again later!",
+          {
+            position: toast.POSITION.TOP_RIGHT
+          }
+        );
       });
   };
 
@@ -124,7 +128,7 @@ export default function VideoList({ influencerUsername, links }) {
         <Button
           style={{ float: "right" }}
           color="secondary"
-          onClick={handleDeleteButtonClick}
+          onClick={() => setConfirmDeleteOpen(true)}
           disabled={
             items.length === items.filter(item => item.checked === false).length
           }
@@ -166,20 +170,25 @@ export default function VideoList({ influencerUsername, links }) {
       )}
 
       <Dialog
-        open={succesModalVisible}
-        onClose={handleSuccessModalClose}
+        open={confirmDeleteOpen}
+        onClose={() => setConfirmDeleteOpen(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Success"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Selected Videos have been removed successfully
-          </DialogContentText>
-        </DialogContent>
+        <DialogTitle id="alert-dialog-title">
+          {"Confirm Delete Videos"}
+        </DialogTitle>
+
         <DialogActions>
-          <Button onClick={handleSuccessModalClose} color="primary">
-            OK
+          <Button onClick={handleDeleteButtonClick} color="primary">
+            Delete
+          </Button>
+          <Button
+            onClick={() => setConfirmDeleteOpen(false)}
+            color="primary"
+            autoFocus
+          >
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
