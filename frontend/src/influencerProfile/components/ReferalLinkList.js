@@ -62,10 +62,6 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
     return obj;
   };
 
-  const handleSuccessModalClose = () => {
-    setSuccessModalVisible(false);
-    window.location.reload();
-  };
   const handleDeleteButtonClick = () => {
     axios({
       method: "put",
@@ -141,7 +137,7 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Confirm Delete Videos"}
+          {"Confirm Delete Links"}
         </DialogTitle>
 
         <DialogActions>
