@@ -59,11 +59,11 @@ class ConversationScreen extends React.Component {
       }
     })
       .then(response => {
-        console.log(response);
         const messageObject = {
           message
         };
         messageObject.fromInfluencer = true;
+        messageObject.timestamp = response.data.timestamp;
         this.addMessage(messageObject);
         this.setState({ isLoading: false });
         this.notifyOnSuccess();
