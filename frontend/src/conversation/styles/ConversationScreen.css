@@ -5,6 +5,11 @@
   height: 100vh;
 }
 
+.timestamp {
+  font-size: 0.7rem;
+  color: 'gray';
+}
+
 .App-header {
   background-color: #262626;
   overflow: visible;

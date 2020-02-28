@@ -10,7 +10,9 @@ function returnParsedDateString(serverDateString) {
   var array = serverDateString.split("T");
   var date = array[0];
   var time = array[1].split(".")[0];
-  return time.concat(",").concat(date);
+  let timeArray = time.split(":");
+  let finalTime = timeArray[0].concat(":").concat(timeArray[1]);
+  return finalTime.concat(",").concat(date);
 }
 
 class Messages extends Component {
