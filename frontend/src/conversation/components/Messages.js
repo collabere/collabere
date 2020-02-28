@@ -6,6 +6,13 @@ require("../styles/ConversationScreen.css");
 
 const FILE_UPLOAD_PREFIX = "https://torquerf1.s3.ap-south-1.amazonaws.com/";
 
+function returnParsedDateString(serverDateString) {
+  var array = serverDateString.split("T");
+  var date = array[0];
+  var time = array[1].split(".")[0];
+  return time.concat(",").concat(date);
+}
+
 class Messages extends Component {
   render() {
     const { messages } = this.props;
@@ -40,6 +47,7 @@ class Messages extends Component {
           ) : (
             <div className="text">{message}</div>
           )}
+          <p className="timestamp">{returnParsedDateString(timestamp)}</p>
         </div>
       </li>
     );
