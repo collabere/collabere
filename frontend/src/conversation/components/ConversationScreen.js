@@ -59,11 +59,11 @@ class ConversationScreen extends React.Component {
       }
     })
       .then(response => {
-        console.log(response);
         const messageObject = {
           message
         };
         messageObject.fromInfluencer = true;
+        messageObject.timestamp = response.data.timestamp;
         this.addMessage(messageObject);
         this.setState({ isLoading: false });
         this.notifyOnSuccess();
@@ -121,7 +121,7 @@ class ConversationScreen extends React.Component {
       match: { params }
     } = this.props;
     return (
-      <div>
+      <div style={{ overflow: "hidden" }}>
         <InboxNavbar
           influencerUsername={this.props.match.params.influencerUsername}
           showSearchBar={false}

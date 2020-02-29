@@ -236,17 +236,16 @@ class UpdatePublicProfileModal extends React.Component {
                         <iframe
                           src={"//www.youtube.com/embed/" + getId(item)}
                           frameborder="0"
-                          width="100"
-                          height="100"
+                          width="300"
+                          height="150"
                           allowfullscreen
                         ></iframe>
                       }
-                      <h6>{item}</h6>
                     </ListItem>
                   );
                 })}
               </List>
-              <ExpansionPanel>
+              <ExpansionPanel style={{ backgroundColor: "#fbd9d3" }}>
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
@@ -280,7 +279,7 @@ class UpdatePublicProfileModal extends React.Component {
                   return <ListItem key={item}>{item}</ListItem>;
                 })}
               </List>
-              <ExpansionPanel>
+              <ExpansionPanel style={{ backgroundColor: "#fbd9d3" }}>
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"

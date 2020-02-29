@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from project.models import Project
 from .serializers import ProjectSerializer
 from client.service import *
-from .service import getProjectsByClientId, getProjectsByInfluencerUserName, getProjectsByInfluencerUserNameAndClientId
+from .service import getProjectsByClientId, getProjectsByInfluencerUserName, getProjectsByInfluencerUserNameAndClientId, getProjectByProjectInitiationDate
 from rest_framework.decorators import authentication_classes, permission_classes
 
 
@@ -17,7 +17,7 @@ def getAllProjectsByClientId(request, clientId):
 @api_view(['GET'])
 def getAllProjectsByInfluencerUserName(request, influencerUserName):
     projectDetails = getProjectsByInfluencerUserName(influencerUserName)
-    projectSerializerData=ProjectSerializer(projectDetails, many=True).data;
+    projectSerializerData=ProjectSerializer(projectDetails, many=True).data
     for projectDetail in projectSerializerData:
         clientId=projectDetail['clientId']
         projectDetail["clientName"]=getattr(list(getClientFromClientId(clientId))[0], 'name')
@@ -42,3 +42,12 @@ def insertProject(request):
         return Response(serializer_dict, status=200)
     else:
         return Response(serializer.errors, status=400)
+
+
+
+@api_view(['GET'])
+def deleteProject(request):
+    project = getProjectByProjectInitiationDate(request.GET['project_initiation_date'])
+    project.delete()
+    return Response({"message": "Successfully Deleted"}, status=204)
+

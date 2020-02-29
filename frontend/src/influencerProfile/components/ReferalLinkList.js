@@ -4,13 +4,13 @@ import Button from "@material-ui/core/Button";
 import axios from "axios";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogActions";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import { toast } from "react-toastify";
+toast.configure();
 
 function getReferralListObjects(links) {
   var referralObjectList = [];
@@ -29,7 +29,7 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
   const [items, modifyItems] = React.useState(
     getReferralListObjects(referrals)
   );
-  const [succesModalVisible, setSuccessModalVisible] = React.useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState(false);
 
   const handleChange = item => event => {
     var newItems = [];
@@ -62,10 +62,6 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
     return obj;
   };
 
-  const handleSuccessModalClose = () => {
-    setSuccessModalVisible(false);
-    window.location.reload();
-  };
   const handleDeleteButtonClick = () => {
     axios({
       method: "put",
@@ -76,18 +72,25 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
         Authorization: localStorage.getItem("token")
       }
     })
-      .then(response => {
-        console.log(response);
-        setSuccessModalVisible(true);
+      .then(() => {
+        toast.success("Links removed successfully!", {
+          position: toast.POSITION.TOP_RIGHT
+        });
+        window.location.reload();
       })
-      .catch(function(error) {
-        console.log(error);
+      .catch(function() {
+        toast.success(
+          "There was some problem removing the Links ,please try again later!",
+          {
+            position: toast.POSITION.TOP_RIGHT
+          }
+        );
       });
   };
 
   const listItems = items.map(item => {
     return (
-      <ListItem button>
+      <ListItem button onClick={() => window.open(item.link, "_blank")}>
         <ListItemIcon>
           <ArrowRightIcon />
         </ListItemIcon>
@@ -112,7 +115,7 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
         <Button
           style={{ float: "right" }}
           color="secondary"
-          onClick={handleDeleteButtonClick}
+          onClick={() => setConfirmDeleteOpen(true)}
           disabled={
             items.length === items.filter(item => item.checked === false).length
           }
@@ -128,20 +131,25 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
       )}
 
       <Dialog
-        open={succesModalVisible}
-        onClose={handleSuccessModalClose}
+        open={confirmDeleteOpen}
+        onClose={() => setConfirmDeleteOpen(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Success"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Selected Referrals have been removed successfully
-          </DialogContentText>
-        </DialogContent>
+        <DialogTitle id="alert-dialog-title">
+          {"Confirm Delete Links"}
+        </DialogTitle>
+
         <DialogActions>
-          <Button onClick={handleSuccessModalClose} color="primary">
-            OK
+          <Button onClick={handleDeleteButtonClick} color="primary">
+            Delete
+          </Button>
+          <Button
+            onClick={() => setConfirmDeleteOpen(false)}
+            color="primary"
+            autoFocus
+          >
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>

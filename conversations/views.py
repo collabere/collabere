@@ -107,7 +107,7 @@ def insertMessages(request):
         subject = 'Message from ' + influencerUsername + " for the project started on " + projectInitiationDate + ' on Collabere'
         try:
             sendEmailAsMessage(subject, message, clientEmail)
-            return Response(True, status=status.HTTP_200_OK)
+            return Response({'inserted': True, 'timestamp': messages.timestamp}, status=status.HTTP_200_OK)
         except:
             return Response(False, status=status.HTTP_400_BAD_REQUEST)
     else:

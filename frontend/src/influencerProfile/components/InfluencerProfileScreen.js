@@ -31,7 +31,8 @@ export default function InfluencerProfileScreen(props) {
       .then(res => {
         console.log(res.data);
         setData(res.data);
-      }).catch(err => {
+      })
+      .catch(err => {
         console.log(err);
       });
   }, []);
@@ -59,22 +60,34 @@ export default function InfluencerProfileScreen(props) {
               display: "block",
               marginRight: "auto",
               marginLeft: "auto",
-              paddingTop: "6rem"
+              paddingTop: "4rem"
             }}
             src={data.profilePicUrl}
             round
           />
         </div>
-        <p
-          style={{
-            textAlign: "center",
-            paddingTop: "6.5rem",
-            fontSize: "1rem",
-            color: "white"
-          }}
-        >
-          {props.match.params.influencerUsername}
-        </p>
+        <div style={{ paddingTop: "5rem" }}>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "1.5rem",
+              color: "white",
+              fontFamily: "Comic Sans"
+            }}
+          >
+            {props.match.params.influencerUsername}
+          </p>
+          <p
+            style={{
+              textAlign: "center",
+              fontSize: "1rem",
+              color: "white",
+              fontFamily: "Comic Sans"
+            }}
+          >
+            {data.influencerName}
+          </p>
+        </div>
       </div>
 
       <Paper style={{ flexGrow: "1" }}>
