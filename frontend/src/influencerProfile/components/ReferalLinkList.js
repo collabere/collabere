@@ -10,6 +10,8 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import { toast } from "react-toastify";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
 toast.configure();
 
 function getReferralListObjects(links) {
@@ -76,7 +78,8 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
         toast.success("Links removed successfully!", {
           position: toast.POSITION.TOP_RIGHT
         });
-        window.location.reload();
+        modifyItems(getReferralListObjects(returnLinks().join(",")));
+        setConfirmDeleteOpen(false);
       })
       .catch(function() {
         toast.success(
@@ -90,7 +93,7 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
 
   const listItems = items.map(item => {
     return (
-      <ListItem button onClick={() => window.open(item.link, "_blank")}>
+      <ListItem>
         <ListItemIcon>
           <ArrowRightIcon />
         </ListItemIcon>
@@ -104,7 +107,7 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
             }}
           />
         )}
-        {item.link}
+        <a onClick={() => window.open(item.link, "_blank")}>{item.link}</a>
       </ListItem>
     );
   });
@@ -136,20 +139,22 @@ export default function ReferalLinkList({ influencerUsername, referrals }) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Confirm Delete Links"}
-        </DialogTitle>
-
+        <DialogContent>
+          <DialogContentText style={{ fontSize: "1.5rem" }}>
+            Are you sure ,you want to delete the selected links?
+          </DialogContentText>
+        </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteButtonClick} color="primary">
-            Delete
+          <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
+            cancel
           </Button>
           <Button
-            onClick={() => setConfirmDeleteOpen(false)}
+            style={{ color: "red" }}
+            onClick={handleDeleteButtonClick}
             color="primary"
             autoFocus
           >
-            Cancel
+            delete
           </Button>
         </DialogActions>
       </Dialog>
