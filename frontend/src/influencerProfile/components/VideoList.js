@@ -7,6 +7,8 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogActions";
 import { toast } from "react-toastify";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
 toast.configure();
 
 function getId(url) {
@@ -109,7 +111,8 @@ export default function VideoList({ influencerUsername, links }) {
         toast.success("Videos removed successfully!", {
           position: toast.POSITION.TOP_RIGHT
         });
-        window.location.reload();
+        modifyItems(getVideoListObjects(returnLinks().join(",")));
+        setConfirmDeleteOpen(false);
       })
       .catch(function() {
         toast.success(
@@ -167,27 +170,28 @@ export default function VideoList({ influencerUsername, links }) {
           )}
         />
       )}
-
       <Dialog
         open={confirmDeleteOpen}
         onClose={() => setConfirmDeleteOpen(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Confirm Delete Videos"}
-        </DialogTitle>
-
+        <DialogContent>
+          <DialogContentText style={{ fontSize: "1.5rem" }}>
+            Are you sure ,you want to delete the selected videos?
+          </DialogContentText>
+        </DialogContent>
         <DialogActions>
-          <Button onClick={handleDeleteButtonClick} color="primary">
-            Delete
+          <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
+            cancel
           </Button>
           <Button
-            onClick={() => setConfirmDeleteOpen(false)}
+            style={{ color: "red" }}
+            onClick={handleDeleteButtonClick}
             color="primary"
             autoFocus
           >
-            Cancel
+            delete
           </Button>
         </DialogActions>
       </Dialog>
