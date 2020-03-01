@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import * as MaterialUiLibrary from "@material-ui/core";
 import { Link as _Link } from "react-router-dom";
-import collabere from '../../../images/collabere.png';
+import collabere from "../../../images/collabere.png";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Menu, Dropdown, Input } from "antd";
@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import SideNavMenu from "./Side-nav-menu";
 import PaymentModal from "../../payment/components/PaymentModal";
-
 
 class InboxNavbar extends Component {
   constructor(props) {
@@ -66,10 +65,10 @@ class InboxNavbar extends Component {
             style={{ textDecoration: "none" }}
             to={{ pathname: `/profile/${influencerUsername}` }}
           >
-            <Button color="primary">See your public profile</Button>{" "}
+            <Button color="primary">See your portfolio</Button>{" "}
           </Link>
         </Menu.Item>
-         <Menu.Item>
+        <Menu.Item>
           <PaymentModal influencerUsername={influencerUsername} />
         </Menu.Item>
 
@@ -100,7 +99,7 @@ class InboxNavbar extends Component {
             >
               <img style={{ paddingBottom: "1rem" }} src={collabere} />
             </MaterialUiLibrary.Typography>
-            <Dropdown overlay={menu} placement="topLeft" trigger={['click']} >
+            <Dropdown overlay={menu} placement="topLeft" trigger={["click"]}>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"

@@ -11,6 +11,12 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogActions";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { DatePicker } from "antd";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
+
+import { getInfluecerDetailsPromise } from "../rest/InfluencerService.js";
 
 function validateEmail(emailField) {
   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
@@ -27,10 +33,23 @@ class UpdateModal extends React.Component {
       updateData: {},
       visible: false,
       successModalVisible: false,
-      spinnerVisible: false
+      spinnerVisible: false,
+      influencerDetails: null
     };
     this.handleChangeOfInputFields = this.handleChangeOfInputFields.bind(this);
     this.handleUpdateProfile = this.handleUpdateProfile.bind(this);
+  }
+
+  componentDidMount() {
+    const token = localStorage.getItem("token");
+    getInfluecerDetailsPromise(token, this.props.influencerUsername)
+      .then(response => {
+        console.log(response);
+        this.setState({ influencerDetails: response.data[0] });
+      })
+      .catch(error => {
+        console.log("Unable to fetch influencer details!");
+      });
   }
 
   handleUpdateProfile() {
@@ -116,14 +135,14 @@ class UpdateModal extends React.Component {
   };
 
   render() {
-    const { spinnerVisible } = this.state;
+    const { spinnerVisible, influencerDetails } = this.state;
     return (
       <div>
         <MaterialUiLibrary.Button type="primary" onClick={this.showModal}>
-          Update Profile
+          My Profile
         </MaterialUiLibrary.Button>
         <Modal
-          title="Update Profile"
+          title="My Profile"
           visible={this.state.visible}
           onOk={this.handleUpdateProfile}
           onCancel={this.handleCancel}
@@ -133,7 +152,30 @@ class UpdateModal extends React.Component {
               : null
           }
         >
-          <Form>
+          {influencerDetails && (
+            <Card>
+              <CardContent>
+                <Typography variant="body2" component="p">
+                  Email: {influencerDetails.email}
+                </Typography>
+                <Typography variant="body2" component="p">
+                  Country: {influencerDetails.country}
+                </Typography>
+                <Typography variant="body2" component="p">
+                  Industry: {influencerDetails.industry}
+                </Typography>
+                <Typography variant="body2" component="p">
+                  Date of Birth: {influencerDetails.dob}
+                </Typography>
+                <Typography variant="body2" component="p">
+                  Email: {influencerDetails.email}
+                </Typography>
+              </CardContent>
+            </Card>
+          )}
+
+          <Form style={{ paddingTop: "2rem" }}>
+            <p>Update Details:</p>
             <Form.Item>
               <Input
                 name="name"
