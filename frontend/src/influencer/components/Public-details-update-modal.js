@@ -200,7 +200,7 @@ class UpdatePublicProfileModal extends React.Component {
     return (
       <div>
         <MaterialUiLibrary.Button type="primary" onClick={this.showModal}>
-          Update Public Profile
+          Update Portfolio
         </MaterialUiLibrary.Button>
         <Modal
           title="Update Public Details"
