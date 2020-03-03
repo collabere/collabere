@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from .models import ClientMapping, Influencer, InfluencerPublicProfileDetails
+from .models import ClientMapping, Influencer, InfluencerPublicProfileDetails, InfluencerAccessToken
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
@@ -104,3 +104,8 @@ class CreateUserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+class AccessTokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InfluencerAccessToken
+        fields = ('instagramUserId', 'influencerUserName', 'accessToken')

@@ -15,7 +15,7 @@ from django.utils import timezone
 
 from influencer.service import checkInstaramUserIdPresence, getInfluecerFromInstagramUserId
 from influencer.serializers import CreateUserSerializer
-from influencer.models import Influencer, InstagramAuthModel, InfluencerPublicProfileDetails
+from influencer.models import Influencer, InstagramAuthModel, InfluencerPublicProfileDetails, InfluencerAccessToken
 from influencer.applicationConstants import INSTAGRAM
 
 from django.contrib.auth.models import User
@@ -101,6 +101,8 @@ def redirectSocial(request):
         token, _ = Token.objects.get_or_create(user=influencer.user)
         # print(token)
         response_data = {'token': token.key,'username': influencer.username}
-    redirect_response = HttpResponseRedirect("/clients/"+response['user']['username']+"/"+response_data['token'])
+    InfluencerAccessToken.objects.update_or_create(instagramUserId=instagramUserId, influencerUserName=response_data['username'], accessToken=response_data['token'])
+    print("/clients/"+response['user']['username'])
+    redirect_response = HttpResponseRedirect("/clients/"+response['user']['username'])
     redirect_response['X-Auth-Token'] = response_data['token']
     return redirect_response

@@ -75,7 +75,7 @@ class LoginModal extends React.Component {
   render() {
     const { authenticatedUsername } = this.state;
     if (authenticatedUsername) {
-      return <Redirect to={`/clients/${this.state.username}/${localStorage.getItem("token")}`} />;
+      return <Redirect to={`/clients/${this.state.username}}`} />;
     }
     const { invalidText, progress } = this.state;
 
