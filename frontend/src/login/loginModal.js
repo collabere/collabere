@@ -68,10 +68,14 @@ class LoginModal extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  setAuthentiaction () {
+    this.props.onClick(this.state.username);
+  }
+
   render() {
     const { authenticatedUsername } = this.state;
     if (authenticatedUsername) {
-      return <Redirect to={`/clients/${this.state.username}`} />;
+      return <Redirect to={`/clients/${this.state.username}}`} />;
     }
     const { invalidText, progress } = this.state;
 
@@ -124,7 +128,7 @@ class LoginModal extends React.Component {
           </Link>
         </Form>
         <div style={{ paddingTop: "2rem" }}>
-          <Login />
+          <Login/>
           {progress && <LinearProgress />}
         </div>
       </div>

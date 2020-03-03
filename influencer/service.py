@@ -1,8 +1,8 @@
 from django.db.transaction import atomic
 from django.contrib.auth.models import User
 
-from influencer.models import Influencer, ClientMapping, InfluencerPublicProfileDetails, InstagramAuthModel
-from client import  service
+from influencer.models import Influencer, ClientMapping, InfluencerPublicProfileDetails, InstagramAuthModel, InfluencerAccessToken
+from client import service
 
 def getAllClientOfAnInfluencer(influencerUsername):
     clients=[]
@@ -55,3 +55,10 @@ def checkInstaramUserIdPresence(userId):
 
 def getInfluecerFromInstagramUserId(userId):
     return InstagramAuthModel.objects.get(instagramUserId=userId).influencer
+
+
+def getAccessTokenBasedOnInfluencerId(userId):
+    return InfluencerAccessToken.objects.get(instagramUserId=userId)
+
+def getAccessTokenBasedOnInfluencerUserName(userName):
+    return InfluencerAccessToken.objects.get(influencerUserName=userName)

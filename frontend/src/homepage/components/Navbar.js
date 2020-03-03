@@ -27,12 +27,20 @@ export default class HomeNavBar extends Component {
     this.state = {
       modal: false,
       loginModal: false,
-      registerModal: false
+      registerModal: false,
+      userName: null
     };
 
     this.toggle = this.toggle.bind(this);
     this.loginToggle = this.loginToggle.bind(this);
     this.registerToggle = this.registerToggle.bind(this);
+  }
+
+  componentDidMount() {
+    if(this.props.userName !== null && this.props.userName != undefined) {
+      this.setState({userName: this.props.userName});
+    }
+    
   }
 
   toggle() {
@@ -91,6 +99,11 @@ export default class HomeNavBar extends Component {
       backgroundColor: '#990000'
     }
 
+    const linkColor = {
+      color: '#FFFFFF'
+    }
+    console.log('Before client call',localStorage.getItem("username"));
+
     return (
       <div style={rootStyle}>
           <MaterialUiLibrary.AppBar position="fixed" style={appBarStyle}>
@@ -98,9 +111,12 @@ export default class HomeNavBar extends Component {
               <MaterialUiLibrary.Typography variant="h6" color="inherit" style={typographyStyle}>
               <_Link style={{textDecoration: 'none'}} to='/'><img src={collabere}/></_Link>
               </MaterialUiLibrary.Typography>
-              <MaterialUiLibrary.Button variant="contained" color="secondary" style={buttonColor}>
-                Inbox
+              {localStorage.getItem("token") != null ? (
+              <MaterialUiLibrary.Button variant="info" color="white" style={buttonColor}>
+                <_Link to={`/clients/${localStorage.getItem("username")}`} style={linkColor}>Inbox</_Link>
               </MaterialUiLibrary.Button>
+              ) : <div>Welcome Guest</div>
+              }
             </MaterialUiLibrary.Toolbar>
           </MaterialUiLibrary.AppBar>
       </div>

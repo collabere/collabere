@@ -35,6 +35,10 @@ class Login extends React.Component {
     alert(e);
   };
 
+  onClick() {
+    console.log("Onclick Pressed");
+  }
+
   render() {
     return (
       <Fragment>
@@ -42,6 +46,7 @@ class Login extends React.Component {
           clientId="49f4a71ef28b448a864a7519a197ba0c"
           buttonText="Login With Instagram"
           redirectUri="http://www.collabere.com/api/social_redirect"
+          onClick={this.onClick}
           onSuccess={this.instagramResponse}
           onFailure={this.instagramResponse}
         />

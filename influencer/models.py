@@ -54,11 +54,16 @@ class ClientMapping(models.Model):
     clientId = models.BigIntegerField()
 
 class InfluencerPublicProfileDetails(models.Model):
-    referralLink= models.CharField(max_length=500, blank=True, null=True)
+    referralLink = models.CharField(max_length=500, blank=True, null=True)
     videoLink = models.CharField(max_length= 500, blank=True, null=True)
     influencer = models.ForeignKey(Influencer, on_delete=models.CASCADE)
     profilePicUrl = models.URLField(default=None, blank=True, null=True)
 
 class InstagramAuthModel(models.Model):
-    instagramUserId= models.BigIntegerField()
+    instagramUserId = models.BigIntegerField()
     influencer = models.ForeignKey(Influencer, on_delete=models.CASCADE)
+
+class InfluencerAccessToken(models.Model):
+    instagramUserId = models.BigIntegerField()
+    influencerUserName = models.CharField(max_length=100, default=None)
+    accessToken = models.CharField(max_length=500, blank=True, null=True)

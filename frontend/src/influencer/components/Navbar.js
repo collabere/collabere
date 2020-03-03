@@ -29,6 +29,12 @@ class InboxNavbar extends Component {
     });
   };
 
+  handleLogout() {
+    console.log("logout called.");
+    localStorage.clear();
+  }
+
+
   render() {
     const rootStyle = {
       flexGrow: 1

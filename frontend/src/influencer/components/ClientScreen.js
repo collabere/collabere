@@ -68,10 +68,11 @@ class ClientScreen extends React.Component {
 
     // const search = new URLSearchParams(this.props.location.search);
     // console.log("*******************", qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).code);
-    localStorage.setItem("token", params.token);
+    let token = localStorage.getItem("token");
+
     axios
       .get(`/project/byInfluencerUserName/${params.influencerUsername}`, {
-        headers: { Authorization: `Token ${params.token}` } //localStorage.getItem("token") }
+        headers: { Authorization: `Token ${token}` } //localStorage.getItem("token") }
       })
       .then(res => {
         console.log(res);
@@ -109,7 +110,22 @@ class ClientScreen extends React.Component {
     }
   };
   componentDidMount() {
-    this.fetchArticles();
+    const {
+      match: { params }
+    } = this.props;
+    console.log(this.props);
+    console.log("USERNAME>>>>", params.influencerUsername);
+    localStorage.setItem("username", params.influencerUsername);
+
+    let url = `/influencer/fetch_access_token?username=${params.influencerUsername}`;
+    console.log(url);
+    axios.get(url)
+    .then((response) => {
+      localStorage.setItem("token", response.data.accessToken);
+      this.fetchArticles();
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   modifyCheckBoxStateMap = (dateStarted, checked) => {
@@ -245,7 +261,8 @@ class ClientScreen extends React.Component {
   };
 
   handleLogout() {
-    sessionStorage.removeItem("token");
+    console.log("logout called.");
+    localStorage.clear();
   }
 
   handleChangeOfSortOption = event => {

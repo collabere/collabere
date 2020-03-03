@@ -5,7 +5,8 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 from .views import handleLogin, getClientsBasedOnInfluencers, getInfluencerDetails, deleteInfluencer, putInfluencer, \
     usernameFetch, saveClientMappingWithInfluencer, CreateUserAPIView, LogoutUserAPIView, changePasswordInboundUsername, \
-    sendEmailToResetPassword, getInfluencerPublicDetails, updateInfluencerPublicDetails, getInfluencerWithEmail, ProfilePictureUploadView
+    sendEmailToResetPassword, getInfluencerPublicDetails, updateInfluencerPublicDetails, getInfluencerWithEmail, ProfilePictureUploadView, \
+        getAccessToken
 
 urlpatterns = [
     url(r'login/', handleLogin, name='influencer_login'),
@@ -33,6 +34,7 @@ urlpatterns = [
         name='auth_user_logout'),
     url(r'^update_profile_pic$',
         ProfilePictureUploadView.as_view(),
-        name='profile_pic_upload')
+        name='profile_pic_upload'),
+    url(r'^fetch_access_token$', getAccessToken, name="fetch_access_token")
 
 ]

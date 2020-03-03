@@ -14,12 +14,12 @@ from rest_framework.parsers import JSONParser
 from client import serializers
 from influencer.models import Influencer, InfluencerPublicProfileDetails
 from .serializers import ClientMappingSerializer, CreateUserSerializer, InfluencerSerializer, \
-    InfluencerPublicProfileDetailsSerializer
+    InfluencerPublicProfileDetailsSerializer, AccessTokenSerializer
 from django.contrib.auth import get_user_model
 
 from .service import getAllClientOfAnInfluencer, validateUsername, getInfluencerFromInfluencerUsername, \
     deleteInfluencerUsingInfluencerId, influencer_signup, changePassword, getInfluencerFromInfluencerEmail, \
-    getInfluencerPublicProfileDetailsFromInfuencerUsername
+    getInfluencerPublicProfileDetailsFromInfuencerUsername, getAccessTokenBasedOnInfluencerId, getAccessTokenBasedOnInfluencerUserName
 from .utils import handleEmptyAbsentKey, getCustomObjectFromQuerrySet
 from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
@@ -95,6 +95,15 @@ def getInfluencerWithEmail(request):
 def usernameFetch(request):
     username = request.GET.get('username')
     return Response(validateUsername(username))
+
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
+def getAccessToken(request):
+    influencerUserName = request.GET.get('username')
+    # accessTokenDetails = getAccessTokenBasedOnInfluencerId(influencerUserId)
+    accessTokenDetails = getAccessTokenBasedOnInfluencerUserName(influencerUserName)
+    return Response(AccessTokenSerializer(accessTokenDetails).data)
 
 
 @api_view(['DELETE'])

@@ -102,7 +102,7 @@ function brandClick() {
 
 export default function HomeImage(props) {
   const classes = useStyles();
-
+  const isAuthenticated = false;
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
@@ -112,6 +112,7 @@ export default function HomeImage(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
 
   return (
     <div className={classes.root}>
