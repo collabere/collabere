@@ -98,6 +98,10 @@ export default class HomeNavBar extends Component {
     const buttonColor = {
       backgroundColor: '#990000'
     }
+
+    const linkColor = {
+      color: '#FFFFFF'
+    }
     console.log('Before client call',localStorage.getItem("username"));
 
     return (
@@ -109,7 +113,7 @@ export default class HomeNavBar extends Component {
               </MaterialUiLibrary.Typography>
               {localStorage.getItem("token") != null ? (
               <MaterialUiLibrary.Button variant="info" color="white" style={buttonColor}>
-                <_Link to={`/clients/${localStorage.getItem("username")}`}>Inbox</_Link>
+                <_Link to={`/clients/${localStorage.getItem("username")}`} style={linkColor}>Inbox</_Link>
               </MaterialUiLibrary.Button>
               ) : <div>Welcome Guest</div>
               }

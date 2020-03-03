@@ -33,9 +33,6 @@ class InboxNavbar extends Component {
   handleLogout() {
     console.log("logout called.");
     localStorage.clear();
-    // localStorage.removeItem("token");
-    // localStorage.removeItem("username");
-    // sessionStorage.removeItem("token");
   }
 
 
