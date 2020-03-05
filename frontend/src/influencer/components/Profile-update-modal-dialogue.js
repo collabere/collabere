@@ -65,7 +65,7 @@ class UpdateModal extends React.Component {
     })
       .then(response => {
         this.setState({ spinnerVisible: false });
-        console.log(response);
+        this.setState({ influencerDetails: response.data });
         this.handleSuccessModalOpen();
       })
       .catch(function(error) {
