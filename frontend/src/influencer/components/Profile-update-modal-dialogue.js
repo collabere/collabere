@@ -167,9 +167,6 @@ class UpdateModal extends React.Component {
                 <Typography variant="body2" component="p">
                   Date of Birth: {influencerDetails.dob}
                 </Typography>
-                <Typography variant="body2" component="p">
-                  Email: {influencerDetails.email}
-                </Typography>
               </CardContent>
             </Card>
           )}
