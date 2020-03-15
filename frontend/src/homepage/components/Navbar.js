@@ -2,20 +2,15 @@ import React, { Component } from "react";
 
 import { Link, animateScroll as scroll } from "react-scroll";
 import * as MaterialUiLibrary from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 import RegisterModal from "../../register/RegisterModal";
 import LoginModal from "../../login/loginModal.js";
 import { Link as _Link } from "react-router-dom";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
-import MenuIcon from '@material-ui/icons/Menu';
-import {
-  Navbar,
-  Form,
-} from "react-bootstrap";
-import collabere from '../../../images/collabere.png'
+import MenuIcon from "@material-ui/icons/Menu";
+import { Navbar, Form } from "react-bootstrap";
+import collabere from "../../../images/collabere.png";
 import * as Antd from "antd";
-
-
 
 export default class HomeNavBar extends Component {
   scrollToTop = () => {
@@ -37,10 +32,9 @@ export default class HomeNavBar extends Component {
   }
 
   componentDidMount() {
-    if(this.props.userName !== null && this.props.userName != undefined) {
-      this.setState({userName: this.props.userName});
+    if (this.props.userName !== null && this.props.userName != undefined) {
+      this.setState({ userName: this.props.userName });
     }
-    
   }
 
   toggle() {
@@ -75,52 +69,68 @@ export default class HomeNavBar extends Component {
 
   render() {
     const rootStyle = {
-      flexGrow: 1,
-    }
+      flexGrow: 1
+    };
 
     const appBarStyle = {
-      backgroundColor: '#7e0015',
-      height: '63px',
-    }
+      backgroundColor: "#7e0015",
+      height: "63px"
+    };
 
     const typographyStyle = {
       flexGrow: 1,
       fontSize: 50,
-      fontStyle: 'italic',
+      fontStyle: "italic",
       fontWeight: 400,
-      fontFamily: 'auto',
-    }
+      fontFamily: "auto"
+    };
 
     const toolbarStyle = {
-      textAlign: 'center'
-    }
+      textAlign: "center"
+    };
 
     const buttonColor = {
-      backgroundColor: '#990000'
-    }
+      backgroundColor: "#990000",
+      color: "white"
+    };
 
     const linkColor = {
-      color: '#FFFFFF'
-    }
-    console.log('Before client call',localStorage.getItem("username"));
+      textDecoration: "none"
+    };
+    console.log("Before client call", localStorage.getItem("username"));
 
     return (
       <div style={rootStyle}>
-          <MaterialUiLibrary.AppBar position="fixed" style={appBarStyle}>
-            <MaterialUiLibrary.Toolbar style={toolbarStyle}>
-              <MaterialUiLibrary.Typography variant="h6" color="inherit" style={typographyStyle}>
-              <_Link style={{textDecoration: 'none'}} to='/'><img src={collabere}/></_Link>
-              </MaterialUiLibrary.Typography>
-              {localStorage.getItem("token") != null ? (
-              <MaterialUiLibrary.Button variant="info" color="white" style={buttonColor}>
-                <_Link to={`/clients/${localStorage.getItem("username")}`} style={linkColor}>Inbox</_Link>
-              </MaterialUiLibrary.Button>
-              ) : <div>Welcome Guest</div>
-              }
-            </MaterialUiLibrary.Toolbar>
-          </MaterialUiLibrary.AppBar>
+        <MaterialUiLibrary.AppBar position="fixed" style={appBarStyle}>
+          <MaterialUiLibrary.Toolbar style={toolbarStyle}>
+            <MaterialUiLibrary.Typography
+              variant="h6"
+              color="inherit"
+              style={typographyStyle}
+            >
+              <_Link style={{ textDecoration: "none" }} to="/">
+                <img src={collabere} />
+              </_Link>
+            </MaterialUiLibrary.Typography>
+            {localStorage.getItem("token") != null ? (
+              <_Link
+                to={`/clients/${localStorage.getItem("username")}`}
+                style={linkColor}
+              >
+                <MaterialUiLibrary.Button
+                  variant="info"
+                  color="white"
+                  style={buttonColor}
+                >
+                  Inbox
+                </MaterialUiLibrary.Button>
+              </_Link>
+            ) : (
+              <div>Welcome Guest</div>
+            )}
+          </MaterialUiLibrary.Toolbar>
+        </MaterialUiLibrary.AppBar>
       </div>
     );
   }
 }
-
