@@ -8,7 +8,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogActions";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import TextField from "@material-ui/core/TextField";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -307,8 +307,8 @@ class UpdatePublicProfileModal extends React.Component {
               </ExpansionPanel>
             </div>
           </Form>
-          {spinnerVisible ? <LinearProgress /> : null}
-          {this.state.loading ? <LinearProgress /> : null}
+          {spinnerVisible ? <CircularProgress /> : null}
+          {this.state.loading ? <CircularProgress /> : null}
         </Modal>
         <Dialog
           open={this.state.successModalVisible}
