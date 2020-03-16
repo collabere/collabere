@@ -72,7 +72,7 @@ class ClientScreen extends React.Component {
 
     axios
       .get(`/project/byInfluencerUserName/${params.influencerUsername}`, {
-        headers: { Authorization: `Token ${token}` } //localStorage.getItem("token") }
+        headers: { Authorization: token } //localStorage.getItem("token") }
       })
       .then(res => {
         console.log(res);
@@ -119,13 +119,15 @@ class ClientScreen extends React.Component {
 
     let url = `/influencer/fetch_access_token?username=${params.influencerUsername}`;
     console.log(url);
-    axios.get(url)
-    .then((response) => {
-      localStorage.setItem("token", response.data.accessToken);
-      this.fetchArticles();
-    }).catch((err) => {
-      console.log(err);
-    });
+    axios
+      .get(url)
+      .then(response => {
+        localStorage.setItem("token", response.data.accessToken);
+        this.fetchArticles();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 
   modifyCheckBoxStateMap = (dateStarted, checked) => {
