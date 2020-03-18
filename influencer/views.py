@@ -12,7 +12,7 @@ from django.core.mail import send_mail
 from rest_framework.parsers import JSONParser
 
 from client import serializers
-from influencer.models import Influencer, InfluencerPublicProfileDetails
+from influencer.models import Influencer, InfluencerPublicProfileDetails, InfluencerAccessToken
 from .serializers import ClientMappingSerializer, CreateUserSerializer, InfluencerSerializer, \
     InfluencerPublicProfileDetailsSerializer, AccessTokenSerializer
 from django.contrib.auth import get_user_model
@@ -186,6 +186,10 @@ class CreateUserAPIView(CreateAPIView):
         headers = self.get_success_headers(serializer.data)
         token = Token.objects.create(user=serializer.instance)
         token_data = {"token": token.key}
+        InfluencerAccessToken.objects.update_or_create(instagramUserId=None,
+                                                       influencerUserName=username,
+                                                       accessToken=token)
+
         return Response(
             {**serializer.data, **token_data},
             status=status.HTTP_201_CREATED,

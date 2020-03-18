@@ -64,6 +64,6 @@ class InstagramAuthModel(models.Model):
     influencer = models.ForeignKey(Influencer, on_delete=models.CASCADE)
 
 class InfluencerAccessToken(models.Model):
-    instagramUserId = models.BigIntegerField()
+    instagramUserId = models.BigIntegerField(null=True)
     influencerUserName = models.CharField(max_length=100, default=None)
     accessToken = models.CharField(max_length=500, blank=True, null=True)
