@@ -122,7 +122,9 @@ class ClientScreen extends React.Component {
     axios
       .get(url)
       .then(response => {
-        localStorage.setItem("token", response.data.accessToken);
+        if (response.data.instagramUserId) {
+          localStorage.setItem("token", response.data.accessToken);
+        }
         this.fetchArticles();
       })
       .catch(err => {
