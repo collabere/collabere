@@ -180,8 +180,13 @@ class UpdatePublicProfileModal extends React.Component {
       var formData = new FormData();
       formData.append("file", file[0]);
       formData.append("influencerUsername", influencerUsername);
+      let config = {
+        headers: {
+          Authorization: `Token ${localStorage.getItem("token")}`
+        }
+      };
       axios
-        .post("/influencer/update_profile_pic", formData)
+        .post("/influencer/update_profile_pic", formData, config)
         .then(response => {
           this.setState({
             imageUrl: response.data.profilePicUrl,
