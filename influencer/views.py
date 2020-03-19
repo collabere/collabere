@@ -181,11 +181,13 @@ class CreateUserAPIView(CreateAPIView):
         followerCount = handleEmptyAbsentKey('followerCount', jsonResponse)
         followingCount = handleEmptyAbsentKey('followingCount', jsonResponse)
         dpUrl = handleEmptyAbsentKey('dpUrl', jsonResponse)
-        influencer_signup(name, email, username, dob, gender, city, country, followerCount, followingCount,
+        influencer= influencer_signup(name, email, username, dob, gender, city, country, followerCount, followingCount,
                           dpUrl, industry)
         headers = self.get_success_headers(serializer.data)
         token = Token.objects.create(user=serializer.instance)
         token_data = {"token": token.key}
+        InfluencerPublicProfileDetails.objects.create(influencer=influencer,
+                                                      profilePicUrl=None)
         InfluencerAccessToken.objects.update_or_create(instagramUserId=None,
                                                        influencerUserName=username,
                                                        accessToken=token)
