@@ -7,7 +7,7 @@ export function getInfluecerDetailsPromise(authorization, influencerUsername) {
 
   const config = {
     headers: {
-      Authorization: authorization
+      Authorization: `Token ${authorization}`
     },
     params: params
   };
