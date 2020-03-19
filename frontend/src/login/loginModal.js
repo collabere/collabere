@@ -48,7 +48,7 @@ class LoginModal extends React.Component {
       .then(response => {
         const { token, username } = response.data;
         if (token) {
-          const authToken = "Token " + token;
+          const authToken = token;
           localStorage.setItem("token", authToken);
           axios.defaults.headers.common["Authorization"] = authToken;
           this.setState({ progress: false });
