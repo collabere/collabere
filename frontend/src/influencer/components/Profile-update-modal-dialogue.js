@@ -138,9 +138,9 @@ class UpdateModal extends React.Component {
     const { spinnerVisible, influencerDetails } = this.state;
     return (
       <div>
-        <MaterialUiLibrary.Button type="primary" onClick={this.showModal}>
-          My Profile
-        </MaterialUiLibrary.Button>
+        <h6 type="primary" onClick={this.showModal}>
+          MY PROFILE
+        </h6>
         <Modal
           title="My Profile"
           visible={this.state.visible}
