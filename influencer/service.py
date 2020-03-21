@@ -23,7 +23,7 @@ def validateUsername(username):
         return True
     else:
         return False
-    
+
 def getInfluencerFromInfluencerId(influencerUsername):
     return Influencer.objects.filter(username=influencerUsername)
 
@@ -31,8 +31,9 @@ def deleteInfluencerUsingInfluencerId(influencerId):
     return Influencer.objects.filter(uid=influencerId).delete()
 
 def getInfluencerPublicProfileDetailsFromInfuencerUsername(influencerUsername):
-    influencer= getInfluencerFromInfluencerUsername(influencerUsername)
-    return InfluencerPublicProfileDetails.objects.get(influencer=influencer[0])
+    influencer = getInfluencerFromInfluencerUsername(influencerUsername)
+    print('Printing name here',influencer[0].username)
+    return InfluencerPublicProfileDetails.objects.filter(influencer=influencer)
 
 @atomic
 def influencer_signup(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry):

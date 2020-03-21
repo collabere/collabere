@@ -128,7 +128,7 @@ class LoginModal extends React.Component {
           </Link>
         </Form>
         <div style={{ paddingTop: "2rem" }}>
-          <Login />
+          <Login/>
           {progress && <LinearProgress />}
         </div>
       </div>
