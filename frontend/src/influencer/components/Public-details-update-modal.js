@@ -204,9 +204,9 @@ class UpdatePublicProfileModal extends React.Component {
     const { spinnerVisible, changesInLists } = this.state;
     return (
       <div>
-        <MaterialUiLibrary.Button type="primary" onClick={this.showModal}>
-          Update Portfolio
-        </MaterialUiLibrary.Button>
+        <h6 type="primary" onClick={this.showModal}>
+          UPDATE PORTFOLIO
+        </h6>
         <Modal
           title="Update Public Details"
           visible={this.state.visible}
