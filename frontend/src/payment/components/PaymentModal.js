@@ -28,7 +28,7 @@ class PaymentModal extends React.Component {
   render() {
     return (
       <div>
-        <Button onClick={this.showModal}>Payment</Button>
+        <h6 onClick={this.showModal}>Payment</h6>
         <Modal
           title="Payments"
           visible={this.state.visible}
