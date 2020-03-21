@@ -70,7 +70,7 @@ class InboxNavbar extends Component {
             style={{ textDecoration: "none" }}
             to={{ pathname: `/profile/${influencerUsername}` }}
           >
-            <h6>See your portfolio</h6>
+            <h6>SEE YOUR PORTFOLIO</h6>
           </Link>
         </Menu.Item>
         {/* <Menu.Item>
@@ -80,7 +80,7 @@ class InboxNavbar extends Component {
         <Menu.Item>
           <Link style={{ textDecoration: "none" }} to="/">
             {" "}
-            <h6 onClick={this.handleLogout}>Logout</h6>
+            <h6 onClick={this.handleLogout}>LOGOUT</h6>
           </Link>
         </Menu.Item>
       </Menu>
