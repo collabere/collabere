@@ -34,7 +34,6 @@ class InboxNavbar extends Component {
     localStorage.clear();
   }
 
-
   render() {
     const rootStyle = {
       flexGrow: 1
@@ -71,19 +70,17 @@ class InboxNavbar extends Component {
             style={{ textDecoration: "none" }}
             to={{ pathname: `/profile/${influencerUsername}` }}
           >
-            <Button color="primary">See your portfolio</Button>{" "}
+            <h6>SEE YOUR PORTFOLIO</h6>
           </Link>
         </Menu.Item>
-        <Menu.Item>
+        {/* <Menu.Item>
           <PaymentModal influencerUsername={influencerUsername} />
-        </Menu.Item>
+        </Menu.Item> */}
 
         <Menu.Item>
           <Link style={{ textDecoration: "none" }} to="/">
             {" "}
-            <Button color="primary" onClick={this.handleLogout}>
-              Logout
-            </Button>
+            <h6 onClick={this.handleLogout}>LOGOUT</h6>
           </Link>
         </Menu.Item>
       </Menu>
