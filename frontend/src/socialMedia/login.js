@@ -59,7 +59,7 @@ class Login extends React.Component {
           onFailure={this.instagramResponse}
         /> */}
 
-        <Button onClick={this.redirectToInstagram()}>Login with Instagram</Button>
+        <Button onClick={this.redirectToInstagram}>Login with Instagram</Button>
 
       </Fragment>
     );
