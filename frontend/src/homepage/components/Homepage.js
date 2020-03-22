@@ -9,6 +9,7 @@ import BrandSection from "./BrandSection";
 import HowItWorksSection from "./HowItWorksSection.js";
 import AboutUsSection from "./AboutUsSection.js";
 import HomeNavBar from "./Navbar";
+import { Redirect } from "react-router";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import PropTypes from "prop-types";
