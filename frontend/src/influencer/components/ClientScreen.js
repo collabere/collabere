@@ -7,6 +7,7 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { message, Spin } from "antd";
+import { Modal } from "antd";
 
 import InfiniteScroll from "react-infinite-scroller";
 
@@ -23,6 +24,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import LoginModal from "../../login/loginModal";
 toast.configure();
 
 function getPossitiveFields(map) {
@@ -47,7 +49,9 @@ class ClientScreen extends React.Component {
       currentListItem: "",
       sortOptionValue: "",
       checkBoxStateMap: null,
-      deletePromptOpen: false
+      deletePromptOpen: false,
+      loginAgainModalFlag: false,
+      loginModalOpen: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSortAplphabeticallyAscending = this.handleSortAplphabeticallyAscending.bind(
@@ -113,17 +117,21 @@ class ClientScreen extends React.Component {
     const {
       match: { params }
     } = this.props;
-    console.log(this.props);
-    console.log("USERNAME>>>>", params.influencerUsername);
-    localStorage.setItem("username", params.influencerUsername);
+    localStorage.setItem("username", params.influencerUsername); //might cause problemsif some random link is opened
 
     let url = `/influencer/fetch_access_token?username=${params.influencerUsername}`;
-    console.log(url);
     axios
       .get(url)
       .then(response => {
         if (response.data.instagramUserId) {
           localStorage.setItem("token", response.data.accessToken);
+        } else {
+          if (
+            localStorage.getItem("token") &&
+            localStorage.getItem("token") !== response.data.accessoken
+          ) {
+            this.setState({ loginAgainModalFlag: true });
+          }
         }
         this.fetchArticles();
       })
@@ -426,6 +434,32 @@ class ClientScreen extends React.Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <Dialog open={this.state.loginAgainModalFlag}>
+          <DialogTitle id="alert-dialog-title">
+            You have been logged out! Please login again
+          </DialogTitle>
+          <DialogActions>
+            <Button
+              onClick={() => {
+                this.setState({
+                  loginModalOpen: true,
+                  loginAgainModalFlag: false
+                });
+              }}
+              color="primary"
+            >
+              LOGIN
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Modal
+          title="Login"
+          visible={this.state.loginModalOpen}
+          okButtonProps={{ style: { display: "none" } }}
+          cancelButtonProps={{ style: { display: "none" } }}
+        >
+          <LoginModal />
+        </Modal>
       </div>
     );
   }
