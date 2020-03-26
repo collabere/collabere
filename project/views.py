@@ -1,6 +1,10 @@
+from datetime import datetime
+
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+
+from conversations.service import saveMessages
 from project.models import Project
 from .serializers import ProjectSerializer
 from client.service import *
@@ -33,12 +37,14 @@ def getAllProjectsByClientIdAndInfluencerUserName(request, clientId, influencerU
 @permission_classes([])
 def insertProject(request):
     serializer = ProjectSerializer(data=request.data)
+    print(request.data['influencerUserName'])
     clientId= getattr(list(getClientByClientEmailId(request.data['email']))[0], 'uid')
     serializer.initial_data['clientId'] = clientId
     if serializer.is_valid():
         serializer.save()
         serializer_dict = serializer.data
         serializer_dict["message"] = "Project Inserted"
+        saveMessages(serializer_dict['influencerUserName'], clientId, datetime.now(), request.data['introText'], False, serializer_dict['projectInitiationDate'])
         return Response(serializer_dict, status=200)
     else:
         return Response(serializer.errors, status=400)
