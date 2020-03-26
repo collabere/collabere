@@ -78,10 +78,7 @@ class ProjectCreationScreen extends React.Component {
   }
 
   componentDidMount() {
-     const {
-      match: { params }
-    } = this.props;
-    this.setState({ influencerUsername: params.influencerUsername });
+    this.setState({ influencerUsername: this.props.influencerUsername });
   }
 
   notifyOnSuccessOnProjectCreation = () => {
@@ -252,7 +249,12 @@ class ProjectCreationScreen extends React.Component {
     })
       .then(response => {
         this.notifyOnSuccessOnProjectCreation();
-        this.setState({ projectCreateProgress: false, modalOpenFlag: false, minBudget: null, maxBudget: null,introText: null  });
+        this.setState({
+          projectCreateProgress: false,
+          minBudget: null,
+          maxBudget: null,
+          introText: null
+        });
       })
       .catch(function(error) {
         this.setState({ projectCreateProgress: false });
