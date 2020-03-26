@@ -78,8 +78,10 @@ class ProjectCreationScreen extends React.Component {
   }
 
   componentDidMount() {
-    const { influencerUsername } = this.props;
-    this.setState({ influencerUsername: influencerUsername });
+     const {
+      match: { params }
+    } = this.props;
+    this.setState({ influencerUsername: params.influencerUsername });
   }
 
   notifyOnSuccessOnProjectCreation = () => {
