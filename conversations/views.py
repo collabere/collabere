@@ -54,6 +54,7 @@ class FileUploadView(APIView):
             fileUrl = settings.FILE_URL_PREFIX + file.name
             saveMessages(influencerUsername, getClientIdByClientEmailId(clientEmail), timestamp,
                                    fileUrl, True, projectInitiationDate)
+            file_serializer.data['timestamp']= timestamp
             return Response(file_serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
