@@ -148,6 +148,15 @@ class ClientScreen extends React.Component {
     }));
   };
 
+  removeFieldfromCheckBoxStateMap = dateStarted => {
+    let initailMap = this.state.checkBoxStateMap;
+    delete initailMap[dateStarted];
+    initailMap[dateStarted] = checked;
+    this.setState(prevState => ({
+      checkBoxStateMap: initailMap
+    }));
+  };
+
   handleClickConversationsButton = () => {
     this.props.history.push("/messages");
   };
@@ -198,6 +207,7 @@ class ClientScreen extends React.Component {
         return object.projectInitiationDate !== dateStarted;
       })
     }));
+    this.removeFieldfromCheckBoxStateMap(dateStarted);
   };
 
   handleSortAplphabeticallyDescending() {
@@ -251,6 +261,10 @@ class ClientScreen extends React.Component {
             return !dateStartedArray.includes(object.projectInitiationDate);
           })
         }));
+        dateStartedArray.forEach(dateStarted =>
+          this.removeFieldfromCheckBoxStateMap(dateStarted)
+        );
+
         this.setState({ deletePromptOpen: false });
 
         toast.success("Projects removed successfully!", {
