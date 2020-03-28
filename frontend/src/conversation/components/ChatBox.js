@@ -81,7 +81,7 @@ class ChatBox extends Component {
           Authorization: `Token ${localStorage.getItem("token")}`
         }
       })
-      .then(() => {
+      .then(response => {
         const timestamp = response.data.timestamp;
         this.handleFileUrlAddToMessages(
           FILE_UPLOAD_PREFIX.concat(file[0].name),
@@ -92,6 +92,7 @@ class ChatBox extends Component {
         this.setState({ isFileSendDialogueOpen: false });
       })
       .catch(() => {
+        this.setState({ isSpinnerVisible: false });
         this.notifyOnFailure();
       });
   };
