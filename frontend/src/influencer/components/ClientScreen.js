@@ -292,7 +292,7 @@ class ClientScreen extends React.Component {
   };
 
   render() {
-    const { checkBoxStateMap, deletePromptOpen } = this.state;
+    const { checkBoxStateMap, deletePromptOpen, clients } = this.state;
     return (
       <div>
         <InboxNavbar
@@ -345,7 +345,9 @@ class ClientScreen extends React.Component {
           </ExpansionPanel>
           <hr />
 
-          {checkBoxStateMap && getPossitiveFields(checkBoxStateMap) >= 2 ? (
+          {clients.length !== 0 &&
+          checkBoxStateMap &&
+          getPossitiveFields(checkBoxStateMap) >= 1 ? (
             <Button
               size="small"
               color="secondary"
@@ -454,7 +456,7 @@ class ClientScreen extends React.Component {
         </Dialog>
         <Modal
           title="Login"
-          visible={this.state.loginModalOpen}
+          visible={false}
           okButtonProps={{ style: { display: "none" } }}
           cancelButtonProps={{ style: { display: "none" } }}
         >
