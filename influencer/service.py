@@ -32,8 +32,7 @@ def deleteInfluencerUsingInfluencerId(influencerId):
 
 def getInfluencerPublicProfileDetailsFromInfuencerUsername(influencerUsername):
     influencer = getInfluencerFromInfluencerUsername(influencerUsername)
-    print('Printing name here',influencer[0].username)
-    return InfluencerPublicProfileDetails.objects.filter(influencer=influencer)
+    return InfluencerPublicProfileDetails.objects.get(influencer=influencer[0])
 
 @atomic
 def influencer_signup(name,email,username,dob,gender,city,country, followerCount, followingCount,dpUrl,industry):
