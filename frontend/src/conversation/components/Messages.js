@@ -7,12 +7,15 @@ require("../styles/ConversationScreen.css");
 const FILE_UPLOAD_PREFIX = "https://torquerf1.s3.ap-south-1.amazonaws.com/";
 
 function returnParsedDateString(serverDateString) {
-  var array = serverDateString.split("T");
-  var date = array[0];
-  var time = array[1].split(".")[0];
-  let timeArray = time.split(":");
-  let finalTime = timeArray[0].concat(":").concat(timeArray[1]);
-  return finalTime.concat(",").concat(date);
+  if (serverDateString) {
+    // remove this if condition larer ,its kinda redundant
+    var array = serverDateString.split("T");
+    var date = array[0];
+    var time = array[1].split(".")[0];
+    let timeArray = time.split(":");
+    let finalTime = timeArray[0].concat(":").concat(timeArray[1]);
+    return finalTime.concat(",").concat(date);
+  } else return "";
 }
 
 class Messages extends Component {

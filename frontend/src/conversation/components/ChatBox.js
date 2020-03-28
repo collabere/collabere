@@ -49,7 +49,7 @@ class ChatBox extends Component {
     });
   };
 
-  handleFileUrlAddToMessages = urlString => {
+  handleFileUrlAddToMessages = (urlString, timestamp) => {
     const {
       influencerUsername,
       projectInitiationDate,
@@ -58,6 +58,7 @@ class ChatBox extends Component {
     } = this.props;
     const messageObejct = {};
     messageObejct["message"] = urlString;
+    messageObejct["timestamp"] = timestamp;
     messageObejct["influencerUsername"] = influencerUsername;
     messageObejct["projectInitiationDate"] = projectInitiationDate;
     messageObejct["fromInfluencer"] = true;
@@ -81,8 +82,10 @@ class ChatBox extends Component {
         }
       })
       .then(() => {
+        const timestamp = response.data.timestamp;
         this.handleFileUrlAddToMessages(
-          FILE_UPLOAD_PREFIX.concat(file[0].name)
+          FILE_UPLOAD_PREFIX.concat(file[0].name),
+          timestamp
         );
         this.setState({ isSpinnerVisible: false });
         this.notifyOnSuccess();
