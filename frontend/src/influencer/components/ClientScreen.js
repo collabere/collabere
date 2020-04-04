@@ -118,7 +118,7 @@ class ClientScreen extends React.Component {
       match: { params }
     } = this.props;
     localStorage.setItem("username", params.influencerUsername); //might cause problemsif some random link is opened
-
+    this.fetchArticles();
     let url = `/influencer/fetch_access_token?username=${params.influencerUsername}`;
     axios
       .get(url)
@@ -142,15 +142,6 @@ class ClientScreen extends React.Component {
 
   modifyCheckBoxStateMap = (dateStarted, checked) => {
     let initailMap = this.state.checkBoxStateMap;
-    initailMap[dateStarted] = checked;
-    this.setState(prevState => ({
-      checkBoxStateMap: initailMap
-    }));
-  };
-
-  removeFieldfromCheckBoxStateMap = dateStarted => {
-    let initailMap = this.state.checkBoxStateMap;
-    delete initailMap[dateStarted];
     initailMap[dateStarted] = checked;
     this.setState(prevState => ({
       checkBoxStateMap: initailMap
@@ -207,7 +198,6 @@ class ClientScreen extends React.Component {
         return object.projectInitiationDate !== dateStarted;
       })
     }));
-    this.removeFieldfromCheckBoxStateMap(dateStarted);
   };
 
   handleSortAplphabeticallyDescending() {
@@ -234,6 +224,18 @@ class ClientScreen extends React.Component {
     });
   }
 
+  removeDeletedDatesfromCheckboxStateMap = dateArray => {
+    let initailMap = Object.assign({}, this.state.checkBoxStateMap);
+
+    dateArray.forEach(dateStarted => {
+      delete initailMap[dateStarted];
+    });
+
+    this.setState(prevState => ({
+      checkBoxStateMap: initailMap
+    }));
+  };
+
   handleBulkDelete = () => {
     let promiseArray = [];
     let dateStartedArray = [];
@@ -256,16 +258,17 @@ class ClientScreen extends React.Component {
     });
     Promise.all(promiseArray)
       .then(() => {
-        this.setState(prevState => ({
-          clients: prevState.clients.filter(function(object) {
-            return !dateStartedArray.includes(object.projectInitiationDate);
-          })
-        }));
-        dateStartedArray.forEach(dateStarted =>
-          this.removeFieldfromCheckBoxStateMap(dateStarted)
+        this.setState(
+          prevState => ({
+            clients: prevState.clients.filter(function(object) {
+              return !dateStartedArray.includes(object.projectInitiationDate);
+            })
+          }),
+          function() {
+            this.setState({ deletePromptOpen: false });
+            this.removeDeletedDatesfromCheckboxStateMap(dateStartedArray);
+          }
         );
-
-        this.setState({ deletePromptOpen: false });
 
         toast.success("Projects removed successfully!", {
           position: toast.POSITION.TOP_RIGHT
@@ -359,7 +362,7 @@ class ClientScreen extends React.Component {
           </ExpansionPanel>
           <hr />
 
-          {clients.length !== 0 &&
+          {clients.length > 0 &&
           checkBoxStateMap &&
           getPossitiveFields(checkBoxStateMap) >= 1 ? (
             <Button
