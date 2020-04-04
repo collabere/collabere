@@ -281,7 +281,11 @@ class UpdatePublicProfileModal extends React.Component {
             <div style={{ width: "20rem", paddingTop: "3rem" }}>
               <List>
                 {this.state.existingReferrals.map(function(item) {
-                  return <ListItem key={item}>{item}</ListItem>;
+                  return (
+                    <ListItem key={item}>
+                      <p style={{ wordBreak: "break-word" }}>{item}</p>
+                    </ListItem>
+                  );
                 })}
               </List>
               <ExpansionPanel style={{ backgroundColor: "#fbd9d3" }}>
