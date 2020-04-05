@@ -24,7 +24,7 @@ export default function HowItWorksSection({ dark, id }) {
           </Typography>
         </CardContent>
         <iframe
-          src="https://www.youtube.com/watch?v=PGJ284wFgmk"
+          src="https://www.youtube.com/embed/PGJ284wFgmk"
           frameBorder="0"
           allow="autoplay; encrypted-media"
           allowFullScreen
