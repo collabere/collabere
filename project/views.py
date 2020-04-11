@@ -3,13 +3,16 @@ from datetime import datetime
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from conversations.service import saveMessages
 from project.models import Project
 from .serializers import ProjectSerializer
 from client.service import *
-from .service import getProjectsByClientId, getProjectsByInfluencerUserName, getProjectsByInfluencerUserNameAndClientId, getProjectByProjectInitiationDate
+from .service import getProjectsByClientId, getProjectsByInfluencerUserName, getProjectsByInfluencerUserNameAndClientId, getProjectByProjectInitiationDate, toggleProjectCompletetionStatus
 from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework.permissions import AllowAny
+
 
 
 @api_view(['GET'])
@@ -56,4 +59,16 @@ def deleteProject(request):
     project = getProjectByProjectInitiationDate(request.GET['project_initiation_date'])
     project.delete()
     return Response({"message": "Successfully Deleted"}, status=204)
+
+class HandleProjectCompletedStatus(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        projectInitiationDate=request.GET.get('projectInitiationDate')
+        try:
+            toggleProjectCompletetionStatus(projectInitiationDate)
+            return Response(status=200)
+        except:
+            return Response(status=400)
+
+
 

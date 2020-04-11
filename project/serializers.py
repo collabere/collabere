@@ -13,6 +13,7 @@ class ProjectSerializer(ModelSerializer):
             'latestText',
             'projectInitiationDate',
             'influencerUserName',
-            'offeredBudget'
+            'offeredBudget',
+            'isCompleted'
         )
         

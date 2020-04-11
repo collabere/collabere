@@ -9,6 +9,9 @@ def checkPresenceOfClientByClientEmailId(clientEmailId):
         return True
     else:
         return False
+
+
+#TODO: return .first here instead of querry set array ,also remove .frst() eslewhere in views
 def getClientByClientEmailId(clientEmailId):
     return Client.objects.filter(email=clientEmailId)
 
@@ -23,3 +26,12 @@ def getClientInfoByEmail():
     
 def getClientIdByClientEmailId(clientEmailId):
     return getattr(list(getClientByClientEmailId(clientEmailId))[0], 'uid')
+
+def updateClientRating(clientEmailId, rating):
+    client = getClientByClientEmailId(clientEmailId).first()
+    currentRating= getattr(client, 'rating')  # getattr(x, 'y') is equivalent to x.y.
+    if currentRating is None:
+        client.rating = float(rating)
+    else:
+        client.rating= (float(rating)+currentRating)/2
+    client.save()

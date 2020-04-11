@@ -7,4 +7,6 @@ urlpatterns = [
     url(r'influencerUserName/(\w+)/clientId/(\d+)', views.getAllProjectsByClientIdAndInfluencerUserName, name='project_details_by_influencerId_clientId'),
     url(r'put$', views.insertProject, name='insert_project'),
     url(r'^delete_project$', views.deleteProject,name='influencer_delete'),
+    url(r'^change_project_completion_status$', views.HandleProjectCompletedStatus.as_view(), name='complete_project'),
+
 ]
