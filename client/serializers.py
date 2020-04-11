@@ -37,7 +37,8 @@ class ClientSerializer(ModelSerializer):
             'designation',
             'companyURL',
             'industry',
-            'updatePassPhrase'
+            'updatePassPhrase',
+            'rating'
         )
         # read_only_fields = fields
 

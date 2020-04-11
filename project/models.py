@@ -13,4 +13,5 @@ class Project(models.Model):
     projectInitiationDate = models.DateTimeField(primary_key=True, default=timezone.now)
     influencerUserName = models.CharField(max_length=50)
     offeredBudget = models.IntegerField(default=None, blank=True, null=True)
+    isCompleted= models.BooleanField(default=False)
 

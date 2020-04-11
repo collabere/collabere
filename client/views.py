@@ -5,7 +5,7 @@ from client.models import Client
 from influencer.serializers import ClientMappingSerializer
 from .serializers import ClientSerializer, HomePageIntroEmailSerializer
 from .service import getClientFromClientId, deleteClientUsingClientId, getAllHomePageIntroEmail, \
-    checkPresenceOfClientByClientEmailId, getClientInfoByEmail, getClientByClientEmailId
+    checkPresenceOfClientByClientEmailId, getClientInfoByEmail, getClientByClientEmailId, updateClientRating
 from rest_framework.decorators import authentication_classes, permission_classes
 from conversations.views import sendEmailAsMessage
 import string
@@ -128,5 +128,20 @@ def getClientByEmail(request, email):
 @permission_classes([])
 def checkExistenceOfClient(request):
     clientEmail = request.GET.get('clientEmail')
-    print(clientEmail)
     return Response(checkPresenceOfClientByClientEmailId(clientEmail))
+
+
+
+class HandleClientRating(APIView):
+    def post(self, request):
+        jsonResponse = request.data
+        clientEmailId= jsonResponse['clientEmailId']
+        rating = request.GET.get('clientRating')
+        try:
+            updateClientRating(clientEmailId, rating)
+            return Response(status=200)
+        except:
+            return Response(status=400)
+
+
+
