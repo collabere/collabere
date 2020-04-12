@@ -175,7 +175,6 @@ class ProjectCard extends React.Component {
 
             <AntdButton
               style={{
-                flex: "auto",
                 backgroundColor:
                   isCompleted || projectCompleted ? "#7CFC00" : "green"
               }}
