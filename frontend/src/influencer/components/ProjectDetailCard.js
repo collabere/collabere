@@ -173,27 +173,28 @@ class ProjectCard extends React.Component {
               maxBudget={this.props.maxBudget}
             />
 
-            <AntdButton
-              style={{
-                backgroundColor:
-                  isCompleted || projectCompleted ? "#7CFC00" : "green"
-              }}
-              shape="round"
-              type="primary"
-              loading={this.state.loading}
-              onClick={this.handleMarkProjectButtonClick}
-              disabled={isCompleted || projectCompleted}
-            >
-              {isCompleted || projectCompleted
-                ? "Project  marked as completed"
-                : "Mark project as complete"}
-            </AntdButton>
             <RatingsModal
               visible={this.state.ratingsModalOpen}
               handleRatingsModalClose={this.handleRatingsModalClose}
               clientId={this.props.clientId}
             />
           </CardActions>
+          <AntdButton
+            style={{
+              width: "100%",
+              backgroundColor:
+                isCompleted || projectCompleted ? "#7CFC00" : "green"
+            }}
+            shape="round"
+            type="primary"
+            loading={this.state.loading}
+            onClick={this.handleMarkProjectButtonClick}
+            disabled={isCompleted || projectCompleted}
+          >
+            {isCompleted || projectCompleted
+              ? "Project  marked as completed"
+              : "Mark project as complete"}
+          </AntdButton>
         </Card>
       </div>
     );
