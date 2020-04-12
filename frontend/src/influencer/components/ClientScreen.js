@@ -75,9 +75,12 @@ class ClientScreen extends React.Component {
     let token = localStorage.getItem("token");
 
     axios
-      .get(`/project/byInfluencerUserName/${params.influencerUsername}`, {
-        headers: { Authorization: `Token ${localStorage.getItem("token")}` } //localStorage.getItem("token") }
-      })
+      .get(
+        `http://localhost:8000/project/byInfluencerUserName/${params.influencerUsername}`,
+        {
+          headers: { Authorization: `Token ${localStorage.getItem("token")}` } //localStorage.getItem("token") }
+        }
+      )
       .then(res => {
         console.log(res);
         this.setState(
@@ -401,15 +404,15 @@ class ClientScreen extends React.Component {
                       maxBudget={item.maxBudget}
                       clientId={item.clientId}
                       latestText={item.latestText}
+                      clientRating={item.clientRating}
                       influencerUsername={
                         this.props.match.params.influencerUsername
                       }
                       removeProjectFromList={this.removeProjectFromProjectList}
                       markProject={this.modifyCheckBoxStateMap}
+                      isCompleted={item.isCompleted}
                     />
                   </List.Item>
-                  {/* </a>
-                  </Link> */}
                 </div>
               )}
             >
