@@ -75,12 +75,9 @@ class ClientScreen extends React.Component {
     let token = localStorage.getItem("token");
 
     axios
-      .get(
-        `http://localhost:8000/project/byInfluencerUserName/${params.influencerUsername}`,
-        {
-          headers: { Authorization: `Token ${localStorage.getItem("token")}` } //localStorage.getItem("token") }
-        }
-      )
+      .get(`/project/byInfluencerUserName/${params.influencerUsername}`, {
+        headers: { Authorization: `Token ${localStorage.getItem("token")}` } //localStorage.getItem("token") }
+      })
       .then(res => {
         console.log(res);
         this.setState(
