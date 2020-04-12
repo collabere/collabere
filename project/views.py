@@ -27,7 +27,9 @@ def getAllProjectsByInfluencerUserName(request, influencerUserName):
     projectSerializerData=ProjectSerializer(projectDetails, many=True).data
     for projectDetail in projectSerializerData:
         clientId=projectDetail['clientId']
-        projectDetail["clientName"]=getattr(list(getClientFromClientId(clientId))[0], 'name')
+        client=getClientFromClientId(clientId).first()
+        projectDetail["clientName"]=getattr(client, 'name')
+        projectDetail["clientRating"]= getattr(client, 'rating')
     return Response(projectSerializerData)
 
 @api_view(['GET'])
