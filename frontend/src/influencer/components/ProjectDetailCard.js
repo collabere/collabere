@@ -185,7 +185,6 @@ class ProjectCard extends React.Component {
               backgroundColor:
                 isCompleted || projectCompleted ? "#7CFC00" : "green"
             }}
-            shape="round"
             type="primary"
             loading={this.state.loading}
             onClick={this.handleMarkProjectButtonClick}
