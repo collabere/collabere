@@ -401,15 +401,15 @@ class ClientScreen extends React.Component {
                       maxBudget={item.maxBudget}
                       clientId={item.clientId}
                       latestText={item.latestText}
+                      clientRating={item.clientRating}
                       influencerUsername={
                         this.props.match.params.influencerUsername
                       }
                       removeProjectFromList={this.removeProjectFromProjectList}
                       markProject={this.modifyCheckBoxStateMap}
+                      isCompleted={item.isCompleted}
                     />
                   </List.Item>
-                  {/* </a>
-                  </Link> */}
                 </div>
               )}
             >

@@ -135,7 +135,7 @@ def checkExistenceOfClient(request):
 class HandleClientRating(APIView):
     def post(self, request):
         jsonResponse = request.data
-        clientEmailId= jsonResponse['clientEmailId']
+        clientEmailId= jsonResponse['clientId']
         rating = request.GET.get('clientRating')
         try:
             updateClientRating(clientEmailId, rating)

@@ -8,9 +8,13 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Checkbox from "@material-ui/core/Checkbox";
 import ProjectBudgetInfoModal from "./ProjectBudgetInfoModal";
+import RatingsModal from "./RatingsModal.js";
 import { Link } from "react-router-dom";
-import { Popconfirm, message } from "antd";
+import { Popconfirm, message, Button as AntdButton } from "antd";
+import { Rate } from "antd";
 import { toast } from "react-toastify";
+import { returnMarkProjectCompletedPromise } from "../rest/ProjectService.js";
+
 toast.configure();
 
 class ProjectCard extends React.Component {
@@ -18,7 +22,10 @@ class ProjectCard extends React.Component {
     super(props);
     this.state = {
       popoverOpen: false,
-      checked: false
+      checked: false,
+      ratingsModalOpen: false,
+      loading: false,
+      projectCompleted: false
     };
   }
 
@@ -29,11 +36,25 @@ class ProjectCard extends React.Component {
   handlePopoverOpen = () => {
     this.setState({ popoverOpen: true });
   };
-
+  handleRatingsModalClose = () => {
+    this.setState({ ratingsModalOpen: false });
+  };
   handleChange = event => {
     const { markProject } = this.props;
     this.setState({ checked: event.target.checked });
     markProject(event.target.value, event.target.checked);
+  };
+
+  handleMarkProjectButtonClick = async () => {
+    this.setState({ loading: true });
+    const token = localStorage.getItem("token");
+    const { dateStarted } = this.props;
+    await returnMarkProjectCompletedPromise(token, dateStarted);
+    this.setState({
+      loading: false,
+      ratingsModalOpen: true,
+      projectCompleted: true
+    });
   };
 
   handleProjectDelete = () => {
@@ -76,6 +97,9 @@ class ProjectCard extends React.Component {
       .concat(this.props.clientId)
       .concat("/")
       .concat(this.props.dateStarted);
+
+    const { isCompleted } = this.props;
+    const { projectCompleted } = this.state;
     return (
       <div style={{ width: "100%" }}>
         <Card
@@ -90,11 +114,17 @@ class ProjectCard extends React.Component {
             to={pathToNavigate}
           >
             <CardContent>
+              <Rate
+                disabled={true}
+                style={{ float: "right", color: "red" }}
+                value={Math.round(this.props.clientRating)}
+              />
               <Typography gutterBottom variant="h5" component="h2">
                 <h2 style={{ fontFamily: "Comic Sans" }}>
                   {this.props.clientName}
                 </h2>
               </Typography>
+
               <Typography
                 style={{ color: "#4B0082" }}
                 variant="body2"
@@ -141,6 +171,28 @@ class ProjectCard extends React.Component {
             <ProjectBudgetInfoModal
               minBudget={this.props.minBudget}
               maxBudget={this.props.maxBudget}
+            />
+
+            <AntdButton
+              style={{
+                flex: "auto",
+                backgroundColor:
+                  isCompleted || projectCompleted ? "#7CFC00" : "green"
+              }}
+              shape="round"
+              type="primary"
+              loading={this.state.loading}
+              onClick={this.handleMarkProjectButtonClick}
+              disabled={isCompleted || projectCompleted}
+            >
+              {isCompleted || projectCompleted
+                ? "Project  marked as completed"
+                : "Mark project as complete"}
+            </AntdButton>
+            <RatingsModal
+              visible={this.state.ratingsModalOpen}
+              handleRatingsModalClose={this.handleRatingsModalClose}
+              clientId={this.props.clientId}
             />
           </CardActions>
         </Card>

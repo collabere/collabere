@@ -27,8 +27,8 @@ def getClientInfoByEmail():
 def getClientIdByClientEmailId(clientEmailId):
     return getattr(list(getClientByClientEmailId(clientEmailId))[0], 'uid')
 
-def updateClientRating(clientEmailId, rating):
-    client = getClientByClientEmailId(clientEmailId).first()
+def updateClientRating(clientId, rating):
+    client = getClientFromClientId(clientId).first()
     currentRating= getattr(client, 'rating')  # getattr(x, 'y') is equivalent to x.y.
     if currentRating is None:
         client.rating = float(rating)
