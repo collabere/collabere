@@ -82,7 +82,8 @@ export default class HomeNavBar extends Component {
       fontSize: 50,
       fontStyle: "italic",
       fontWeight: 400,
-      fontFamily: "auto"
+      fontFamily: "auto",
+      paddingLeft: "2rem"
     };
 
     const toolbarStyle = {
@@ -117,13 +118,7 @@ export default class HomeNavBar extends Component {
                 to={`/clients/${localStorage.getItem("username")}`}
                 style={linkColor}
               >
-                <MaterialUiLibrary.Button
-                  variant="info"
-                  color="white"
-                  style={buttonColor}
-                >
-                  Inbox
-                </MaterialUiLibrary.Button>
+                INBOX
               </_Link>
             ) : (
               <div>Welcome Guest</div>
