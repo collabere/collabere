@@ -73,9 +73,9 @@ class InboxNavbar extends Component {
             <h6>SEE YOUR PORTFOLIO</h6>
           </Link>
         </Menu.Item>
-        {/* <Menu.Item>
+        <Menu.Item>
           <PaymentModal influencerUsername={influencerUsername} />
-        </Menu.Item> */}
+        </Menu.Item>
 
         <Menu.Item>
           <Link style={{ textDecoration: "none" }} to="/">
