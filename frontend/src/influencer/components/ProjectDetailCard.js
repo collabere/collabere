@@ -183,6 +183,14 @@ class ProjectCard extends React.Component {
               minBudget={this.props.minBudget}
               maxBudget={this.props.maxBudget}
             />
+
+            <RatingsModal
+              visible={this.state.ratingsModalOpen}
+              handleRatingsModalClose={this.handleRatingsModalClose}
+              clientId={this.props.clientId}
+            />
+          </CardActions>
+          <div style={{ paddingLeft: "1rem" }}>
             <AntdButton
               type="primary"
               loading={this.state.sentimentLoading}
@@ -201,15 +209,10 @@ class ProjectCard extends React.Component {
                 {sentiment.toUpperCase()}
               </Typography>
             )}
-
-            <RatingsModal
-              visible={this.state.ratingsModalOpen}
-              handleRatingsModalClose={this.handleRatingsModalClose}
-              clientId={this.props.clientId}
-            />
-          </CardActions>
+          </div>
           <AntdButton
             style={{
+              marginTop: "1rem",
               width: "100%",
               backgroundColor:
                 isCompleted || projectCompleted ? "#7CFC00" : "green"
