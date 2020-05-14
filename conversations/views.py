@@ -139,8 +139,6 @@ def insertMessageFromClientEamil(request):
             return Response(False, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-@authentication_classes([])
-@permission_classes([])
 def returnConversationSentiment(request):
     projectInitiationDate = request.GET.get('projectInitiationDate')
     try:
