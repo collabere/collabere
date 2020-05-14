@@ -1,7 +1,9 @@
 from conversations.models import Messages
 from django.db.transaction import atomic
 from project.service import getProjectByProjectInitiationDate
-
+from conversations.constants import SENTINIZER_URL
+import requests
+import json
 
 # not used for now
 def getMessagesByInfluencerUsername(influencerUsername):
@@ -36,3 +38,12 @@ def saveMessages(influencerUsername, clientId, timestamp, message, fromInfluence
     projectObject.save()
     messages = Messages.objects.create_message_object(influencerUsername, clientId, timestamp, message, fromInfluencer,projectObject)
     return messages
+
+def analyzeConversationSentiment(projectInitiationDate):
+    allMessageObjects=getMessagesByProjectInitiationDate(projectInitiationDate)
+    messages= map(lambda x: getattr(x,'message'), allMessageObjects)
+    string = ' '.join(messages)
+    data={"text": string}
+    r=requests.post(SENTINIZER_URL, json=data)
+    return r.json()
+

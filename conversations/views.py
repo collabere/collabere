@@ -19,7 +19,8 @@ from conversations.utils import uploadToAwsBucket
 from inclyfy import settings
 from .service import getMessagesByInfluencerusernameAndClientId, getAllMessages, \
     deleteAllMessagesBasedOnResponderAndReciverId, saveMessages, getMessagesByProjectInitiationDate, \
-    getMessagesByProjectInitiationDateForClientSide
+    getMessagesByProjectInitiationDateForClientSide, analyzeConversationSentiment
+from rest_framework.decorators import authentication_classes, permission_classes
 
 
 def sendEmailAsMessage(subject, message, clientEmail):
@@ -136,3 +137,16 @@ def insertMessageFromClientEamil(request):
                 return Response(False, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(False, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@authentication_classes([])
+@permission_classes([])
+def returnConversationSentiment(request):
+    projectInitiationDate = request.GET.get('projectInitiationDate')
+    try:
+        response = analyzeConversationSentiment(projectInitiationDate)
+        return Response(response, status=status.HTTP_200_OK)
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
