@@ -2,6 +2,7 @@ import json
 import mimetypes
 import os
 from datetime import datetime
+import random
 
 from django.core.mail import EmailMultiAlternatives
 from django.core.mail import send_mail
@@ -19,7 +20,7 @@ from conversations.utils import uploadToAwsBucket
 from inclyfy import settings
 from .service import getMessagesByInfluencerusernameAndClientId, getAllMessages, \
     deleteAllMessagesBasedOnResponderAndReciverId, saveMessages, getMessagesByProjectInitiationDate, \
-    getMessagesByProjectInitiationDateForClientSide
+    getMessagesByProjectInitiationDateForClientSide, updateMessageStatus, getAllUnreadMessagesCount
 
 
 def sendEmailAsMessage(subject, message, clientEmail):
@@ -53,7 +54,7 @@ class FileUploadView(APIView):
             msg.send()
             fileUrl = settings.FILE_URL_PREFIX + file.name
             saveMessages(influencerUsername, getClientIdByClientEmailId(clientEmail), timestamp,
-                                   fileUrl, True, projectInitiationDate)
+                                   fileUrl, True, projectInitiationDate, False)
             return Response({'file': file.name, 'timestamp': timestamp}, status=status.HTTP_201_CREATED)
         else:
             return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -94,13 +95,14 @@ def deleteMessages(request, reciverId, responderId):
 @api_view(['POST'])
 def insertMessages(request):
     jsonResponse = json.loads(request.body.decode('utf-8'))
+
     influencerUsername = jsonResponse['influencerUsername']
     clientId = jsonResponse['clientId']
     timestamp = datetime.now()
     message = jsonResponse['message']
     projectInitiationDate = jsonResponse['projectInitiationDate']
     fromInfluencer = jsonResponse['fromInfluencer']
-    messages = saveMessages(influencerUsername, clientId, timestamp, message, fromInfluencer, projectInitiationDate)
+    messages = saveMessages(influencerUsername, clientId, timestamp, message, fromInfluencer, projectInitiationDate, False)
 
     if messages is not None:
         clientEmail = getattr(list(getClientFromClientId(clientId))[0], 'email')
@@ -129,10 +131,22 @@ def insertMessageFromClientEamil(request):
             lastMessageTimeStamp = None
         if lastMessageTimeStamp != emailArrivalDateTime:
             message = saveMessages(influencerUsername, getClientIdByClientEmailId(clientEmailId), emailArrivalDateTime,
-                                   message, False, projectInitiationDate)
+                                   message, False, projectInitiationDate, False)
             if message is not None:
                 return Response(True, status=status.HTTP_200_OK)
             else:
                 return Response(False, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(False, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def updateMessageState(request):
+    jsonResponse = json.loads(request.body.decode('utf-8'))
+    updateMessageStatus(jsonResponse['projectInitiationDate'])
+    print(jsonResponse)
+    return Response(False, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def getAllUnreadMessagesByProjects(request):
+    influencerUsername = request.GET.get('username')
+    return Response(getAllUnreadMessagesCount(influencerUsername))

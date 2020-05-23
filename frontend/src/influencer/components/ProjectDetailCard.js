@@ -132,7 +132,7 @@ class ProjectCard extends React.Component {
               >
                 <h3 style={{ fontFamily: "Comic Sans" }}>
                   {this.props.latestText}
-                </h3>
+                </h3> 
               </Typography>
               <Typography
                 style={{ color: "#4B0082" }}

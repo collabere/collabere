@@ -51,7 +51,9 @@ class ClientScreen extends React.Component {
       checkBoxStateMap: null,
       deletePromptOpen: false,
       loginAgainModalFlag: false,
-      loginModalOpen: false
+      loginModalOpen: false,
+      totalUnreadMessages: 0,
+      projectMsgArr: [] = []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSortAplphabeticallyAscending = this.handleSortAplphabeticallyAscending.bind(
@@ -99,6 +101,20 @@ class ClientScreen extends React.Component {
       });
   };
 
+  fetchUnreadMessages = () => {
+    console.log('Calling Fetch Unread Messages.');
+    axios.get(`/messages/get_unread_messages_by_projects?username=${localStorage.getItem("username")}`, {
+      headers: { Authorization: `Token ${localStorage.getItem("token")}` }
+    }).then((res) => {
+      let total = 0;
+      res.data.map(val => {
+        total += val.total;
+      });
+      this.setState({projectMsgArr: res.data, totalUnreadMessages: total});
+      console.log('UnRead messages',res.data);
+    })
+  }
+
   handleInfiniteOnLoad = () => {
     let data = this.state.clients;
     this.setState({
@@ -134,6 +150,7 @@ class ClientScreen extends React.Component {
           }
         }
         this.fetchArticles();
+        this.fetchUnreadMessages();
       })
       .catch(err => {
         console.log(err);
@@ -316,6 +333,7 @@ class ClientScreen extends React.Component {
           influencerUsername={this.props.match.params.influencerUsername}
           handleSearch={this.handleChange}
           showSearchBar={true}
+          unreadMsg={this.state.totalUnreadMessages}
         />
         <div style={{ maxWidth: "80%", margin: "auto" }}>
           <ExpansionPanel style={{ paddingTop: "4rem" }}>
@@ -408,6 +426,7 @@ class ClientScreen extends React.Component {
                       removeProjectFromList={this.removeProjectFromProjectList}
                       markProject={this.modifyCheckBoxStateMap}
                       isCompleted={item.isCompleted}
+                      // unreadMsgCount={this.state.projectMsgArr.filter(val => val.projectInitiationDate === item.projectInitiationDate)}
                     />
                   </List.Item>
                 </div>

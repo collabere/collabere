@@ -18,7 +18,7 @@ class Login extends React.Component {
       client_id: "49f4a71ef28b448a864a7519a197ba0c",
       client_secret: "db912bb77fd5472895e8e097191bb1a7",
       grant_type: "authorization_code",
-      redirect_uri: "http://www.collabere.com/api/social_redirect",
+      redirect_uri: "http://localhost:8000/api/social_redirect",
       code: response
     };
     axios
@@ -45,7 +45,7 @@ class Login extends React.Component {
 
   redirectToInstagram() {
     console.log("Redirecting to instagram custom button ...");
-    window.location.href = `https://api.instagram.com/oauth/authorize/?client_id=49f4a71ef28b448a864a7519a197ba0c&redirect_uri=http://www.collabere.com/api/social_redirect&scope=basic&response_type=code`;
+    window.location.href = `https://api.instagram.com/oauth/authorize/?client_id=49f4a71ef28b448a864a7519a197ba0c&redirect_uri=http://localhost:8000/api/social_redirect&scope=basic&response_type=code`;
   };
 
   toggle() {
@@ -59,7 +59,7 @@ class Login extends React.Component {
         {/* <InstagramLogin
           clientId="49f4a71ef28b448a864a7519a197ba0c"
           buttonText="Login With Instagram"
-          redirectUri="http://www.collabere.com/api/social_redirect"
+          redirectUri="http://localhost:8000/api/social_redirect"
           onClick={this.onClick}
           onSuccess={this.instagramResponse}
           onFailure={this.instagramResponse}
