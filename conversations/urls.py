@@ -15,6 +15,5 @@ urlpatterns = [
     url(r'^update_message_state', updateMessageState, name='update_message_state'),
     url(r'^get_unread_messages_by_projects', getAllUnreadMessagesByProjects, name='get_unread_messages_by_projects'),
     url(r'^analyze_conversation$', returnConversationSentiment, name='analyze conversation'),
-
 ]
 

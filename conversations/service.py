@@ -41,7 +41,7 @@ def saveMessages(influencerUsername, clientId, timestamp, message, fromInfluence
     projectObject = list(getProjectByProjectInitiationDate(projectInitiationDate))[0]
     projectObject.latestText=message
     projectObject.save()
-    messages = Messages.objects.create_message_object(influencerUsername, clientId, timestamp, message, fromInfluencer,projectObject, isRead)
+    messages = Messages.objects.create_message_object(influencerUsername, clientId, timestamp, message, fromInfluencer, projectObject, isRead)
     return messages
 
 

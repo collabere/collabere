@@ -8,7 +8,7 @@ from django.utils import timezone
 class MessagesQuerySet(QuerySet):
 
     @atomic
-    def create_message_object(self, influencerUsername, clientId, timestamp, message,fromInfluencer, projectObject):
+    def create_message_object(self, influencerUsername, clientId, timestamp, message,fromInfluencer, projectObject, isRead):
         messages = Messages()
 
         messages.influencerUsername = influencerUsername
@@ -17,6 +17,7 @@ class MessagesQuerySet(QuerySet):
         messages.message = message
         messages.fromInfluencer=fromInfluencer
         messages.projectInitiationDate=projectObject
+        messages.isRead = isRead
         messages.save()
         return messages
 
