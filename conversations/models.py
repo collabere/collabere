@@ -26,11 +26,11 @@ class Messages(models.Model):
 
     influencerUsername = models.CharField(max_length=50, default='')
     clientId = models.IntegerField(null = True)
-    message = models.TextField(null =True)
+    message = models.TextField(null = True)
     fromInfluencer = models.BooleanField(default=True)
     timestamp = models.DateTimeField(primary_key=True, default=timezone.now)
     projectInitiationDate = models.ForeignKey(Project, on_delete=models.CASCADE)
-
+    isRead = models.BooleanField(null = True, default = False)
 
 
 class File(models.Model):

@@ -11,6 +11,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { Navbar, Form } from "react-bootstrap";
 import collabere from "../../../images/collabere.png";
 import * as Antd from "antd";
+import Badge from '@material-ui/core/Badge';
+import MailIcon from '@material-ui/icons/Mail';
 
 export default class HomeNavBar extends Component {
   scrollToTop = () => {
@@ -114,15 +116,20 @@ export default class HomeNavBar extends Component {
               </_Link>
             </MaterialUiLibrary.Typography>
             {localStorage.getItem("token") != null ? (
-              <_Link
-                to={`/clients/${localStorage.getItem("username")}`}
-                style={linkColor}
-              >
-                INBOX
+              <div>
+                <_Link
+                  to={`/clients/${localStorage.getItem("username")}`}
+                  style={linkColor}
+                >
+                  <Badge badgeContent={4} color="error">
+                    <MailIcon />
+                  </Badge>
               </_Link>
+                
+              </div>
             ) : (
-              <div>Welcome Guest</div>
-            )}
+                <div>Welcome Guest</div>
+              )}
           </MaterialUiLibrary.Toolbar>
         </MaterialUiLibrary.AppBar>
       </div>

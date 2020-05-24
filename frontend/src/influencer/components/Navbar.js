@@ -10,6 +10,7 @@ import UpdateModal from "./Profile-update-modal-dialogue";
 import UpdatePublicProfileModal from "./Public-details-update-modal";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
+import Badge from "@material-ui/core/Badge";
 import SideNavMenu from "./Side-nav-menu";
 import PaymentModal from "../../payment/components/PaymentModal";
 
@@ -110,6 +111,7 @@ class InboxNavbar extends Component {
                 color="inherit"
               >
                 <AccountCircle />
+                <Badge badgeContent={this.props.unreadMsg} color="error"></Badge>
               </IconButton>
             </Dropdown>
           </MaterialUiLibrary.Toolbar>

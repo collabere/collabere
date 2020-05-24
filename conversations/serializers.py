@@ -30,6 +30,7 @@ class MessageSerializer(ModelSerializer):
             'fromInfluencer',
             'timestamp',
             'projectInitiationDate',
+            'isRead',
         )
         read_only_fields = fields
 
