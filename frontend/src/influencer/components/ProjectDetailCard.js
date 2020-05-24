@@ -14,6 +14,7 @@ import { Popconfirm, message, Button as AntdButton } from "antd";
 import { Rate } from "antd";
 import { toast } from "react-toastify";
 import { returnMarkProjectCompletedPromise } from "../rest/ProjectService.js";
+import { getAnalyseConversationPromise } from "../rest/ConversationService.js";
 
 toast.configure();
 
@@ -25,7 +26,9 @@ class ProjectCard extends React.Component {
       checked: false,
       ratingsModalOpen: false,
       loading: false,
-      projectCompleted: false
+      projectCompleted: false,
+      sentiment: null,
+      sentimentLoading: false
     };
   }
 
@@ -90,6 +93,14 @@ class ProjectCard extends React.Component {
     return date.concat(" at ").concat(time);
   };
 
+  handleAnalyzeButtonClick = async () => {
+    const { dateStarted } = this.props;
+    let token = localStorage.getItem("token");
+    this.setState({ sentimentLoading: true });
+    const response = await getAnalyseConversationPromise(token, dateStarted);
+    this.setState({ sentiment: response.data.result, sentimentLoading: false });
+  };
+
   render() {
     const pathToNavigate = "/messages/"
       .concat(this.props.influencerUsername)
@@ -99,7 +110,7 @@ class ProjectCard extends React.Component {
       .concat(this.props.dateStarted);
 
     const { isCompleted } = this.props;
-    const { projectCompleted } = this.state;
+    const { projectCompleted, sentiment } = this.state;
     return (
       <div style={{ width: "100%" }}>
         <Card
@@ -179,8 +190,29 @@ class ProjectCard extends React.Component {
               clientId={this.props.clientId}
             />
           </CardActions>
+          <div style={{ paddingLeft: "1rem" }}>
+            <AntdButton
+              type="primary"
+              loading={this.state.sentimentLoading}
+              onClick={this.handleAnalyzeButtonClick}
+              disabled={sentiment !== null}
+            >
+              GET CONVERSATION SENTIMENT
+            </AntdButton>
+            {sentiment && (
+              <Typography
+                style={{
+                  fontSize: "1.5rem",
+                  color: sentiment === "possitve" ? "green" : "red"
+                }}
+              >
+                {sentiment.toUpperCase()}
+              </Typography>
+            )}
+          </div>
           <AntdButton
             style={{
+              marginTop: "1rem",
               width: "100%",
               backgroundColor:
                 isCompleted || projectCompleted ? "#7CFC00" : "green"

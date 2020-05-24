@@ -1,0 +1,1 @@
+SENTINIZER_URL='https://sentinizer.herokuapp.com/analyze'
