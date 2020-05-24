@@ -3,6 +3,10 @@ from django.db.transaction import atomic
 from project.service import getProjectByProjectInitiationDate
 from django.db.models import Count
 
+from conversations.constants import SENTINIZER_URL
+import requests
+import json
+
 # not used for now
 def getMessagesByInfluencerUsername(influencerUsername):
     return Messages.objects.filter(influencerUsername=influencerUsername)
@@ -40,7 +44,17 @@ def saveMessages(influencerUsername, clientId, timestamp, message, fromInfluence
     messages = Messages.objects.create_message_object(influencerUsername, clientId, timestamp, message, fromInfluencer,projectObject, isRead)
     return messages
 
+
 def getAllUnreadMessagesCount(influencerUsername):
     print(influencerUsername)
     print(Messages.objects.all().values('projectInitiationDate').annotate(total=Count('projectInitiationDate')).filter(isRead=True, influencerUsername=influencerUsername))
     return Messages.objects.all().values('projectInitiationDate').annotate(total=Count('projectInitiationDate')).filter(isRead=False, influencerUsername=influencerUsername)
+
+def analyzeConversationSentiment(projectInitiationDate):
+    allMessageObjects=getMessagesByProjectInitiationDate(projectInitiationDate)
+    messages= map(lambda x: getattr(x,'message'), allMessageObjects)
+    string = ' '.join(messages)
+    data={"text": string}
+    r=requests.post(SENTINIZER_URL, json=data)
+    return r.json()
+

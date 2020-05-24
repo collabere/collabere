@@ -20,7 +20,8 @@ from conversations.utils import uploadToAwsBucket
 from inclyfy import settings
 from .service import getMessagesByInfluencerusernameAndClientId, getAllMessages, \
     deleteAllMessagesBasedOnResponderAndReciverId, saveMessages, getMessagesByProjectInitiationDate, \
-    getMessagesByProjectInitiationDateForClientSide, updateMessageStatus, getAllUnreadMessagesCount
+    getMessagesByProjectInitiationDateForClientSide, analyzeConversationSentiment, updateMessageStatus, getAllUnreadMessagesCount
+from rest_framework.decorators import authentication_classes, permission_classes
 
 
 def sendEmailAsMessage(subject, message, clientEmail):
@@ -139,6 +140,7 @@ def insertMessageFromClientEamil(request):
         else:
             return Response(False, status=status.HTTP_200_OK)
 
+
 @api_view(['POST'])
 def updateMessageState(request):
     jsonResponse = json.loads(request.body.decode('utf-8'))
@@ -150,3 +152,12 @@ def updateMessageState(request):
 def getAllUnreadMessagesByProjects(request):
     influencerUsername = request.GET.get('username')
     return Response(getAllUnreadMessagesCount(influencerUsername))
+
+@api_view(['GET'])
+def returnConversationSentiment(request):
+    projectInitiationDate = request.GET.get('projectInitiationDate')
+    try:
+        response = analyzeConversationSentiment(projectInitiationDate)
+        return Response(response, status=status.HTTP_200_OK)
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
