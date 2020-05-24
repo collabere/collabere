@@ -121,7 +121,7 @@ export default class HomeNavBar extends Component {
                   to={`/clients/${localStorage.getItem("username")}`}
                   style={linkColor}
                 >
-                  <Badge badgeContent={4} color="error">
+                  <Badge badgeContent={localStorage.getItem("unreadMsg")? localStorage.getItem("unreadMsg"): 0} color="error">
                     <MailIcon />
                   </Badge>
               </_Link>

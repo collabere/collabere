@@ -112,7 +112,8 @@ class ClientScreen extends React.Component {
       });
       this.setState({projectMsgArr: res.data, totalUnreadMessages: total});
       console.log('UnRead messages',res.data);
-    })
+      localStorage.setItem("unreadMsg", total);
+    });
   }
 
   handleInfiniteOnLoad = () => {
